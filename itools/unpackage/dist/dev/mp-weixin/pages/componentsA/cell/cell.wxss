@@ -1,0 +1,86 @@
+
+view,
+label,
+swiper-item,
+scroll-view {
+  display:flex;
+  flex-direction:column;
+  flex-shrink: 0;
+  flex-grow: 0;
+  flex-basis: auto;
+  align-items: stretch;
+  align-content: flex-start;
+}
+view,
+image,
+input,
+scroll-view,
+swiper,
+swiper-item,
+text,
+textarea,
+video {
+  position: relative;
+  border: 0px solid #000000;
+  box-sizing: border-box;
+}
+swiper-item {
+  position: absolute;
+}
+button {
+  margin: 0;
+}
+
+@charset "UTF-8";
+/**
+ * 下方引入的为uView UI的集成样式文件，为scss预处理器，其中包含了一些"u-"开头的自定义变量
+ * 使用的时候，请将下面的一行复制到您的uniapp项目根目录的uni.scss中即可
+ * uView自定义的css类名和scss变量，均以"u-"开头，不会造成冲突，请放心使用 
+ */
+.cell-page {
+  padding-bottom: 20px;
+}
+.cell-box__title {
+  font-size: 14px;
+  color: #8f9ca2;
+  margin: 20px 0px 0px 15px;
+}
+.cell-box__block {
+  margin-top: 20px;
+}
+.u-page {
+  padding: 0;
+}
+.u-page__item__title {
+  color: #909193;
+  background-color: #f3f4f6;
+  padding: 15px;
+  font-size: 15px;
+}
+.u-page__item__title__slot-title {
+  color: #3c9cff;
+  font-size: 14px;
+}
+.u-slot-title {
+  display: flex;
+  flex-direction: row;
+  flex-direction: row;
+  align-items: center;
+}
+.u-cell-text {
+  font-size: 15px;
+  line-height: 22px;
+  color: #303133;
+  margin-right: 5px;
+}
+.u-slot-value {
+  line-height: 17px;
+  text-align: center;
+  font-size: 10px;
+  padding: 0 5px;
+  height: 17px;
+  color: #FFFFFF;
+  border-radius: 100px;
+  background-color: #f56c6c;
+}
+

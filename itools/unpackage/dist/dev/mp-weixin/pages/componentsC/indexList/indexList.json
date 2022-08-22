@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "索引列表",
+  "usingComponents": {
+    "u-index-list": "/uni_modules/uview-ui/components/u-index-list/u-index-list",
+    "u-avatar": "/uni_modules/uview-ui/components/u-avatar/u-avatar",
+    "u-line": "/uni_modules/uview-ui/components/u-line/u-line",
+    "u-index-item": "/uni_modules/uview-ui/components/u-index-item/u-index-item",
+    "u-index-anchor": "/uni_modules/uview-ui/components/u-index-anchor/u-index-anchor"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "徽标数",
+  "usingComponents": {
+    "u-badge": "/uni_modules/uview-ui/components/u-badge/u-badge"
+  }
+}

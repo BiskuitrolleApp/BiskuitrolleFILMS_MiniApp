@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "加载中图标",
+  "usingComponents": {
+    "u-loading-icon": "/uni_modules/uview-ui/components/u-loading-icon/u-loading-icon"
+  }
+}

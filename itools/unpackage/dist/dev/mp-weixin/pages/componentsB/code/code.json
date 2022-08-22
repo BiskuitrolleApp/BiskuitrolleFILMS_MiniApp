@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "验证码",
+  "usingComponents": {
+    "u-code": "/uni_modules/uview-ui/components/u-code/u-code",
+    "u-button": "/uni_modules/uview-ui/components/u-button/u-button"
+  }
+}

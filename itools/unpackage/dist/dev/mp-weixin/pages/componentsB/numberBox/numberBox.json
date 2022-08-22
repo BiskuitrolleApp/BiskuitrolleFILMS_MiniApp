@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "步进器",
+  "usingComponents": {
+    "u-cell-group": "/uni_modules/uview-ui/components/u-cell-group/u-cell-group",
+    "u-cell": "/uni_modules/uview-ui/components/u-cell/u-cell",
+    "u-number-box": "/uni_modules/uview-ui/components/u-number-box/u-number-box",
+    "u-icon": "/uni_modules/uview-ui/components/u-icon/u-icon"
+  }
+}

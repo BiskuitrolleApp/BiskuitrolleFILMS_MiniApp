@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "富文本解析器",
+  "usingComponents": {
+    "u-parse": "/uni_modules/uview-ui/components/u-parse/u-parse"
+  }
+}

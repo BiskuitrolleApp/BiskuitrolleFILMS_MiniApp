@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "超链接",
+  "usingComponents": {
+    "u-link": "/uni_modules/uview-ui/components/u-link/u-link"
+  }
+}

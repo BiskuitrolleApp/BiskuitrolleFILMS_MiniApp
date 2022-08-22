@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "加载更多",
+  "usingComponents": {
+    "u-loadmore": "/uni_modules/uview-ui/components/u-loadmore/u-loadmore"
+  }
+}

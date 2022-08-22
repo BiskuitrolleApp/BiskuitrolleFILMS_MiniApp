@@ -1,0 +1,1 @@
+<view class="itools-home data-v-92bb8f34"><view class="list-wrap data-v-92bb8f34"><block wx:for="{{list}}" wx:for-item="item" wx:for-index="index"><view data-event-opts="{{[['tap',[['pushPages',['$0'],[[['list','',index,'pageIndex']]]]]]]}}" class="list-item data-v-92bb8f34" bindtap="__e">{{''+item.name+''}}</view></block></view></view>

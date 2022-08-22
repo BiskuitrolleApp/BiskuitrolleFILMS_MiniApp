@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "图片",
+  "usingComponents": {
+    "u--image": "/uni_modules/uview-ui/components/u--image/u--image"
+  }
+}

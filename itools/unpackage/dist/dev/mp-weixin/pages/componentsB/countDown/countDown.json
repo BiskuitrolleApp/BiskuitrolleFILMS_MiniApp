@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "倒计时",
+  "usingComponents": {
+    "u-count-down": "/uni_modules/uview-ui/components/u-count-down/u-count-down",
+    "u-grid": "/uni_modules/uview-ui/components/u-grid/u-grid",
+    "u-grid-item": "/uni_modules/uview-ui/components/u-grid-item/u-grid-item",
+    "u-icon": "/uni_modules/uview-ui/components/u-icon/u-icon"
+  }
+}

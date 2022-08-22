@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "滚动通知",
+  "usingComponents": {
+    "u-notice-bar": "/uni_modules/uview-ui/components/u-notice-bar/u-notice-bar"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "横向滚动列表",
+  "usingComponents": {
+    "u-scroll-list": "/uni_modules/uview-ui/components/u-scroll-list/u-scroll-list",
+    "u-icon": "/uni_modules/uview-ui/components/u-icon/u-icon"
+  }
+}

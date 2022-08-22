@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "轮播",
+  "usingComponents": {
+    "u-swiper": "/uni_modules/uview-ui/components/u-swiper/u-swiper",
+    "u-gap": "/uni_modules/uview-ui/components/u-gap/u-gap"
+  }
+}

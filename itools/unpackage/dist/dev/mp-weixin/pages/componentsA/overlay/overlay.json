@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "遮罩层",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "u-navbar": "/uni_modules/uview-ui/components/u-navbar/u-navbar",
+    "u-cell": "/uni_modules/uview-ui/components/u-cell/u-cell",
+    "u-overlay": "/uni_modules/uview-ui/components/u-overlay/u-overlay"
+  }
+}

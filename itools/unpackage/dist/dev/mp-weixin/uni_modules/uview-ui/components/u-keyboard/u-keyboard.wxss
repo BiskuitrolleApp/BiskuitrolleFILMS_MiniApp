@@ -1,0 +1,40 @@
+@charset "UTF-8";
+/**
+ * 下方引入的为uView UI的集成样式文件，为scss预处理器，其中包含了一些"u-"开头的自定义变量
+ * 使用的时候，请将下面的一行复制到您的uniapp项目根目录的uni.scss中即可
+ * uView自定义的css类名和scss变量，均以"u-"开头，不会造成冲突，请放心使用 
+ */
+view.data-v-b8b847ee, scroll-view.data-v-b8b847ee, swiper-item.data-v-b8b847ee {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  flex-grow: 0;
+  flex-basis: auto;
+  align-items: stretch;
+  align-content: flex-start;
+}
+.u-keyboard__tooltip.data-v-b8b847ee {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: #FFFFFF;
+  padding: 14px 12px;
+}
+.u-keyboard__tooltip__item.data-v-b8b847ee {
+  color: #333333;
+  flex: 1;
+  text-align: center;
+  font-size: 15px;
+}
+.u-keyboard__tooltip__submit.data-v-b8b847ee {
+  text-align: right;
+  color: #3c9cff;
+}
+.u-keyboard__tooltip__cancel.data-v-b8b847ee {
+  text-align: left;
+  color: #888888;
+}
+.u-keyboard__tooltip__tips.data-v-b8b847ee {
+  color: #909193;
+}
+

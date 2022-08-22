@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "吸顶",
+  "usingComponents": {
+    "u--text": "/uni_modules/uview-ui/components/u--text/u--text",
+    "u-sticky": "/uni_modules/uview-ui/components/u-sticky/u-sticky",
+    "u-button": "/uni_modules/uview-ui/components/u-button/u-button",
+    "u-gap": "/uni_modules/uview-ui/components/u-gap/u-gap",
+    "u-divider": "/uni_modules/uview-ui/components/u-divider/u-divider"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "单选框",
+  "usingComponents": {
+    "u-radio-group": "/uni_modules/uview-ui/components/u-radio-group/u-radio-group",
+    "u-radio": "/uni_modules/uview-ui/components/u-radio/u-radio"
+  }
+}

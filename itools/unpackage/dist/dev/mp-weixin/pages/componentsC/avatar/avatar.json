@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "头像",
+  "usingComponents": {
+    "u-avatar": "/uni_modules/uview-ui/components/u-avatar/u-avatar",
+    "u-avatar-group": "/uni_modules/uview-ui/components/u-avatar-group/u-avatar-group"
+  }
+}

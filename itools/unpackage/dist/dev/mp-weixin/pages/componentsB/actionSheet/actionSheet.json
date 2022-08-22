@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "上拉菜单",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "u-navbar": "/uni_modules/uview-ui/components/u-navbar/u-navbar",
+    "u-cell-group": "/uni_modules/uview-ui/components/u-cell-group/u-cell-group",
+    "u-cell": "/uni_modules/uview-ui/components/u-cell/u-cell",
+    "u-action-sheet": "/uni_modules/uview-ui/components/u-action-sheet/u-action-sheet"
+  }
+}

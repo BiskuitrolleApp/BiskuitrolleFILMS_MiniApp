@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "导航栏",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "u-navbar": "/uni_modules/uview-ui/components/u-navbar/u-navbar",
+    "u-icon": "/uni_modules/uview-ui/components/u-icon/u-icon",
+    "u-line": "/uni_modules/uview-ui/components/u-line/u-line",
+    "u-gap": "/uni_modules/uview-ui/components/u-gap/u-gap"
+  }
+}

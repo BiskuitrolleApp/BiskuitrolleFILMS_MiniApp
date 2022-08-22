@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "长按提示",
+  "usingComponents": {
+    "u-tooltip": "/uni_modules/uview-ui/components/u-tooltip/u-tooltip"
+  }
+}

@@ -1,0 +1,47 @@
+@charset "UTF-8";
+/**
+ * 下方引入的为uView UI的集成样式文件，为scss预处理器，其中包含了一些"u-"开头的自定义变量
+ * 使用的时候，请将下面的一行复制到您的uniapp项目根目录的uni.scss中即可
+ * uView自定义的css类名和scss变量，均以"u-"开头，不会造成冲突，请放心使用 
+ */
+view.data-v-84be9ac0, scroll-view.data-v-84be9ac0, swiper-item.data-v-84be9ac0 {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  flex-grow: 0;
+  flex-basis: auto;
+  align-items: stretch;
+  align-content: flex-start;
+}
+.u-calendar-header.data-v-84be9ac0 {
+  padding-bottom: 4px;
+}
+.u-calendar-header__title.data-v-84be9ac0 {
+  font-size: 16px;
+  color: #303133;
+  text-align: center;
+  height: 42px;
+  line-height: 42px;
+  font-weight: bold;
+}
+.u-calendar-header__subtitle.data-v-84be9ac0 {
+  font-size: 14px;
+  color: #303133;
+  height: 40px;
+  text-align: center;
+  line-height: 40px;
+  font-weight: bold;
+}
+.u-calendar-header__weekdays.data-v-84be9ac0 {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.u-calendar-header__weekdays__weekday.data-v-84be9ac0 {
+  font-size: 13px;
+  color: #303133;
+  line-height: 30px;
+  flex: 1;
+  text-align: center;
+}
+

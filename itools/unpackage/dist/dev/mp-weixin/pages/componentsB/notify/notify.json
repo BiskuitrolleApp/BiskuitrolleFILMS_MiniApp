@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "消息提示",
+  "usingComponents": {
+    "u-gap": "/uni_modules/uview-ui/components/u-gap/u-gap",
+    "u-cell-group": "/uni_modules/uview-ui/components/u-cell-group/u-cell-group",
+    "u-cell": "/uni_modules/uview-ui/components/u-cell/u-cell",
+    "u-notify": "/uni_modules/uview-ui/components/u-notify/u-notify"
+  }
+}

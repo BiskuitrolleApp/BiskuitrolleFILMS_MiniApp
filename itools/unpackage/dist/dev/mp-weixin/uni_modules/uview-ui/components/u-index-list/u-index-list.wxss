@@ -1,0 +1,64 @@
+@charset "UTF-8";
+/**
+ * 下方引入的为uView UI的集成样式文件，为scss预处理器，其中包含了一些"u-"开头的自定义变量
+ * 使用的时候，请将下面的一行复制到您的uniapp项目根目录的uni.scss中即可
+ * uView自定义的css类名和scss变量，均以"u-"开头，不会造成冲突，请放心使用 
+ */
+view.data-v-7e596c49, scroll-view.data-v-7e596c49, swiper-item.data-v-7e596c49 {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  flex-grow: 0;
+  flex-basis: auto;
+  align-items: stretch;
+  align-content: flex-start;
+}
+.u-index-list__letter.data-v-7e596c49 {
+  position: fixed;
+  right: 0;
+  text-align: center;
+  z-index: 3;
+  padding: 0 6px;
+}
+.u-index-list__letter__item.data-v-7e596c49 {
+  width: 16px;
+  height: 16px;
+  border-radius: 100px;
+  margin: 1px 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.u-index-list__letter__item--active.data-v-7e596c49 {
+  background-color: #3c9cff;
+}
+.u-index-list__letter__item__index.data-v-7e596c49 {
+  font-size: 12px;
+  text-align: center;
+  line-height: 12px;
+}
+.u-index-list__indicator.data-v-7e596c49 {
+  width: 50px;
+  height: 50px;
+  border-radius: 100px 100px 0 100px;
+  text-align: center;
+  color: #ffffff;
+  background-color: #c9c9c9;
+  -webkit-transform: rotate(-45deg);
+          transform: rotate(-45deg);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.u-index-list__indicator__text.data-v-7e596c49 {
+  font-size: 28px;
+  line-height: 28px;
+  font-weight: bold;
+  color: #fff;
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+  text-align: center;
+}
+

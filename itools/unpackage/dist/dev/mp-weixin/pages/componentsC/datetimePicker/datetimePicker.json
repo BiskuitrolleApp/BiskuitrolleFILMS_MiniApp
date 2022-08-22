@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "时间选择",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "u-navbar": "/uni_modules/uview-ui/components/u-navbar/u-navbar",
+    "u-cell-group": "/uni_modules/uview-ui/components/u-cell-group/u-cell-group",
+    "u-cell": "/uni_modules/uview-ui/components/u-cell/u-cell",
+    "u-datetime-picker": "/uni_modules/uview-ui/components/u-datetime-picker/u-datetime-picker"
+  }
+}

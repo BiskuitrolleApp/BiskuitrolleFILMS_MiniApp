@@ -1,0 +1,11 @@
+{
+  "navigationBarTitleText": "输入框",
+  "usingComponents": {
+    "u--input": "/uni_modules/uview-ui/components/u--input/u--input",
+    "u-input": "/uni_modules/uview-ui/components/u-input/u-input",
+    "u--text": "/uni_modules/uview-ui/components/u--text/u--text",
+    "u-code": "/uni_modules/uview-ui/components/u-code/u-code",
+    "u-button": "/uni_modules/uview-ui/components/u-button/u-button",
+    "u-gap": "/uni_modules/uview-ui/components/u-gap/u-gap"
+  }
+}

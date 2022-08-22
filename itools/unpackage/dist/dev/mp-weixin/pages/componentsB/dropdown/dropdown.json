@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "下拉菜单",
+  "usingComponents": {
+    "u-dropdown": "/uni_modules/uview-ui/components/u-dropdown/u-dropdown",
+    "u-dropdown-item": "/uni_modules/uview-ui/components/u-dropdown-item/u-dropdown-item"
+  }
+}

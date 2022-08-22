@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "文本域",
+  "usingComponents": {
+    "u--textarea": "/uni_modules/uview-ui/components/u--textarea/u--textarea"
+  }
+}

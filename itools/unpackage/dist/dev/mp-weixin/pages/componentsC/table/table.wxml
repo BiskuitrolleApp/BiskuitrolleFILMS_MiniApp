@@ -1,0 +1,1 @@
+<view class="u-page"><view class="u-demo-block"><text class="u-demo-block__title">基础使用</text><view class="u-demo-block__content"><u--form vue-id="6328d204-1" bind:__l="__l" vue-slots="{{['default']}}"><u-form-item vue-id="{{('6328d204-2')+','+('6328d204-1')}}" lable="电话" bind:__l="__l"></u-form-item></u--form></view></view></view>

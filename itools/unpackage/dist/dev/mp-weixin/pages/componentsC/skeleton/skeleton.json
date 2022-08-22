@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "骨架屏",
+  "usingComponents": {
+    "u-skeleton": "/uni_modules/uview-ui/components/u-skeleton/u-skeleton",
+    "u-switch": "/uni_modules/uview-ui/components/u-switch/u-switch",
+    "u-gap": "/uni_modules/uview-ui/components/u-gap/u-gap",
+    "u--text": "/uni_modules/uview-ui/components/u--text/u--text"
+  }
+}

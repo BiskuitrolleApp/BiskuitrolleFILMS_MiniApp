@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "u-overlay": "/uni_modules/uview-ui/components/u-overlay/u-overlay"
+  }
+}

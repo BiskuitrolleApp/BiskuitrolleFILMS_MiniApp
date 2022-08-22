@@ -1,0 +1,11 @@
+{
+  "navigationBarTitleText": "键盘",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "u-navbar": "/uni_modules/uview-ui/components/u-navbar/u-navbar",
+    "u-gap": "/uni_modules/uview-ui/components/u-gap/u-gap",
+    "u-cell-group": "/uni_modules/uview-ui/components/u-cell-group/u-cell-group",
+    "u-cell": "/uni_modules/uview-ui/components/u-cell/u-cell",
+    "u-keyboard": "/uni_modules/uview-ui/components/u-keyboard/u-keyboard"
+  }
+}
