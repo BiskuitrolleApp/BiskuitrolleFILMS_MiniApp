@@ -4,6 +4,7 @@
 		"test": "eslint . --fix"
 	},
 	"dependencies": {
+		"exif-js": "^2.3.0",
 		"lodash": "^4.17.21"
 	},
 	"devDependencies": {

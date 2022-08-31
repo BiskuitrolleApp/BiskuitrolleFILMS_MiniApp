@@ -1,116 +1,15 @@
 {
   "pages": [
-    "pages/home/home",
-    "pages/example/components"
+    "pages/componentsFunction/photoBorder/photoBorder",
+    "pages/home/home"
   ],
-  "subPackages": [
-    {
-      "root": "pages/componentsFunction",
-      "pages": [
-        "photoBorder/photoBorder"
-      ]
-    },
-    {
-      "root": "pages/componentsA",
-      "pages": [
-        "transition/transition",
-        "test/test",
-        "icon/icon",
-        "cell/cell",
-        "line/line",
-        "image/image",
-        "link/link",
-        "button/button",
-        "loading-icon/loading-icon",
-        "overlay/overlay",
-        "loading-page/loading-page",
-        "popup/popup",
-        "swipeAction/swipeAction",
-        "sticky/sticky",
-        "radio/radio",
-        "checkbox/checkbox",
-        "empty/empty",
-        "backtop/backtop",
-        "divider/divider",
-        "rate/rate",
-        "gap/gap",
-        "grid/grid"
-      ]
-    },
-    {
-      "root": "pages/componentsB",
-      "pages": [
-        "dropdown/dropdown",
-        "actionSheet/actionSheet",
-        "parse/parse",
-        "parse/jump",
-        "toast/toast",
-        "keyboard/keyboard",
-        "slider/slider",
-        "upload/upload",
-        "notify/notify",
-        "countDown/countDown",
-        "color/color",
-        "numberBox/numberBox",
-        "countTo/countTo",
-        "search/search",
-        "badge/badge",
-        "tag/tag",
-        "alert/alert",
-        "switch/switch",
-        "collapse/collapse",
-        "code/code",
-        "noticeBar/noticeBar",
-        "progress/progress",
-        "tabbar/tabbar"
-      ]
-    },
-    {
-      "root": "pages/componentsC",
-      "pages": [
-        "table/table",
-        "form/form",
-        "textarea/textarea",
-        "noNetwork/noNetwork",
-        "loadmore/loadmore",
-        "text/text",
-        "steps/steps",
-        "navbar/navbar",
-        "skeleton/skeleton",
-        "input/input",
-        "album/album",
-        "avatar/avatar",
-        "readMore/readMore",
-        "layout/layout",
-        "indexList/indexList",
-        "tooltip/tooltip",
-        "tabs/tabs",
-        "list/list",
-        "swiper/swiper",
-        "scrollList/scrollList",
-        "codeInput/codeInput",
-        "modal/modal",
-        "picker/picker",
-        "calendar/calendar",
-        "datetimePicker/datetimePicker",
-        "subsection/subsection"
-      ]
-    }
-  ],
+  "subPackages": [],
   "window": {
     "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "uView",
+    "navigationBarTitleText": "itools",
     "navigationBarBackgroundColor": "#F8F8F8",
     "backgroundColor": "#F8F8F8"
   },
-  "preloadRule": {
-    "pages/example/components": {
-      "network": "all",
-      "packages": [
-        "pages/componentsA",
-        "pages/componentsB"
-      ]
-    }
-  },
-  "usingComponents": {}
+  "usingComponents": {},
+  "sitemapLocation": "sitemap.json"
 }

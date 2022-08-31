@@ -1,8 +1,5 @@
 <template>
-	<view
-		class="u-slider"
-		:style="[$u.addStyle(customStyle)]"
-	>
+	<view class="u-slider" :style="[$u.addStyle(customStyle)]">
 		<slider
 			:min="min"
 			:max="max"
@@ -20,35 +17,45 @@
 </template>
 
 <script>
-	import props from './props.js'
-	export default {
-		name: 'u--slider',
-		mixins: [uni.$u.mpMixin, uni.$u.mixin, props],
-		methods: {
-			// 拖动过程中触发
-			changingHandler(e) {
-				const {
-					value
-				} = e.detail
-				// 更新v-model的值
-				this.$emit('input', value)
-				// 触发事件
-				this.$emit('changing', value)
+import props from './props.js';
+export default {
+	name: 'u--slider',
+	data() {
+		return {
+			sliderValue: 0
+		};
+	},
+	watch: {
+		value: {
+			handler(n) {
+				console.log('sliderValue value', n);
+				this.sliderValue = n;
 			},
-			// 滑动结束时触发
-			changeHandler(e) {
-				const {
-					value
-				} = e.detail
-				// 更新v-model的值
-				this.$emit('input', value)
-				// 触发事件
-				this.$emit('change', value)
-			}
+			deep: true
+		}
+	},
+	mixins: [uni.$u.mpMixin, uni.$u.mixin, props],
+	methods: {
+		// 拖动过程中触发
+		changingHandler(e) {
+			const { value } = e.detail;
+			// 更新v-model的值
+			this.$emit('input', value);
+			// 触发事件
+			this.$emit('changing', value);
 		},
+		// 滑动结束时触发
+		changeHandler(e) {
+			const { value } = e.detail;
+			// 更新v-model的值
+			this.$emit('input', value);
+			// 触发事件
+			this.$emit('change', value);
+		}
 	}
+};
 </script>
 
 <style lang="scss" scoped>
-	@import "../../libs/css/components.scss";
+@import '../../libs/css/components.scss';
 </style>

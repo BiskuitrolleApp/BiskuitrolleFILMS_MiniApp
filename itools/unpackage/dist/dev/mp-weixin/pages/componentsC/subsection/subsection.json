@@ -1,6 +1,0 @@
-{
-  "navigationBarTitleText": "分段器",
-  "usingComponents": {
-    "u-subsection": "/uni_modules/uview-ui/components/u-subsection/u-subsection"
-  }
-}
