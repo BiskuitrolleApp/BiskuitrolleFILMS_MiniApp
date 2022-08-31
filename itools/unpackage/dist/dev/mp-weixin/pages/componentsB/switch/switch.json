@@ -1,6 +1,0 @@
-{
-  "navigationBarTitleText": "开关",
-  "usingComponents": {
-    "u-switch": "/uni_modules/uview-ui/components/u-switch/u-switch"
-  }
-}

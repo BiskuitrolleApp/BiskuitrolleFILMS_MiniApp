@@ -1,0 +1,14 @@
+{
+	"id": "uview-ui",
+	"scripts": {
+		"test": "eslint . --fix"
+	},
+	"dependencies": {
+		"exif-js": "^2.3.0",
+		"lodash": "^4.17.21"
+	},
+	"devDependencies": {
+		"eslint": "^8.2.0",
+		"eslint-config-airbnb": "^19.0.0"
+	}
+}

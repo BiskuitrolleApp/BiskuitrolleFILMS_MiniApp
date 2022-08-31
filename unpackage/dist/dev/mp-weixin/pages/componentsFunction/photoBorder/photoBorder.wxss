@@ -1,0 +1,43 @@
+@charset "UTF-8";
+/**
+ * 下方引入的为uView UI的集成样式文件，为scss预处理器，其中包含了一些"u-"开头的自定义变量
+ * 使用的时候，请将下面的一行复制到您的uniapp项目根目录的uni.scss中即可
+ * uView自定义的css类名和scss变量，均以"u-"开头，不会造成冲突，请放心使用 
+ */
+.photoBorder-page .canvas-wrapper.data-v-35a066a5 {
+  margin: 24px auto;
+  padding-bottom: 50px;
+}
+.photoBorder-page .canvas-wrapper .canvas-box.data-v-35a066a5 {
+  margin: 0px auto;
+  border: 1px dashed #ccc;
+}
+.photoBorder-page .canvas-wrapper .canvas-box #canvas.data-v-35a066a5 {
+  opacity: 0;
+}
+.photoBorder-page .canvas-wrapper .canvas-box.data-v-35a066a5 .uni-canvas {
+  width: 100%;
+  height: 100%;
+}
+.photoBorder-page .downLoadBtn.data-v-35a066a5 {
+  position: fixed;
+  bottom: 0px;
+  width: calc(100vw - 24px);
+  padding: 12px;
+  background-color: #fff;
+  border-top: 1px #ebedf0 solid;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 10px;
+  margin-bottom: constant(safe-area-inset-bottom);
+  /* 兼容 iOS<11.2 */
+  margin-bottom: env(safe-area-inset-bottom);
+  /* 兼容iOS>= 11.2 */
+}
+.photoBorder-page .popup-wrapper .form-wrapper.data-v-35a066a5 {
+  background-color: #fff;
+  max-height: 60vh;
+  height: 60vh;
+  overflow-y: auto;
+}
+
