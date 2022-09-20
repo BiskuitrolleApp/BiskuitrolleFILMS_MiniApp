@@ -1,10 +1,725 @@
-(global["webpackJsonp"]=global["webpackJsonp"]||[]).push([["components/t-color-picker/t-color-picker"],{242:function(t,r,e){"use strict";e.r(r);var n=e(243),i=e(245);for(var o in i)"default"!==o&&function(t){e.d(r,t,(function(){return i[t]}))}(o);e(247);var s,a=e(11),h=Object(a["default"])(i["default"],n["render"],n["staticRenderFns"],!1,null,null,null,!1,n["components"],s);h.options.__file="components/t-color-picker/t-color-picker.vue",r["default"]=h.exports},243:function(t,r,e){"use strict";e.r(r);var n=e(244);e.d(r,"render",(function(){return n["render"]})),e.d(r,"staticRenderFns",(function(){return n["staticRenderFns"]})),e.d(r,"recyclableRender",(function(){return n["recyclableRender"]})),e.d(r,"components",(function(){return n["components"]}))},244:function(t,r,e){"use strict";var n;e.r(r),e.d(r,"render",(function(){return i})),e.d(r,"staticRenderFns",(function(){return s})),e.d(r,"recyclableRender",(function(){return o})),e.d(r,"components",(function(){return n}));var i=function(){var t=this,r=t.$createElement;t._self._c},o=!1,s=[];i._withStripped=!0},245:function(t,r,e){"use strict";e.r(r);var n=e(246),i=e.n(n);for(var o in n)"default"!==o&&function(t){e.d(r,t,(function(){return n[t]}))}(o);r["default"]=i.a},246:function(t,r,e){"use strict";(function(t){Object.defineProperty(r,"__esModule",{value:!0}),r.default=void 0;var n=i(e(154));function i(t){return t&&t.__esModule?t:{default:t}}function o(t,r){return c(t)||u(t,r)||a(t,r)||s()}function s(){throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.")}function a(t,r){if(t){if("string"===typeof t)return h(t,r);var e=Object.prototype.toString.call(t).slice(8,-1);return"Object"===e&&t.constructor&&(e=t.constructor.name),"Map"===e||"Set"===e?Array.from(t):"Arguments"===e||/^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(e)?h(t,r):void 0}}function h(t,r){(null==r||r>t.length)&&(r=t.length);for(var e=0,n=new Array(r);e<r;e++)n[e]=t[e];return n}function u(t,r){if("undefined"!==typeof Symbol&&Symbol.iterator in Object(t)){var e=[],n=!0,i=!1,o=void 0;try{for(var s,a=t[Symbol.iterator]();!(n=(s=a.next()).done);n=!0)if(e.push(s.value),r&&e.length===r)break}catch(h){i=!0,o=h}finally{try{n||null==a["return"]||a["return"]()}finally{if(i)throw o}}return e}}function c(t){if(Array.isArray(t))return t}var l={props:{color:{type:Object|String,default:function(){return{r:0,g:0,b:0,a:0}}},spareColor:{type:Array,default:function(){return[]}}},data:function(){return{show:!1,active:!1,rgba:{r:0,g:0,b:0,a:1},hsb:{h:0,s:0,b:0},site:[{top:0,left:0},{left:0},{left:0}],index:0,bgcolor:{r:255,g:0,b:0,a:1},hex:"#000000",mode:!0,colorList:[{r:244,g:67,b:54,a:1},{r:233,g:30,b:99,a:1},{r:156,g:39,b:176,a:1},{r:103,g:58,b:183,a:1},{r:63,g:81,b:181,a:1},{r:33,g:150,b:243,a:1},{r:3,g:169,b:244,a:1},{r:0,g:188,b:212,a:1},{r:0,g:150,b:136,a:1},{r:76,g:175,b:80,a:1},{r:139,g:195,b:74,a:1},{r:205,g:220,b:57,a:1},{r:255,g:235,b:59,a:1},{r:255,g:193,b:7,a:1},{r:255,g:152,b:0,a:1},{r:255,g:87,b:34,a:1},{r:121,g:85,b:72,a:1},{r:158,g:158,b:158,a:1},{r:0,g:0,b:0,a:.5},{r:0,g:0,b:0,a:0}]}},created:function(){this.initRGBAdata()},methods:{initRGBAdata:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:"",r=this.color;""!=t&&(r=t),r&&"string"===typeof r&&r.indexOf("#")>="0"?this.rgba=this.changeColorType(r):this.rgba=r,console.log("this.rgba",this.rgba,r),0!==this.spareColor.length&&(this.colorList=this.spareColor)},changeColorType:function(t){var r={r:0,g:0,b:0,a:1},e=t.slice(1);if(3==e.length){var i=this.group(e,1);r.r=parseInt(i[0]+i[0],16),r.g=parseInt(i[1]+i[1],16),r.b=parseInt(i[2]+i[2],16),r.a=1}else if(e.length>=6){var o=this.group(e,2);if(r.r=parseInt(o[0],16),r.g=parseInt(o[1],16),r.b=parseInt(o[2],16),o[3]&&"ff"!==o[3]){var s=parseInt(o[3],16);r.a=n.default.formatDecimal(s/255,1)}else{parseInt("ff",16);r.a=1}}return r},group:function(t,r){if(null==t||void 0==t)return null;if(!/^[0-9]*[1-9][0-9]*$/.test(r))return null;for(var e=new Array,n=t.length,i=0;i<n/r;i++)(i+1)*r>n?e.push(t.substring(i*r,n)):e.push(t.substring(i*r,(i+1)*r));return e},init:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:"";console.log("init color",t),""!=t&&this.initRGBAdata(t),console.log("this.rgba ",this.rgba),this.hsb=this.rgbToHex(this.rgba),this.setValue(this.rgba)},moveHandle:function(){},open:function(t){var r=this;this.show=!0,this.$nextTick((function(){r.init(t),setTimeout((function(){r.active=!0,setTimeout((function(){r.getSelectorQuery()}),350)}),50)}))},close:function(){var t=this;this.active=!1,this.$nextTick((function(){setTimeout((function(){t.show=!1}),500)}))},confirm:function(){this.close(),this.$emit("confirm",{rgba:this.rgba,hex:this.hex})},select:function(){this.mode=!this.mode},selectColor:function(t){this.setColorBySelect(t)},touchstart:function(t,r){var e=t.touches[0],n=e.pageX,i=e.pageY;this.pageX=n,this.pageY=i,this.setPosition(n,i,r)},touchmove:function(t,r){var e=t.touches[0],n=e.pageX,i=e.pageY;this.moveX=n,this.moveY=i,this.setPosition(n,i,r)},touchend:function(t,r){},setPosition:function(t,r,e){this.index=e;var n=this.position[e],i=n.top,o=n.left,s=n.width,a=n.height;this.site[e].left=Math.max(0,Math.min(parseInt(t-o),s)),0===e?(this.site[e].top=Math.max(0,Math.min(parseInt(r-i),a)),this.hsb.s=parseInt(100*this.site[e].left/s),this.hsb.b=parseInt(100-100*this.site[e].top/a),this.setColor(),this.setValue(this.rgba)):this.setControl(e,this.site[e].left)},setColor:function(){var t=this.HSBToRGB(this.hsb);this.rgba.r=t.r,this.rgba.g=t.g,this.rgba.b=t.b},setValue:function(t){this.hex="#"+this.rgbToHex(t)},setControl:function(t,r){var e=this.position[t],n=(e.top,e.left,e.width);e.height;1===t?(this.hsb.h=parseInt(360*r/n),this.bgcolor=this.HSBToRGB({h:this.hsb.h,s:100,b:100}),this.setColor()):this.rgba.a=(r/n).toFixed(1),this.setValue(this.rgba)},rgbToHex:function(t){var r=[t.r.toString(16),t.g.toString(16),t.b.toString(16)];return r.map((function(t,e){1==t.length&&(r[e]="0"+t)})),r.join("")},setColorBySelect:function(t){var r=t.r,e=t.g,n=t.b,i=t.a,o={};o={r:r?parseInt(r):0,g:e?parseInt(e):0,b:n?parseInt(n):0,a:i||0},this.rgba=o,this.hsb=this.rgbToHsb(o),this.changeViewByHsb()},changeViewByHsb:function(){var t=o(this.position,3),r=t[0],e=t[1],n=t[2];this.site[0].left=parseInt(this.hsb.s*r.width/100),this.site[0].top=parseInt((100-this.hsb.b)*r.height/100),this.setColor(this.hsb.h),this.setValue(this.rgba),this.bgcolor=this.HSBToRGB({h:this.hsb.h,s:100,b:100}),this.site[1].left=this.hsb.h/360*e.width,this.site[2].left=this.rgba.a*n.width},HSBToRGB:function(t){var r={},e=Math.round(t.h),n=Math.round(255*t.s/100),i=Math.round(255*t.b/100);if(0==n)r.r=r.g=r.b=i;else{var o=i,s=(255-n)*i/255,a=e%60*(o-s)/60;360==e&&(e=0),e<60?(r.r=o,r.b=s,r.g=s+a):e<120?(r.g=o,r.b=s,r.r=o-a):e<180?(r.g=o,r.r=s,r.b=s+a):e<240?(r.b=o,r.r=s,r.g=o-a):e<300?(r.b=o,r.g=s,r.r=s+a):e<360?(r.r=o,r.g=s,r.b=o-a):(r.r=0,r.g=0,r.b=0)}return{r:Math.round(r.r),g:Math.round(r.g),b:Math.round(r.b)}},rgbToHsb:function(t){var r={h:0,s:0,b:0},e=Math.min(t.r,t.g,t.b),n=Math.max(t.r,t.g,t.b),i=n-e;return r.b=n,r.s=0!=n?255*i/n:0,0!=r.s?t.r==n?r.h=(t.g-t.b)/i:t.g==n?r.h=2+(t.b-t.r)/i:r.h=4+(t.r-t.g)/i:r.h=-1,r.h*=60,r.h<0&&(r.h=0),r.s*=100/255,r.b*=100/255,r},getSelectorQuery:function(){var r=this,e=t.createSelectorQuery().in(this);e.selectAll(".boxs").boundingClientRect((function(t){t&&0!==t.length?(r.position=t,r.setColorBySelect(r.rgba)):setTimeout((function(){return r.getSelectorQuery()}),20)})).exec()}},watch:{spareColor:function(t){this.colorList=t}}};r.default=l}).call(this,e(1)["default"])},247:function(t,r,e){"use strict";e.r(r);var n=e(248),i=e.n(n);for(var o in n)"default"!==o&&function(t){e.d(r,t,(function(){return n[t]}))}(o);r["default"]=i.a},248:function(t,r,e){}}]);
+(global["webpackJsonp"] = global["webpackJsonp"] || []).push([["components/t-color-picker/t-color-picker"],{
+
+/***/ 274:
+/*!********************************************************************************************************!*\
+  !*** /Users/zhengkaijie/Project/iTools-app/iToolsMiniApp/components/t-color-picker/t-color-picker.vue ***!
+  \********************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _t_color_picker_vue_vue_type_template_id_35600724___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./t-color-picker.vue?vue&type=template&id=35600724& */ 275);
+/* harmony import */ var _t_color_picker_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./t-color-picker.vue?vue&type=script&lang=js& */ 277);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _t_color_picker_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _t_color_picker_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _t_color_picker_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./t-color-picker.vue?vue&type=style&index=0&lang=css& */ 279);
+/* harmony import */ var _Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../../../../Applications/HBuilderX.app/Contents/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/runtime/componentNormalizer.js */ 17);
+
+var renderjs
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _t_color_picker_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _t_color_picker_vue_vue_type_template_id_35600724___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _t_color_picker_vue_vue_type_template_id_35600724___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null,
+  false,
+  _t_color_picker_vue_vue_type_template_id_35600724___WEBPACK_IMPORTED_MODULE_0__["components"],
+  renderjs
+)
+
+component.options.__file = "components/t-color-picker/t-color-picker.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ 275:
+/*!***************************************************************************************************************************************!*\
+  !*** /Users/zhengkaijie/Project/iTools-app/iToolsMiniApp/components/t-color-picker/t-color-picker.vue?vue&type=template&id=35600724& ***!
+  \***************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns, recyclableRender, components */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_16_0_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_template_js_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_page_meta_js_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_t_color_picker_vue_vue_type_template_id_35600724___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../../Applications/HBuilderX.app/Contents/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../../../Applications/HBuilderX.app/Contents/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--16-0!../../../../../../../Applications/HBuilderX.app/Contents/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/template.js!../../../../../../../Applications/HBuilderX.app/Contents/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-uni-app-loader/page-meta.js!../../../../../../../Applications/HBuilderX.app/Contents/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!../../../../../../../Applications/HBuilderX.app/Contents/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!./t-color-picker.vue?vue&type=template&id=35600724& */ 276);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_16_0_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_template_js_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_page_meta_js_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_t_color_picker_vue_vue_type_template_id_35600724___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_16_0_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_template_js_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_page_meta_js_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_t_color_picker_vue_vue_type_template_id_35600724___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "recyclableRender", function() { return _Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_16_0_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_template_js_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_page_meta_js_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_t_color_picker_vue_vue_type_template_id_35600724___WEBPACK_IMPORTED_MODULE_0__["recyclableRender"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "components", function() { return _Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_16_0_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_template_js_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_page_meta_js_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_t_color_picker_vue_vue_type_template_id_35600724___WEBPACK_IMPORTED_MODULE_0__["components"]; });
+
+
+
+/***/ }),
+
+/***/ 276:
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--16-0!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/template.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-uni-app-loader/page-meta.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!/Users/zhengkaijie/Project/iTools-app/iToolsMiniApp/components/t-color-picker/t-color-picker.vue?vue&type=template&id=35600724& ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns, recyclableRender, components */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "recyclableRender", function() { return recyclableRender; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
+var components
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+}
+var recyclableRender = false
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ 277:
+/*!*********************************************************************************************************************************!*\
+  !*** /Users/zhengkaijie/Project/iTools-app/iToolsMiniApp/components/t-color-picker/t-color-picker.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_12_1_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_t_color_picker_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../../Applications/HBuilderX.app/Contents/HBuilderX/plugins/uniapp-cli/node_modules/babel-loader/lib!../../../../../../../Applications/HBuilderX.app/Contents/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--12-1!../../../../../../../Applications/HBuilderX.app/Contents/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/script.js!../../../../../../../Applications/HBuilderX.app/Contents/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!../../../../../../../Applications/HBuilderX.app/Contents/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!./t-color-picker.vue?vue&type=script&lang=js& */ 278);
+/* harmony import */ var _Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_12_1_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_t_color_picker_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_12_1_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_t_color_picker_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_12_1_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_t_color_picker_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_12_1_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_t_color_picker_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_12_1_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_t_color_picker_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
+/***/ 278:
+/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--12-1!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/script.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!/Users/zhengkaijie/Project/iTools-app/iToolsMiniApp/components/t-color-picker/t-color-picker.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var _index = _interopRequireDefault(__webpack_require__(/*! @/util/tools/index.js */ 155));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _slicedToArray(arr, i) {return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();}function _nonIterableRest() {throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");}function _unsupportedIterableToArray(o, minLen) {if (!o) return;if (typeof o === "string") return _arrayLikeToArray(o, minLen);var n = Object.prototype.toString.call(o).slice(8, -1);if (n === "Object" && o.constructor) n = o.constructor.name;if (n === "Map" || n === "Set") return Array.from(o);if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);}function _arrayLikeToArray(arr, len) {if (len == null || len > arr.length) len = arr.length;for (var i = 0, arr2 = new Array(len); i < len; i++) {arr2[i] = arr[i];}return arr2;}function _iterableToArrayLimit(arr, i) {if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;var _arr = [];var _n = true;var _d = false;var _e = undefined;try {for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {_arr.push(_s.value);if (i && _arr.length === i) break;}} catch (err) {_d = true;_e = err;} finally {try {if (!_n && _i["return"] != null) _i["return"]();} finally {if (_d) throw _e;}}return _arr;}function _arrayWithHoles(arr) {if (Array.isArray(arr)) return arr;}var _default2 =
+{
+  props: {
+    color: {
+      type: Object | String,
+      default: function _default() {
+        return {
+          r: 0,
+          g: 0,
+          b: 0,
+          a: 0 };
+
+      } },
+
+    spareColor: {
+      type: Array,
+      default: function _default() {
+        return [];
+      } } },
+
+
+  data: function data() {
+    return {
+      show: false,
+      active: false,
+      // rgba 颜色
+      rgba: {
+        r: 0,
+        g: 0,
+        b: 0,
+        a: 1 },
+
+      // hsb 颜色
+      hsb: {
+        h: 0,
+        s: 0,
+        b: 0 },
+
+      site: [
+      {
+        top: 0,
+        left: 0 },
+
+      {
+        left: 0 },
+
+      {
+        left: 0 }],
+
+
+      index: 0,
+      bgcolor: {
+        r: 255,
+        g: 0,
+        b: 0,
+        a: 1 },
+
+      hex: '#000000',
+      mode: true,
+      colorList: [
+      {
+        r: 244,
+        g: 67,
+        b: 54,
+        a: 1 },
+
+      {
+        r: 233,
+        g: 30,
+        b: 99,
+        a: 1 },
+
+      {
+        r: 156,
+        g: 39,
+        b: 176,
+        a: 1 },
+
+      {
+        r: 103,
+        g: 58,
+        b: 183,
+        a: 1 },
+
+      {
+        r: 63,
+        g: 81,
+        b: 181,
+        a: 1 },
+
+      {
+        r: 33,
+        g: 150,
+        b: 243,
+        a: 1 },
+
+      {
+        r: 3,
+        g: 169,
+        b: 244,
+        a: 1 },
+
+      {
+        r: 0,
+        g: 188,
+        b: 212,
+        a: 1 },
+
+      {
+        r: 0,
+        g: 150,
+        b: 136,
+        a: 1 },
+
+      {
+        r: 76,
+        g: 175,
+        b: 80,
+        a: 1 },
+
+      {
+        r: 139,
+        g: 195,
+        b: 74,
+        a: 1 },
+
+      {
+        r: 205,
+        g: 220,
+        b: 57,
+        a: 1 },
+
+      {
+        r: 255,
+        g: 235,
+        b: 59,
+        a: 1 },
+
+      {
+        r: 255,
+        g: 193,
+        b: 7,
+        a: 1 },
+
+      {
+        r: 255,
+        g: 152,
+        b: 0,
+        a: 1 },
+
+      {
+        r: 255,
+        g: 87,
+        b: 34,
+        a: 1 },
+
+      {
+        r: 121,
+        g: 85,
+        b: 72,
+        a: 1 },
+
+      {
+        r: 158,
+        g: 158,
+        b: 158,
+        a: 1 },
+
+      {
+        r: 0,
+        g: 0,
+        b: 0,
+        a: 0.5 },
+
+      {
+        r: 0,
+        g: 0,
+        b: 0,
+        a: 0 }] };
+
+
+
+  },
+  created: function created() {
+    this.initRGBAdata();
+  },
+  methods: {
+    initRGBAdata: function initRGBAdata() {var color = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+      var currentColor = this.color;
+      if (color != '') {
+        currentColor = color;
+      }
+      if (currentColor && typeof currentColor === 'string' && currentColor.indexOf('#') >= '0') {
+        this.rgba = this.changeColorType(currentColor);
+      } else {
+        this.rgba = currentColor;
+      }
+      console.log('this.rgba', this.rgba, currentColor);
+      if (this.spareColor.length !== 0) {
+        this.colorList = this.spareColor;
+      }
+    },
+    // 获得格式化的#color 为 { r: 0, g: 0, b: 0, a: 1 }格式
+    changeColorType: function changeColorType(data) {
+      var color = { r: 0, g: 0, b: 0, a: 1 };
+      var rgb = data.slice(1);
+      if (rgb.length == 3) {
+        var colorGroup = this.group(rgb, 1);
+        color.r = parseInt(colorGroup[0] + colorGroup[0], 16);
+        color.g = parseInt(colorGroup[1] + colorGroup[1], 16);
+        color.b = parseInt(colorGroup[2] + colorGroup[2], 16);
+        color.a = 1;
+      } else if (rgb.length >= 6) {
+        var _colorGroup = this.group(rgb, 2);
+        color.r = parseInt(_colorGroup[0], 16);
+        color.g = parseInt(_colorGroup[1], 16);
+        color.b = parseInt(_colorGroup[2], 16);
+        if (_colorGroup[3] && _colorGroup[3] !== 'ff') {
+          var a = parseInt(_colorGroup[3], 16);
+          color.a = _index.default.formatDecimal(a / 255, 1);
+        } else {
+          var _a = parseInt('ff', 16);
+          color.a = 1;
+        }
+      }
+      return color;
+    },
+    group: function group(str, num) {
+      if (str == null || str == undefined) return null;
+      if (!/^[0-9]*[1-9][0-9]*$/.test(num)) return null;
+      var array = new Array();
+      var len = str.length;
+      for (var i = 0; i < len / num; i++) {
+        if ((i + 1) * num > len) {
+          array.push(str.substring(i * num, len));
+        } else {
+          array.push(str.substring(i * num, (i + 1) * num));
+        }
+      }
+      return array;
+    },
+    /**
+        * 初始化
+        */
+    init: function init() {var color = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+      console.log('init color', color);
+      if (color != '') {
+        this.initRGBAdata(color);
+      }
+      // hsb 颜色
+      console.log('this.rgba ', this.rgba);
+      this.hsb = this.rgbToHex(this.rgba);
+      // this.setColor();
+      this.setValue(this.rgba);
+    },
+    moveHandle: function moveHandle() {},
+    open: function open(color) {var _this = this;
+      this.show = true;
+      this.$nextTick(function () {
+        _this.init(color);
+        setTimeout(function () {
+          _this.active = true;
+          setTimeout(function () {
+            _this.getSelectorQuery();
+          }, 350);
+        }, 50);
+      });
+    },
+    close: function close() {var _this2 = this;
+      this.active = false;
+      this.$nextTick(function () {
+        setTimeout(function () {
+          _this2.show = false;
+        }, 500);
+      });
+    },
+    confirm: function confirm() {
+      this.close();
+      this.$emit('confirm', {
+        rgba: this.rgba,
+        hex: this.hex });
+
+    },
+    // 选择模式
+    select: function select() {
+      this.mode = !this.mode;
+    },
+    // 常用颜色选择
+    selectColor: function selectColor(item) {
+      this.setColorBySelect(item);
+    },
+    touchstart: function touchstart(e, index) {var _e$touches$ =
+      e.touches[0],pageX = _e$touches$.pageX,pageY = _e$touches$.pageY;
+      this.pageX = pageX;
+      this.pageY = pageY;
+      this.setPosition(pageX, pageY, index);
+    },
+    touchmove: function touchmove(e, index) {var _e$touches$2 =
+      e.touches[0],pageX = _e$touches$2.pageX,pageY = _e$touches$2.pageY;
+      this.moveX = pageX;
+      this.moveY = pageY;
+      this.setPosition(pageX, pageY, index);
+    },
+    touchend: function touchend(e, index) {},
+    /**
+                                               * 设置位置
+                                               */
+    setPosition: function setPosition(x, y, index) {
+      this.index = index;var _this$position$index =
+      this.position[index],top = _this$position$index.top,left = _this$position$index.left,width = _this$position$index.width,height = _this$position$index.height;
+      // 设置最大最小值
+
+      this.site[index].left = Math.max(0, Math.min(parseInt(x - left), width));
+      if (index === 0) {
+        this.site[index].top = Math.max(0, Math.min(parseInt(y - top), height));
+        // 设置颜色
+        this.hsb.s = parseInt(100 * this.site[index].left / width);
+        this.hsb.b = parseInt(100 - 100 * this.site[index].top / height);
+        this.setColor();
+        this.setValue(this.rgba);
+      } else {
+        this.setControl(index, this.site[index].left);
+      }
+    },
+    /**
+        * 设置 rgb 颜色
+        */
+    setColor: function setColor() {
+      var rgb = this.HSBToRGB(this.hsb);
+      this.rgba.r = rgb.r;
+      this.rgba.g = rgb.g;
+      this.rgba.b = rgb.b;
+    },
+    /**
+        * 设置二进制颜色
+        * @param {Object} rgb
+        */
+    setValue: function setValue(rgb) {
+      this.hex = '#' + this.rgbToHex(rgb);
+    },
+    setControl: function setControl(index, x) {var _this$position$index2 =
+      this.position[index],top = _this$position$index2.top,left = _this$position$index2.left,width = _this$position$index2.width,height = _this$position$index2.height;
+
+      if (index === 1) {
+        this.hsb.h = parseInt(360 * x / width);
+        this.bgcolor = this.HSBToRGB({
+          h: this.hsb.h,
+          s: 100,
+          b: 100 });
+
+        this.setColor();
+      } else {
+        this.rgba.a = (x / width).toFixed(1);
+      }
+      this.setValue(this.rgba);
+    },
+    /**
+        * rgb 转 二进制 hex
+        * @param {Object} rgb
+        */
+    rgbToHex: function rgbToHex(rgb) {
+      var hex = [rgb.r.toString(16), rgb.g.toString(16), rgb.b.toString(16)];
+      hex.map(function (str, i) {
+        if (str.length == 1) {
+          hex[i] = '0' + str;
+        }
+      });
+      return hex.join('');
+    },
+    setColorBySelect: function setColorBySelect(getrgb) {var
+      r = getrgb.r,g = getrgb.g,b = getrgb.b,a = getrgb.a;
+      var rgb = {};
+      rgb = {
+        r: r ? parseInt(r) : 0,
+        g: g ? parseInt(g) : 0,
+        b: b ? parseInt(b) : 0,
+        a: a ? a : 0 };
+
+      this.rgba = rgb;
+      this.hsb = this.rgbToHsb(rgb);
+      this.changeViewByHsb();
+    },
+    changeViewByHsb: function changeViewByHsb() {var _this$position = _slicedToArray(
+      this.position, 3),a = _this$position[0],b = _this$position[1],c = _this$position[2];
+      this.site[0].left = parseInt(this.hsb.s * a.width / 100);
+      this.site[0].top = parseInt((100 - this.hsb.b) * a.height / 100);
+      this.setColor(this.hsb.h);
+      this.setValue(this.rgba);
+      this.bgcolor = this.HSBToRGB({
+        h: this.hsb.h,
+        s: 100,
+        b: 100 });
+
+
+      this.site[1].left = this.hsb.h / 360 * b.width;
+      this.site[2].left = this.rgba.a * c.width;
+    },
+    /**
+        * hsb 转 rgb
+        * @param {Object} 颜色模式  H(hues)表示色相，S(saturation)表示饱和度，B（brightness）表示亮度
+        */
+    HSBToRGB: function HSBToRGB(hsb) {
+      var rgb = {};
+      var h = Math.round(hsb.h);
+      var s = Math.round(hsb.s * 255 / 100);
+      var v = Math.round(hsb.b * 255 / 100);
+      if (s == 0) {
+        rgb.r = rgb.g = rgb.b = v;
+      } else {
+        var t1 = v;
+        var t2 = (255 - s) * v / 255;
+        var t3 = (t1 - t2) * (h % 60) / 60;
+        if (h == 360) h = 0;
+        if (h < 60) {
+          rgb.r = t1;
+          rgb.b = t2;
+          rgb.g = t2 + t3;
+        } else if (h < 120) {
+          rgb.g = t1;
+          rgb.b = t2;
+          rgb.r = t1 - t3;
+        } else if (h < 180) {
+          rgb.g = t1;
+          rgb.r = t2;
+          rgb.b = t2 + t3;
+        } else if (h < 240) {
+          rgb.b = t1;
+          rgb.r = t2;
+          rgb.g = t1 - t3;
+        } else if (h < 300) {
+          rgb.b = t1;
+          rgb.g = t2;
+          rgb.r = t2 + t3;
+        } else if (h < 360) {
+          rgb.r = t1;
+          rgb.g = t2;
+          rgb.b = t1 - t3;
+        } else {
+          rgb.r = 0;
+          rgb.g = 0;
+          rgb.b = 0;
+        }
+      }
+      return {
+        r: Math.round(rgb.r),
+        g: Math.round(rgb.g),
+        b: Math.round(rgb.b) };
+
+    },
+    rgbToHsb: function rgbToHsb(rgb) {
+      var hsb = {
+        h: 0,
+        s: 0,
+        b: 0 };
+
+      var min = Math.min(rgb.r, rgb.g, rgb.b);
+      var max = Math.max(rgb.r, rgb.g, rgb.b);
+      var delta = max - min;
+      hsb.b = max;
+      hsb.s = max != 0 ? 255 * delta / max : 0;
+      if (hsb.s != 0) {
+        if (rgb.r == max) hsb.h = (rgb.g - rgb.b) / delta;else
+        if (rgb.g == max) hsb.h = 2 + (rgb.b - rgb.r) / delta;else
+        hsb.h = 4 + (rgb.r - rgb.g) / delta;
+      } else hsb.h = -1;
+      hsb.h *= 60;
+      if (hsb.h < 0) hsb.h = 0;
+      hsb.s *= 100 / 255;
+      hsb.b *= 100 / 255;
+      return hsb;
+    },
+    getSelectorQuery: function getSelectorQuery() {var _this3 = this;
+      var views = uni.createSelectorQuery().in(this);
+      views.
+      selectAll('.boxs').
+      boundingClientRect(function (data) {
+        if (!data || data.length === 0) {
+          setTimeout(function () {return _this3.getSelectorQuery();}, 20);
+          return;
+        }
+        _this3.position = data;
+        // this.site[0].top = data[0].height;
+        // this.site[0].left = 0;
+        // this.site[1].left = data[1].width;
+        // this.site[2].left = data[2].width;
+        _this3.setColorBySelect(_this3.rgba);
+      }).
+      exec();
+    } },
+
+  watch: {
+    spareColor: function spareColor(newVal) {
+      this.colorList = newVal;
+    } } };exports.default = _default2;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+
+/***/ 279:
+/*!*****************************************************************************************************************************************!*\
+  !*** /Users/zhengkaijie/Project/iTools-app/iToolsMiniApp/components/t-color-picker/t-color-picker.vue?vue&type=style&index=0&lang=css& ***!
+  \*****************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_stylePostLoader_js_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_6_oneOf_1_2_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_3_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_t_color_picker_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../../Applications/HBuilderX.app/Contents/HBuilderX/plugins/uniapp-cli/node_modules/mini-css-extract-plugin/dist/loader.js??ref--6-oneOf-1-0!../../../../../../../Applications/HBuilderX.app/Contents/HBuilderX/plugins/uniapp-cli/node_modules/css-loader/dist/cjs.js??ref--6-oneOf-1-1!../../../../../../../Applications/HBuilderX.app/Contents/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/stylePostLoader.js!../../../../../../../Applications/HBuilderX.app/Contents/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--6-oneOf-1-2!../../../../../../../Applications/HBuilderX.app/Contents/HBuilderX/plugins/uniapp-cli/node_modules/postcss-loader/src??ref--6-oneOf-1-3!../../../../../../../Applications/HBuilderX.app/Contents/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!../../../../../../../Applications/HBuilderX.app/Contents/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!./t-color-picker.vue?vue&type=style&index=0&lang=css& */ 280);
+/* harmony import */ var _Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_stylePostLoader_js_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_6_oneOf_1_2_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_3_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_t_color_picker_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_stylePostLoader_js_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_6_oneOf_1_2_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_3_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_t_color_picker_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_stylePostLoader_js_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_6_oneOf_1_2_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_3_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_t_color_picker_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_stylePostLoader_js_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_6_oneOf_1_2_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_3_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_t_color_picker_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_stylePostLoader_js_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_6_oneOf_1_2_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_3_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_t_color_picker_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
+/***/ 280:
+/*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/mini-css-extract-plugin/dist/loader.js??ref--6-oneOf-1-0!./node_modules/css-loader/dist/cjs.js??ref--6-oneOf-1-1!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--6-oneOf-1-2!./node_modules/postcss-loader/src??ref--6-oneOf-1-3!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!/Users/zhengkaijie/Project/iTools-app/iToolsMiniApp/components/t-color-picker/t-color-picker.vue?vue&type=style&index=0&lang=css& ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+    if(false) { var cssReload; }
+  
+
+/***/ })
+
+}]);
 //# sourceMappingURL=../../../.sourcemap/mp-weixin/components/t-color-picker/t-color-picker.js.map
 ;(global["webpackJsonp"] = global["webpackJsonp"] || []).push([
     'components/t-color-picker/t-color-picker-create-component',
     {
         'components/t-color-picker/t-color-picker-create-component':(function(module, exports, __webpack_require__){
-            __webpack_require__('1')['createComponent'](__webpack_require__(242))
+            __webpack_require__('1')['createComponent'](__webpack_require__(274))
         })
     },
     [['components/t-color-picker/t-color-picker-create-component']]

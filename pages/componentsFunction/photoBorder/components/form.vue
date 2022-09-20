@@ -3,7 +3,7 @@
 		<!-- <button @click="open">打开颜色选择器</button> -->
 		<!-- 需要声明 ref  -->
 		<t-color-picker ref="colorPicker" @confirm="confirmColorPicker"></t-color-picker>
-		<u-form labelPosition="left" :model="formData" :rules="rules" ref="form1">
+		<u-form labelPosition="left" :model="formData" :rules="rules">
 			<u-form-item label="高级" labelWidth="80" :borderBottom="!isShowMore">
 				<view class="form-switch-wrapper">
 					<view class="switch-box"><u-switch activeColor="#67C23A" v-model="isShowMore" @change="moreShowSwitchChange"></u-switch></view>
@@ -18,6 +18,7 @@
 					<view class="inputWrapper">{{ compress }}%</view>
 				</view>
 			</u-form-item>
+
 			<view v-if="isShowMore">
 				<u-form-item label="背景颜色" labelWidth="80" customStyle="padding:5px 0px" :key="background">
 					<view class="colorBox-wrapper">
@@ -63,70 +64,73 @@
 				</u-form-item>
 			</view>
 			<view v-if="!isShowMore">
-				<u-form-item :label="item.name" labelWidth="80" :prop="item.key" v-for="(item, index) in formModeList">
-					<u--input v-model="formData[item.key].content" border="bottom" placeholder="输入信息" inputAlign="right"></u--input>
-				</u-form-item>
+				<u-form labelPosition="left" :model="formData" :rules="rules">
+					<u-form-item :label="item.name" labelWidth="80" :prop="item.key" v-for="(item, index) in formModeList">
+						<u--input v-model="formData[item.key].content" border="bottom" placeholder="输入信息" inputAlign="right"></u--input>
+					</u-form-item>
+				</u-form>
 			</view>
 			<view v-else class="more-form-wrapper">
 				<view class="more-form-item">
 					<u-collapse accordion>
 						<u-collapse-item :title="item.name" v-for="(item, index) in formModeList">
-							<u-form-item label="内容" labelWidth="80" :prop="item.key">
-								<u--input
-									:value="formData[item.key].content"
-									border="bottom"
-									placeholder="输入信息"
-									inputAlign="right"
-									@input="
-										value => {
-											formData[item.key].content = value;
-										}
-									"
-								></u--input>
-							</u-form-item>
-							<u-form-item label="颜色" labelWidth="80" customStyle="padding:5px 0px">
-								<view class="colorBox-wrapper">
-									<view
-										class="colorBox"
-										@click="openColorPicker(formData[item.key].fontColor, ['formData.', item.key, '.fontColor'])"
-										:style="{ color: oppositeColor(formData[item.key].fontColor, -1), background: formData[item.key].fontColor }"
-									>
-										{{ formData[item.key].fontColor }}
+							<u-form labelPosition="left" :model="formData" :rules="rules">
+								<u-form-item label="内容" labelWidth="80" :prop="item.key">
+									<u--input
+										:value="formData[item.key].content"
+										border="bottom"
+										placeholder="输入信息"
+										inputAlign="right"
+										@input="
+											value => {
+												formData[item.key].content = value;
+											}
+										"
+									></u--input>
+								</u-form-item>
+								<u-form-item label="颜色" labelWidth="80" customStyle="padding:5px 0px">
+									<view class="colorBox-wrapper">
+										<view
+											class="colorBox"
+											@click="openColorPicker(formData[item.key].fontColor, ['formData.', item.key, '.fontColor'])"
+											:style="{ color: oppositeColor(formData[item.key].fontColor, -1), background: formData[item.key].fontColor }"
+										>
+											{{ formData[item.key].fontColor }}
+										</view>
 									</view>
-								</view>
-							</u-form-item>
-							<u-form-item label="字体大小" labelWidth="80" customStyle="padding:5px 0px">
-								<u--input
-									:value="formData[item.key].fontSize"
-									placeholder="输入字体大小"
-									inputAlign="right"
-									type="number"
-									@input="
-										value => {
-											formData[item.key].fontSize = value;
-										}
-									"
-								></u--input>
-							</u-form-item>
-							<u-form-item label="横向偏移" labelWidth="80" customStyle="padding:5px 0px">
-								<view class="slider-wrapper">
-									<view class="tip-wrapper tip-left">-50</view>
-									<view class="slider"><u-slider v-model="formData[item.key].xAxis" step="1" min="-50" max="50" activeColor="#67C23A"></u-slider></view>
-									<view class="tip-wrapper tip-right">50</view>
-									<view class="tip-wrapper tip-right"></view>
-									<view class="inputWrapper">{{ formData[item.key].xAxis }}</view>
-								</view>
-								<!-- <u--input v-model="formData[item.key].xAxis" placeholder="输入右下角信息栏" inputAlign="right"></u--input> -->
-							</u-form-item>
-							<u-form-item label="纵向偏移" labelWidth="80" customStyle="padding:5px 0px">
-								<view class="slider-wrapper">
-									<view class="tip-wrapper tip-left">-50</view>
-									<view class="slider"><u-slider v-model="formData[item.key].yAxis" step="1" min="-50" max="50" activeColor="#67C23A"></u-slider></view>
-									<view class="tip-wrapper tip-right">50</view>
-									<view class="tip-wrapper tip-right"></view>
-									<view class="inputWrapper">{{ formData[item.key].yAxis }}</view>
-								</view>
-							</u-form-item>
+								</u-form-item>
+								<u-form-item label="字体大小" labelWidth="80" customStyle="padding:5px 0px">
+									<u--input
+										:value="formData[item.key].fontSize"
+										placeholder="输入字体大小"
+										inputAlign="right"
+										type="number"
+										@input="
+											value => {
+												formData[item.key].fontSize = value;
+											}
+										"
+									></u--input>
+								</u-form-item>
+								<u-form-item label="横向偏移" labelWidth="80" customStyle="padding:5px 0px">
+									<view class="slider-wrapper">
+										<view class="tip-wrapper tip-left">-50</view>
+										<view class="slider"><u-slider v-model="formData[item.key].xAxis" step="1" min="-50" max="50" activeColor="#67C23A"></u-slider></view>
+										<view class="tip-wrapper tip-right">50</view>
+										<view class="tip-wrapper tip-right"></view>
+										<view class="inputWrapper">{{ formData[item.key].xAxis }}</view>
+									</view>
+								</u-form-item>
+								<u-form-item label="纵向偏移" labelWidth="80" customStyle="padding:5px 0px">
+									<view class="slider-wrapper">
+										<view class="tip-wrapper tip-left">-50</view>
+										<view class="slider"><u-slider v-model="formData[item.key].yAxis" step="1" min="-50" max="50" activeColor="#67C23A"></u-slider></view>
+										<view class="tip-wrapper tip-right">50</view>
+										<view class="tip-wrapper tip-right"></view>
+										<view class="inputWrapper">{{ formData[item.key].yAxis }}</view>
+									</view>
+								</u-form-item>
+							</u-form>
 						</u-collapse-item>
 					</u-collapse>
 				</view>
@@ -264,7 +268,7 @@ export default {
 			let tempData = _.cloneDeep(this.data);
 			let tempForm = tempData.EXIFInfo;
 
-			console.log('initFormData');
+			console.log('initFormData',tempData);
 			this.formData = {
 				imgInfo: tempForm.imgInfo,
 				machineName: tempForm.machineName,
@@ -295,6 +299,7 @@ export default {
 					name: '时间(右下)'
 				}
 			];
+			console.log('initFormData',this.formData);
 			this.computedLogoImage(this.logoList);
 		},
 		resetForm() {
