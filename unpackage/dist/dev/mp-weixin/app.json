@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/componentsFunction/photoBorder/photoBorder",
+    "pages/componentsFunction/canvas/index",
     "pages/home/home"
   ],
   "subPackages": [],
@@ -10,6 +11,5 @@
     "navigationBarBackgroundColor": "#F8F8F8",
     "backgroundColor": "#F8F8F8"
   },
-  "usingComponents": {},
-  "sitemapLocation": "sitemap.json"
+  "usingComponents": {}
 }

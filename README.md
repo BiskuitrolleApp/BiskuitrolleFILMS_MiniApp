@@ -1,101 +1,61 @@
-<p align="center">
-    <img alt="logo" src="https://uviewui.com/common/logo.png" width="120" height="120" style="margin-bottom: 10px;">
-</p>
-<h3 align="center" style="margin: 30px 0 30px;font-weight: bold;font-size:40px;">uView 2.0</h3>
-<h3 align="center">多平台快速开发的UI框架</h3>
+# 2.0.0
+#### feat@2.0.0
 
-[![stars](https://img.shields.io/github/stars/umicro/uView2.0?style=flat-square&logo=GitHub)](https://github.com/umicro/uView2.0)
-[![forks](https://img.shields.io/github/forks/umicro/uView2.0?style=flat-square&logo=GitHub)](https://github.com/umicro/uView2.0)
-[![issues](https://img.shields.io/github/issues/umicro/uView2.0?style=flat-square&logo=GitHub)](https://github.com/umicro/uView2.0/issues)
-[![Website](https://img.shields.io/badge/uView-up-blue?style=flat-square)](https://uviewui.com)
-[![release](https://img.shields.io/github/v/release/umicro/uView2.0?style=flat-square)](https://gitee.com/umicro/uView2.0/releases)
-[![license](https://img.shields.io/github/license/umicro/uView2.0?style=flat-square)](https://en.wikipedia.org/wiki/MIT_License)
+版本2.0.0功能如下：
 
-## 一起推动uView发展
+1. 上传图片自动判断识别出图片数据，识别完成后自动按照格式填写到页面信息栏；
+2. 可以调节图片信息，图片压缩率，图片样式；
+3. 可以调节信息栏信息，font大小，颜色等；
+4. 实现下载到手机功能
 
-uView正在参与开源中国的“年度最佳项目”评选，目前投票进入了最后一个阶段（之前投过票的现在也可以投票），
-我们不分昼夜的努力，恳请同学们能为我们投一票，uView来源于社区，也希望社区能一起推动它的发展，[点此帮助uView](https://www.oschina.net/project/top_cn_2021/?id=583)
+#### feat@2.0.1
 
-## 说明
+1. 新增画图数据结构
 
-uView UI，是[uni-app](https://uniapp.dcloud.io/)全面兼容nvue的uni-app生态框架，全面的组件和便捷的工具会让您信手拈来，如鱼得水
+   **canvas(画板)数据如下**
 
-## [官方文档：https://uviewui.com](https://uviewui.com)
+   | key         | 含义     | 类型                 | 默认值  | 备注                                   |
+   | ----------- | -------- | -------------------- | ------- | -------------------------------------- |
+   | width       | 宽       | String               | 320     |                                        |
+   | height      | 高       | String               | 240     |                                        |
+   | compress    | 压缩率   | String               | 100     | 压缩比例，范围为：1-100，100完全不压缩 |
+   | background  | 背景颜色 | String               | #ffffff |                                        |
+   | contentList | 内容列表 | Array[canvasContent] | []      |                                        |
+   
+   
+   
+**canvasContent(画板内容)数据如下**
+   
 
-### 官方1群：1042987248（已满）
-### 官方2群：249718512（已满）
-### 官方3群：1129077272（已满）
-### 官方4群：1084514613（已满）
-### 官方5群：863820668（已满）
-### 官方6群：745721078（已满）
-### 官方7群：627867855（已满）
-### 官方8群：496409492（已满）
-### 官方9群：828504448（已满）
-### 官方10群：232041042（已满）
-### [点击加11群交流反馈：364463526](https://jq.qq.com/?_wv=1027&k=mCxS3TGY)
+   
+| key          | 含义     | 类型     | 默认值  | 备注                                                  |
+   | ------------ | -------- | -------- | ------- | ----------------------------------------------------- |
+| id           | id       | String   | -       |                                                       |
+   | width        | 宽       | String   | 0       | 数字或者auto，设为auto固定height的等比例缩放计算width |
+   | height       | 高       | String   | 0       | 数字或者auto，设为auto固定width的等比例缩放计算height |
+   | zindex       | 层级     | String   | 1       | 用于渲染顺序                                          |
+   | scale        | 缩放     | String   | 1       | 压缩比例，范围为：1-0.1，当前元素的缩放显示           |
+   | background   | 背景颜色 | String   | -       | 背景颜色，默认为空是透明                              |
+   | fontStyle    | 字体样式 | String   | “”      |                                                       |
+   | fontColor    | 字体颜色 | String   | #000000 |                                                       |
+   | fontSize     | 字体大小 | Number   | 10      |                                                       |
+   | padding      | 填充     | padding  | -       | -                                                     |
+   | position     | 位置信息 | position | -       | -                                                     |
+   | type         | 内容类型 | String   | text    | image 图片，text 文字，                               |
+   | content      | 内容     | String   | -       | -                                                     |
+   | angle        | 角度     | Number   | 0       | 角度默认为0                                           |
+   | originWidth  | 原图宽   | String   | 0       | type是image时候记录图片信息原图宽                     |
+   | originHeight | 原图高   | String   | 0       | type是image时候记录图片信息原图高                     |
+   
+   **padding(填充)数据如下**
+   
 
-## 特性
+   
+**position(位置)数据如下**
+   
+**content(位置)数据如下**
+   
 
-- 全面兼容nvue，原生渲染，高性能
-- 兼容安卓，iOS，微信小程序，H5，QQ小程序，百度小程序，支付宝小程序，头条小程序
-- 60+精选组件，功能丰富，多端兼容，让您快速集成，开箱即用
-- 众多贴心的JS利器，让您飞镖在手，召之即来，百步穿杨
-- 众多的常用页面和布局，让您专注逻辑，事半功倍
-- 详尽的文档支持，现代化的演示效果
-- 按需引入，精简打包体积
+   
 
-
-## 预览
-
-您可以通过**微信**扫码，查看最佳的演示效果。
-<br>
-<br>
-<img src="https://uviewui.com/common/weixin_mini_qrcode.png" width="220" height="220" >
-
-
-## 链接
-
-- [官方文档](https://www.uviewui.com/)
-- [更新日志](https://www.uviewui.com/components/changelog.html)
-- [升级指南](https://www.uviewui.com/components/changeGuide.html)
-- [关于我们](https://www.uviewui.com/cooperation/about.html)
-
-## 交流反馈
-
-欢迎加入我们的QQ群交流反馈：[点此跳转](https://www.uviewui.com/components/addQQGroup.html)
-
-## 关于PR
-
-> 我们非常乐意接受各位的优质PR，但在此之前我希望您了解uView2.0是一个需要兼容多个平台的（小程序、h5、ios app、android app）包括nvue页面、vue页面。
-> 所以希望在您修复bug并提交之前尽可能的去这些平台测试一下兼容性。最好能携带测试截图以方便审核。非常感谢！
-
-## 安装
-
-#### **下载地址** —— [https://ext.dcloud.net.cn/plugin?id=1593](https://ext.dcloud.net.cn/plugin?id=1593)
-
-## 快速上手
-
-请通过[官网安装文档](https://v2.uviewui.com/components/install.html)了解更详细的内容
-
-## 使用方法
-配置easycom规则后，自动按需引入，无需`import`组件，直接引用即可。
-
-```html
-<template>
-	<u-button text="按钮"></u-button>
-</template>
-```
-
-请通过[快速上手](https://v2.uviewui.com/components/quickstart.html)了解更详细的内容
-
-
-## 捐赠uView的研发
-
-uView文档内容和框架源码全部开源免费，如果您认为uView帮到了您的开发工作，您可以捐赠uView的研发工作，捐赠无门槛，哪怕是一杯可乐也好(相信这比打赏主播更有意义)。
-
-<img src="https://uviewui.com/common/wechat.png" width="220" >
-<img style="margin-left: 100px;" src="https://uviewui.com/common/alipay.png" width="220" >
-
-## 版权信息
-uView遵循[MIT](https://en.wikipedia.org/wiki/MIT_License)开源协议，意味着您无需支付任何费用，也无需授权，即可将uView应用到您的产品中。
-
+   

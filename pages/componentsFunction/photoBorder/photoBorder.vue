@@ -1,38 +1,47 @@
 <template>
 	<view class="photoBorder-page">
-		<view class="systemPlatform" v-show="systemPlatform == 'ios'"><u-notice-bar :text="systemPlatformText" mode="closable"></u-notice-bar></view>
-		<view class="canvas-wrapper">
-			<view
-				class="canvas-box"
-				v-show="!tempImageBase64"
+		<view class="unshow-page" v-if="showGenerator">
+			<canvas
+				class="canvas"
+				:height="photoDrawInfo.height"
+				:width="photoDrawInfo.width"
 				:style="{ width: photoDrawInfo.width + 'px', height: photoDrawInfo.height + 'px', zoom: canvasConfig.scale }"
-				@click="onUpdatedFile"
-			>
-				<canvas
-					:height="photoDrawInfo.height"
-					:width="photoDrawInfo.width"
-					:style="{ width: photoDrawInfo.width + 'px', height: photoDrawInfo.height + 'px' }"
-					id="canvas"
-					canvas-id="canvas"
-				></canvas>
-			</view>
-			<view
-				class="canvas-box"
-				v-show="tempImageBase64"
-				:style="{ width: photoDrawInfo.width * canvasConfig.scale + 'px', height: photoDrawInfo.height * canvasConfig.scale + 'px' }"
-				@click="onUpdatedFile"
-			>
-				<image :src="tempImageBase64" mode="widthFix" :style="{ width: photoDrawInfo.width * canvasConfig.scale + 'px' }" />
-			</view>
+				id="canvas"
+				canvas-id="canvas"
+			></canvas>
 		</view>
-		<view class="downLoadBtn">
-			<u-button text="高级" size="normal" type="info" @click="openPopup"></u-button>
-			<u-button text="下载" size="normal" color="#67C23A" @click="saveImage"></u-button>
-		</view>
-		<view class="popup-wrapper">
-			<u-popup mode="bottom" closeable="true" :round="10" :show="showForm" @close="closePopup" safeAreaInsetTop="true" safeAreaInsetBottom="true">
-				<info-form :data="photoDrawInfo" :visible="showForm" @close="closePopup" @change="resetPhotoInfo" :logoList="photoConfigData"></info-form>
-			</u-popup>
+		<view class="main-page">
+			<view class="systemPlatform" v-show="systemPlatform == 'ios'"><u-notice-bar :text="systemPlatformText" mode="closable"></u-notice-bar></view>
+			<view class="canvas-wrapper">
+				<view
+					class="canvas-box"
+					v-show="!tempImageBase64"
+					:style="{ width: photoDrawInfo.width * canvasConfig.scale + 'px', height: photoDrawInfo.width * canvasConfig.scale + 'px' }"
+					@click="onUpdatedFile"
+				>
+					<view class="iconTipBox_wrapper">
+						<view class="icon_wrapper"><u-icon name="photo"></u-icon></view>
+						<view class="tip">点击上传图片</view>
+					</view>
+				</view>
+				<view
+					class="canvas-box"
+					v-show="tempImageBase64"
+					:style="{ width: photoDrawInfo.width * canvasConfig.scale + 'px', height: photoDrawInfo.height * canvasConfig.scale + 'px' }"
+					@click="onUpdatedFile"
+				>
+					<image :src="tempImageBase64" mode="widthFix" :style="{ width: photoDrawInfo.width * canvasConfig.scale + 'px' }" />
+				</view>
+			</view>
+			<view class="downLoadBtn">
+				<u-button text="高级" size="normal" type="info" @click="openPopup"></u-button>
+				<u-button text="下载" size="normal" color="#67C23A" @click="saveImage"></u-button>
+			</view>
+			<view class="popup-wrapper">
+				<u-popup mode="bottom" :closeable="true" :round="10" :show="showForm" @close="closePopup" :safeAreaInsetTop="true" :safeAreaInsetBottom="true">
+					<info-form :data="photoDrawInfo" :visible="showForm" @close="closePopup" @change="resetPhotoInfo" :logoList="photoConfigData"></info-form>
+				</u-popup>
+			</view>
 		</view>
 	</view>
 </template>
@@ -41,7 +50,6 @@
 import { getImageData, getFloatLocationByExif } from '@/util/js_sdk/izExif/izExif.js';
 import tools from '@/util/tools/index.js';
 import { mapGetters, mapMutations } from 'vuex';
-import { EXIFLIST, textEXIFINFO, imgEXIFINFO } from './api/dataStructure.js';
 import infoForm from './components/form.vue';
 import _ from 'lodash';
 uni.loadFontFace({
@@ -62,6 +70,7 @@ export default {
 	},
 	data() {
 		return {
+			showGenerator: false, // 是否显示生成器
 			systemPlatform: 'devtools',
 			systemPlatformText: 'ios由于安全会擦除图片信息，无法正常识别图片的参数',
 			showQuality: 0.01,
@@ -72,8 +81,8 @@ export default {
 			photoExifInfo: {}, // 图片EXIF信息
 			userInfo: {}, // 用户信息
 			photoDrawList: [], // 用于图片绘制的历史列表
-			tempImage: '', // 临时文件
-			tempImageBase64: '', // 临时文件base64
+			tempImage: '', // 用于查看下载的文件
+			tempImageBase64: '', // 用于存储查看的临时文件base64
 			loading: false,
 			// canvas标签配置
 			canvasConfig: {
@@ -81,6 +90,10 @@ export default {
 				maxCanvasInfoWrapperSize: 30,
 				scale: 1
 			},
+			// 渲染数据
+			renderData: {},
+			// 下载数据
+			downLoadData: {},
 			// 用于图片绘制的信息
 			photoDrawInfo: {
 				width: 320,
@@ -90,10 +103,7 @@ export default {
 				mainImage: {
 					scale: 1, // 缩放比例 1-0.5也就是整个wrapper的100%和50%
 					customAngle: 0, // 自定义旋转角度
-					// customXAxis: null, // 自定义x轴偏移
-					// customYAxis: null, // 自定义y轴偏移
 					position: 'center', // 位置 优先级低于customXAxis，customYAxis
-
 					content: '', // 图片数据
 					originWidth: 100,
 					originHeight: 100,
@@ -103,13 +113,8 @@ export default {
 					yAxis: 0, // x轴偏移：由position和customYAxis决定
 					angle: 0 // 旋转角度
 				},
+				// 架构数据
 				EXIFInfo: {
-					InfoWrapperHeight: 30,
-					fontStyle: '', // 优先级为20
-					fontColor: '#000000', // 颜色 优先级为10
-					color: '#9f9f9f', // 颜色 优先级为10
-					fontSize: 10, // 字体颜色 优先级为10
-					secondFontSize: 8, // 字体颜色 优先级为9
 					imgInfo: {
 						xAxis: 0, // x轴偏移
 						yAxis: 0, // y轴偏
@@ -215,7 +220,7 @@ export default {
 					(that.userInfo = resData.userInfo),
 						uni.setStorageSync('userInfo', {
 							userInfo: resData.userInfo,
-							expirationTime: new Date().getTime() + 1 * 60 * 60 * 1000 // 过期时间为1小时
+							expirationTime: new Date().getTime() + 12 * 60 * 60 * 1000 // 过期时间为12小时
 						});
 					if (callback && typeof callback == 'function') {
 						callback();
@@ -278,7 +283,7 @@ export default {
 					that.photoConfigData = list;
 					uni.setStorageSync('photoConfigData', {
 						data: list,
-						expirationTime: new Date().getTime() + 24 * 60 * 60 * 1000 // 过期时间为1小时
+						expirationTime: new Date().getTime() + 24 * 60 * 60 * 1000 // 过期时间为24小时
 					});
 				})
 				.catch(e => {
@@ -312,7 +317,7 @@ export default {
 			console.log('getPhotoConfigListByWXDB list', all);
 			uni.setStorageSync('photoConfigData', {
 				data: all,
-				expirationTime: new Date().getTime() + 24 * 60 * 60 * 1000 // 过期时间为1小时
+				expirationTime: new Date().getTime() + 24 * 60 * 60 * 1000 // 过期时间为24小时
 			});
 		},
 		// 点击重新上传图片
@@ -368,7 +373,7 @@ export default {
 		/**
 		 * 初始化图片信息，重刷调用
 		 */
-		async initPhotoInfo(src) {
+		async initPhotoInfo(src, canvasId = 'canvas') {
 			let that = this;
 			await that.getCanvasSize(src);
 			setTimeout(function() {
@@ -429,6 +434,7 @@ export default {
 				ISOSpeedRatings = ISOSpeedRatings = ' ISO' + (info.ISOSpeedRatings || ' ?');
 			}
 			this.photoDrawInfo.EXIFInfo.imgInfo.content = FocalLength + FNumber + ExposureTime + ISOSpeedRatings;
+			console.log('photoDrawInfo', this.photoDrawInfo);
 		},
 		// 重绘图片
 		async resetPhotoInfo(newPhotoInfo) {
@@ -457,13 +463,14 @@ export default {
 				title: '绘制中...',
 				duration: 60000
 			});
+			that.showGenerator = true;
 			let { photoDrawInfo, canvasConfig } = this;
 			let { mainImage, EXIFInfo } = photoDrawInfo;
-			console.log('this.photoDrawInfo', JSON.stringify(this.photoDrawInfo));
-			const ctx = uni.createCanvasContext('canvas');
+			console.log('绘制开始>>>>>>>>>>>>>>>');
+			let ctx = uni.createCanvasContext('canvas');
+			let currentScanle = canvasConfig.scale;
 			// 设置宽高
 			console.log('cavans宽高：', photoDrawInfo.width, photoDrawInfo.height);
-			// ctx.scale(canvasConfig.scale, canvasConfig.scale);
 			ctx.width = photoDrawInfo.width;
 			ctx.height = photoDrawInfo.height;
 			ctx.clearRect(0, 0, photoDrawInfo.width, photoDrawInfo.height);
@@ -474,20 +481,23 @@ export default {
 			// ctx.drawImage(mainImage.content, mainImage.xAxis, mainImage.yAxis, mainImage.width, mainImage.height);
 			ctx.drawImage(mainImage.content, mainImage.xAxis, mainImage.yAxis, mainImage.width, mainImage.height);
 			// 绘制底部字体
-			let paddingX = that.calculationScaleSize(8);
-			let paddingY = that.calculationScaleSize(0);
-			let fontHeight = that.calculationScaleSize(15);
-			let fontTopClose = that.calculationScaleSize(3);
+			let paddingX = that.calculationScaleSize(8, currentScanle);
+			let paddingY = that.calculationScaleSize(0, currentScanle);
+			if(mainImage.yAxis *1 >0){
+				paddingY = 0;
+			}
+			let fontHeight = that.calculationScaleSize(15, currentScanle);
+			let fontTopClose = that.calculationScaleSize(3, currentScanle);
 			let fontFamily = 'gilmerRegular';
-			let dividingLinePadding = that.calculationScaleSize(5);
+			let dividingLinePadding = that.calculationScaleSize(5, currentScanle);
 			// let fontFamily = '';
 
-			let machineNameX = paddingX + that.calculationScaleSize(EXIFInfo.machineName.xAxis);
+			let machineNameX = paddingX + that.calculationScaleSize(EXIFInfo.machineName.xAxis, currentScanle);
 			let machineNameY = paddingY + mainImage.originHeight + fontTopClose;
 			this.drawText(
 				ctx,
 				EXIFInfo.machineName.content,
-				that.calculationScaleSize(EXIFInfo.machineName.fontSize),
+				that.calculationScaleSize(EXIFInfo.machineName.fontSize, currentScanle),
 				EXIFInfo.machineName.fontColor,
 				machineNameX,
 				machineNameY,
@@ -496,12 +506,12 @@ export default {
 				'',
 				fontFamily
 			);
-			let authorNameX = paddingX + that.calculationScaleSize(EXIFInfo.authorName.xAxis);
-			let authorNameY = paddingY + that.calculationScaleSize(EXIFInfo.authorName.yAxis) + mainImage.originHeight + fontHeight;
+			let authorNameX = paddingX + that.calculationScaleSize(EXIFInfo.authorName.xAxis, currentScanle);
+			let authorNameY = paddingY + that.calculationScaleSize(EXIFInfo.authorName.yAxis, currentScanle) + mainImage.originHeight + fontHeight;
 			this.drawText(
 				ctx,
 				EXIFInfo.authorName.content,
-				that.calculationScaleSize(EXIFInfo.authorName.fontSize),
+				that.calculationScaleSize(EXIFInfo.authorName.fontSize, currentScanle),
 				EXIFInfo.authorName.fontColor,
 				authorNameX,
 				authorNameY,
@@ -511,17 +521,17 @@ export default {
 				fontFamily
 			);
 
-			let timeWidth = await this.getTextWidth(ctx, EXIFInfo.time.content, true, that.calculationScaleSize(EXIFInfo.time.fontSize), fontFamily);
-			let imgInfoWidth = await this.getTextWidth(ctx, EXIFInfo.imgInfo.content, false, that.calculationScaleSize(EXIFInfo.imgInfo.fontSize), fontFamily);
+			let timeWidth = await this.getTextWidth(ctx, EXIFInfo.time.content, true, that.calculationScaleSize(EXIFInfo.time.fontSize, currentScanle), fontFamily);
+			let imgInfoWidth = await this.getTextWidth(ctx, EXIFInfo.imgInfo.content, false, that.calculationScaleSize(EXIFInfo.imgInfo.fontSize, currentScanle), fontFamily);
 			let rightWidth = timeWidth >= imgInfoWidth ? timeWidth : imgInfoWidth;
 			console.log('rightWidth', rightWidth, mainImage.width);
 
-			let imgInfoX = mainImage.originWidth - paddingX - rightWidth + that.calculationScaleSize(EXIFInfo.imgInfo.xAxis);
-			let imgInfoY = paddingY + that.calculationScaleSize(EXIFInfo.imgInfo.yAxis) + mainImage.originHeight + fontTopClose;
+			let imgInfoX = mainImage.originWidth - paddingX - rightWidth + that.calculationScaleSize(EXIFInfo.imgInfo.xAxis, currentScanle);
+			let imgInfoY = paddingY + that.calculationScaleSize(EXIFInfo.imgInfo.yAxis, currentScanle) + mainImage.originHeight + fontTopClose;
 			this.drawText(
 				ctx,
 				EXIFInfo.imgInfo.content,
-				that.calculationScaleSize(EXIFInfo.imgInfo.fontSize),
+				that.calculationScaleSize(EXIFInfo.imgInfo.fontSize, currentScanle),
 				EXIFInfo.imgInfo.fontColor,
 				imgInfoX,
 				imgInfoY,
@@ -530,11 +540,26 @@ export default {
 				'',
 				fontFamily
 			);
-			let timeX = mainImage.originWidth - paddingX - rightWidth + that.calculationScaleSize(EXIFInfo.time.xAxis);
-			let timeY = paddingY + that.calculationScaleSize(EXIFInfo.time.yAxis) + mainImage.originHeight + fontHeight;
-			this.drawText(ctx, EXIFInfo.time.content, that.calculationScaleSize(EXIFInfo.time.fontSize), EXIFInfo.time.fontColor, timeX, timeY, 5000, false, '', fontFamily);
+			let timeX = mainImage.originWidth - paddingX - rightWidth + that.calculationScaleSize(EXIFInfo.time.xAxis, currentScanle);
+			let timeY = paddingY + that.calculationScaleSize(EXIFInfo.time.yAxis, currentScanle) + mainImage.originHeight + fontHeight;
+			this.drawText(
+				ctx,
+				EXIFInfo.time.content,
+				that.calculationScaleSize(EXIFInfo.time.fontSize, currentScanle),
+				EXIFInfo.time.fontColor,
+				timeX,
+				timeY,
+				5000,
+				false,
+				'',
+				fontFamily
+			);
 			// 绘制 logo 分割线
-			let dividingLineHeight = (EXIFInfo.InfoWrapperHeight + that.calculationScaleSize(EXIFInfo.time.fontSize) + that.calculationScaleSize(EXIFInfo.imgInfo.fontSize)) / 2;
+			let dividingLineHeight =
+				(EXIFInfo.InfoWrapperHeight +
+					that.calculationScaleSize(EXIFInfo.time.fontSize, currentScanle) +
+					that.calculationScaleSize(EXIFInfo.imgInfo.fontSize, currentScanle)) /
+				2;
 			let dividingLineX = mainImage.originWidth - paddingX - rightWidth - dividingLinePadding;
 			let dividingLineY = mainImage.originHeight + (EXIFInfo.InfoWrapperHeight - dividingLineHeight) / 2;
 
@@ -543,7 +568,7 @@ export default {
 			ctx.lineTo(dividingLineX, dividingLineHeight + dividingLineY); //设置画笔结束点
 			ctx.strokeStyle = EXIFInfo.color; //设置画笔的颜色
 			// ctx.lineJoin = 'round';
-			ctx.lineWidth = that.calculationScaleSize(0.3); //设置画笔的大小
+			ctx.lineWidth = that.calculationScaleSize(0.3, currentScanle); //设置画笔的大小
 			ctx.stroke();
 
 			// 绘制 logo
@@ -575,9 +600,11 @@ export default {
 				success(logoRes) {
 					console.log('logo width', logoRes.width);
 					console.log('logo height', logoRes.height);
-					let logoMaxHeight = dividingLineHeight / 2;
+					// 该高度和分割线的比例
+					let proportion = 2/3
+					let logoMaxHeight = dividingLineHeight * proportion;
 					if (logoRes.width / 2.3 > logoRes.height) {
-						logoMaxHeight = dividingLineHeight / 3;
+						logoMaxHeight = dividingLineHeight * proportion * proportion;
 					}
 					let newSize = that.calculationImageScaleSize({ width: logoRes.width, height: logoRes.height }, logoMaxHeight, 'height');
 					let logoImgX = mainImage.originWidth - paddingX - rightWidth - 2 * dividingLinePadding - newSize.width;
@@ -728,7 +755,7 @@ export default {
 
 				let interpolation = Math.abs(tempX - tempY); // 补充差值
 				if (tempX > tempY) {
-					photoDrawInfo.height += interpolation * 2;
+					photoDrawInfo.height += interpolation * 2 ;
 					photoDrawInfo.mainImage.originHeight += interpolation * 2;
 				} else {
 					photoDrawInfo.width += interpolation * 2;
@@ -768,138 +795,80 @@ export default {
 					}
 				});
 			} else {
-				that.downloadImage();
+				this.downloadImage();
 			}
 		},
 		//点击保存到相册
 		saveTempImage() {
 			console.log('saveTempImage');
 			var that = this;
-			let { photoDrawInfo } = this;
+			let { photoDrawInfo, canvasConfig } = this;
 			uni.showLoading({
 				title: '生成中...',
 				duration: 6000,
 				mask: true
 			});
+			let currentScanle = canvasConfig.scale;
+			let ctx = 'canvas';
 			let compressTime = tools.formatNumber(tools.formatDecimal(photoDrawInfo.compress / 100, 2));
 			console.log(' photoDrawInfo.width * compressTime * this.showQuality', photoDrawInfo.width * compressTime * this.showQuality);
-			uni.canvasToTempFilePath(
-				{
-					//将canvas生成图片
-					x: 0,
-					y: 0,
-					width: photoDrawInfo.width,
-					height: photoDrawInfo.height,
-					destWidth: photoDrawInfo.width * compressTime, //截取canvas的宽度
-					destHeight: photoDrawInfo.height * compressTime, //截取canvas的高度
-					canvasId: 'canvas',
-					success: res => {
-						that.tempImage = res.tempFilePath;
-						uni.canvasToTempFilePath(
-							{
-								//将canvas生成图片
-								x: 0,
-								y: 0,
-								width: photoDrawInfo.width,
-								height: photoDrawInfo.height,
-								destWidth: photoDrawInfo.width * compressTime, //截取canvas的宽度
-								destHeight: photoDrawInfo.height * compressTime, //截取canvas的高度
-								canvasId: 'canvas',
-								fileType: 'jpg',
-								quality: this.showQuality,
-								success: res2 => {
-									// console.log('res.tempFilePath', res.tempFilePath);
-									try {
-										uni.getFileSystemManager().readFile({
-											filePath: res2.tempFilePath,
-											encoding: 'base64',
-											success: res3 => {
-												let base64 = 'data:image/jpeg;base64,' + res3.data; //不加上这串字符，在页面无法显示
-												that.tempImageBase64 = base64;
-											}
-										});
-									} catch (e) {
-										//TODO handle the exception
-										console.log('urlTobase64', e);
+			uni.canvasToTempFilePath({
+				//将canvas生成图片
+				x: 0,
+				y: 0,
+				width: photoDrawInfo.width,
+				height: photoDrawInfo.height,
+				destWidth: photoDrawInfo.width * compressTime, //截取canvas的宽度
+				destHeight: photoDrawInfo.height * compressTime, //截取canvas的高度
+				canvasId: ctx,
+				success: res => {
+					that.tempImage = res.tempFilePath;
+					that.tempImage = res.tempFilePath;
+					uni.canvasToTempFilePath({
+						//将canvas生成图片
+						x: 0,
+						y: 0,
+						width: photoDrawInfo.width,
+						height: photoDrawInfo.height,
+						destWidth: photoDrawInfo.width * compressTime, //截取canvas的宽度
+						destHeight: photoDrawInfo.height * compressTime, //截取canvas的高度
+						canvasId: ctx,
+						fileType: 'jpg',
+						quality: this.showQuality,
+						success: res2 => {
+							// console.log('res.tempFilePath', res.tempFilePath);
+							try {
+								uni.getFileSystemManager().readFile({
+									filePath: res2.tempFilePath,
+									encoding: 'base64',
+									success: res3 => {
+										let base64 = 'data:image/jpeg;base64,' + res3.data; //不加上这串字符，在页面无法显示
+										that.tempImageBase64 = base64;
+										that.showGenerator = false;
 									}
-								},
-								fail: err => {
-									console.log(err);
-									that.loading = false;
-									uni.hideLoading();
-								}
-							},
-							that
-						);
-					},
-					fail: err => {
-						console.log(err);
-						that.loading = false;
-						uni.hideLoading();
-					}
+								});
+							} catch (e) {
+								//TODO handle the exception
+								console.log('urlTobase64', e);
+								that.showGenerator = false;
+							}
+						},
+						fail: err => {
+							console.log(err);
+							that.loading = false;
+							uni.hideLoading();
+							that.showGenerator = false;
+						}
+					});
 				},
-				that
-			);
+				fail: err => {
+					console.log(err);
+					that.loading = false;
+					uni.hideLoading();
+					that.showGenerator = false;
+				}
+			});
 		},
-		//点击保存到相册
-		// downloadImage() {
-		// 	var that = this;
-		// 	let { photoDrawInfo } = this;
-		// 	let compressTime = tools.formatNumber(tools.formatDecimal(photoDrawInfo.compress / 100, 2));
-		// 	if (photoDrawInfo.width * compressTime > 3000 || photoDrawInfo.height * compressTime > 3000) {
-		// 		uni.showLoading({
-		// 			title: '文件较大，下载中...',
-		// 			duration: 60000,
-		// 			mask: true
-		// 		});
-		// 	} else {
-		// 		uni.showLoading({
-		// 			title: '下载中...',
-		// 			duration: 15000,
-		// 			mask: true
-		// 		});
-		// 	}
-		// 	uni.canvasToTempFilePath(
-		// 		{
-		// 			//将canvas生成图片
-		// 			x: 0,
-		// 			y: 0,
-		// 			width: photoDrawInfo.width,
-		// 			height: photoDrawInfo.height,
-		// 			destWidth: photoDrawInfo.width * compressTime, //截取canvas的宽度
-		// 			destHeight: photoDrawInfo.height * compressTime, //截取canvas的高度
-		// 			canvasId: 'canvas',
-		// 			success: res => {
-		// 				uni.saveImageToPhotosAlbum({
-		// 					filePath: res.tempFilePath,
-		// 					success() {
-		// 						uni.hideLoading();
-		// 						uni.showToast({
-		// 							title: '图片已保存图片到相册',
-		// 							icon: 'none',
-		// 							duration: 2000
-		// 						});
-		// 					},
-		// 					fail() {
-		// 						uni.hideLoading();
-		// 						uni.showToast({
-		// 							title: '保存失败，请打权限功能重试',
-		// 							icon: 'none'
-		// 						});
-		// 					}
-		// 				});
-		// 				that.loading = false;
-		// 				uni.hideLoading();
-		// 			},
-		// 			fail: err => {
-		// 				console.log(err);
-		// 				that.loading = false;
-		// 				uni.hideLoading();
-		// 			}
-		// 		},
-		// 		that
-		// 	);
-		// },
 		//点击保存到相册
 		downloadImage() {
 			var that = this;
@@ -928,12 +897,20 @@ export default {
 						duration: 2000
 					});
 				},
-				fail() {
+				fail(error) {
+					console.log('error', error);
 					uni.hideLoading();
-					uni.showToast({
-						title: '保存失败，请打权限功能重试',
-						icon: 'none'
-					});
+					if (error.errMsg.indexOf('cancel') >= 0) {
+						uni.showToast({
+							title: '取消保存',
+							icon: 'none'
+						});
+					} else {
+						uni.showToast({
+							title: '保存失败，请检查权限功能重试',
+							icon: 'none'
+						});
+					}
 				}
 			});
 			that.loading = false;
@@ -965,18 +942,50 @@ export default {
 
 <style lang="scss" scoped>
 .photoBorder-page {
+	position: relative;
+	overflow: hidden;
+	.unshow-page {
+		position: absolute;
+		left: 1000px;
+	}
 	.canvas-wrapper {
+		position: relative;
+		overflow: auto;
 		margin: 24px auto;
 		padding-bottom: 50px;
+		position: relative;
 		.canvas-box {
 			margin: 0px auto;
 			border: 1px dashed #ccc;
-			#canvas {
+			width: 320px;
+			height: 240px;
+			.canvas {
 				opacity: 0;
 			}
 			/deep/.uni-canvas {
 				width: 100%;
 				height: 100%;
+			}
+		}
+		.iconTipBox_wrapper {
+			opacity: 0.3;
+			position: absolute;
+			left: 50%;
+			top: 40%;
+			transform: translate(-50%, -50%);
+			.icon_wrapper {
+				width: 50px;
+				height: 50px;
+				margin: 0px auto;
+				/deep/.u-icon__icon {
+					font-size: 50px !important;
+					line-height: 50px !important;
+				}
+			}
+			.tip {
+				text-align: center;
+				font-size: 12px !important;
+				line-height: 24px !important;
 			}
 		}
 	}

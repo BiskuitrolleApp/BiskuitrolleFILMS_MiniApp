@@ -14,6 +14,13 @@
 				"navigationBarTitleText": "边框",
 				"backgroundColor": "#F8F8F8"
 			}
+		}, 
+		{
+			"path": "pages/componentsFunction/canvas/index",
+			"style": {
+				"navigationBarTitleText": "边框",
+				"enablePullDownRefresh": false
+			}
 		},
 		{
 			"path": "pages/home/home",
@@ -22,6 +29,7 @@
 				"enablePullDownRefresh": false
 			}
 		}
+
 	],
 	// "subPackages": [{
 	// 	"root": "pages/componentsFunction",

@@ -1,2 +1,1139 @@
-(global["webpackJsonp"]=global["webpackJsonp"]||[]).push([["pages/componentsFunction/photoBorder/photoBorder"],{145:function(e,t,o){"use strict";(function(e){o(5);n(o(3));var t=n(o(146));function n(e){return e&&e.__esModule?e:{default:e}}wx.__webpack_require_UNI_MP_PLUGIN__=o,e(t.default)}).call(this,o(1)["createPage"])},146:function(e,t,o){"use strict";o.r(t);var n=o(147),i=o(149);for(var a in i)"default"!==a&&function(e){o.d(t,e,(function(){return i[e]}))}(a);o(156);var r,c=o(11),s=Object(c["default"])(i["default"],n["render"],n["staticRenderFns"],!1,null,"35a066a5",null,!1,n["components"],r);s.options.__file="pages/componentsFunction/photoBorder/photoBorder.vue",t["default"]=s.exports},147:function(e,t,o){"use strict";o.r(t);var n=o(148);o.d(t,"render",(function(){return n["render"]})),o.d(t,"staticRenderFns",(function(){return n["staticRenderFns"]})),o.d(t,"recyclableRender",(function(){return n["recyclableRender"]})),o.d(t,"components",(function(){return n["components"]}))},148:function(e,t,o){"use strict";var n;o.r(t),o.d(t,"render",(function(){return i})),o.d(t,"staticRenderFns",(function(){return r})),o.d(t,"recyclableRender",(function(){return a})),o.d(t,"components",(function(){return n}));try{n={uNoticeBar:function(){return Promise.all([o.e("common/vendor"),o.e("uni_modules/uview-ui/components/u-notice-bar/u-notice-bar")]).then(o.bind(null,356))},uButton:function(){return Promise.all([o.e("common/vendor"),o.e("uni_modules/uview-ui/components/u-button/u-button")]).then(o.bind(null,166))},uPopup:function(){return Promise.all([o.e("common/vendor"),o.e("uni_modules/uview-ui/components/u-popup/u-popup")]).then(o.bind(null,176))}}}catch(c){if(-1===c.message.indexOf("Cannot find module")||-1===c.message.indexOf(".vue"))throw c;console.error(c.message),console.error("1. 排查组件名称拼写是否正确"),console.error("2. 排查组件是否符合 easycom 规范，文档：https://uniapp.dcloud.net.cn/collocation/pages?id=easycom"),console.error("3. 若组件不符合 easycom 规范，需手动引入，并在 components 中注册该组件")}var i=function(){var e=this,t=e.$createElement;e._self._c},a=!1,r=[];i._withStripped=!0},149:function(e,t,o){"use strict";o.r(t);var n=o(150),i=o.n(n);for(var a in n)"default"!==a&&function(e){o.d(t,e,(function(){return n[e]}))}(a);t["default"]=i.a},150:function(e,t,o){"use strict";(function(e,n){Object.defineProperty(t,"__esModule",{value:!0}),t.default=void 0;var i=l(o(36)),a=o(153),r=l(o(154)),c=o(13),s=(o(155),l(o(138)));function l(e){return e&&e.__esModule?e:{default:e}}function u(e,t,o,n,i,a,r){try{var c=e[a](r),s=c.value}catch(l){return void o(l)}c.done?t(s):Promise.resolve(s).then(n,i)}function f(e){return function(){var t=this,o=arguments;return new Promise((function(n,i){var a=e.apply(t,o);function r(e){u(a,n,i,r,c,"next",e)}function c(e){u(a,n,i,r,c,"throw",e)}r(void 0)}))}}function h(e,t){var o=Object.keys(e);if(Object.getOwnPropertySymbols){var n=Object.getOwnPropertySymbols(e);t&&(n=n.filter((function(t){return Object.getOwnPropertyDescriptor(e,t).enumerable}))),o.push.apply(o,n)}return o}function g(e){for(var t=1;t<arguments.length;t++){var o=null!=arguments[t]?arguments[t]:{};t%2?h(Object(o),!0).forEach((function(t){m(e,t,o[t])})):Object.getOwnPropertyDescriptors?Object.defineProperties(e,Object.getOwnPropertyDescriptors(o)):h(Object(o)).forEach((function(t){Object.defineProperty(e,t,Object.getOwnPropertyDescriptor(o,t))}))}return e}function m(e,t,o){return t in e?Object.defineProperty(e,t,{value:o,enumerable:!0,configurable:!0,writable:!0}):e[t]=o,e}var d=function(){o.e("pages/componentsFunction/photoBorder/components/form").then(function(){return resolve(o(184))}.bind(null,o)).catch(o.oe)};e.loadFontFace({global:!0,family:"gilmerRegular",source:'url("https://vkceyugu.cdn.bspapp.com/VKCEYUGU-915d01a8-6118-4e1e-840f-697d960cbba2/fb5d1790-57b8-4ae5-a1ab-f6bf975ea055.otf")',scopes:["webview","native"],success:function(e){console.log("字体加载完成")},fail:function(e){console.log("字体加载失败",e)}});var p={components:{infoForm:d},data:function(){return{systemPlatform:"devtools",systemPlatformText:"ios由于安全会擦除图片信息，无法正常识别图片的参数",showQuality:.01,showForm:!1,saveImgUrl:"",photoConfigData:[],defaultLogo:"https://vkceyugu.cdn.bspapp.com/VKCEYUGU-915d01a8-6118-4e1e-840f-697d960cbba2/47e9cb99-42e4-4b8b-8447-c8597ea8b5b2.png",photoExifInfo:{},userInfo:{},photoDrawList:[],tempImage:"",tempImageBase64:"",loading:!1,canvasConfig:{maxCanvasSize:320,maxCanvasInfoWrapperSize:30,scale:1},photoDrawInfo:{width:320,height:240,compress:100,background:"#ffffff",mainImage:{scale:1,customAngle:0,position:"center",content:"",originWidth:100,originHeight:100,width:100,height:100,xAxis:0,yAxis:0,angle:0},EXIFInfo:{InfoWrapperHeight:30,fontStyle:"",fontColor:"#000000",color:"#9f9f9f",fontSize:10,secondFontSize:8,imgInfo:{xAxis:0,yAxis:0,content:"focal, fnumber, exposure, ISO",fontStyle:"",fontColor:"#000000",fontSize:8},machineName:{xAxis:0,yAxis:0,content:"machine name",fontStyle:"",fontColor:"#000000",fontSize:8},time:{xAxis:0,yAxis:0,content:"时间",fontStyle:"",fontColor:"#9f9f9f",fontSize:6},authorName:{xAxis:0,yAxis:0,content:"PHOTO BY @ ？",fontStyle:"",fontColor:"#9f9f9f",fontSize:6},brandLogo:{xAxis:0,yAxis:0,content:"default",xPosition:"center",yPosition:"center"}}}}},mounted:function(){this.getPlatform(),this.getPhotoConfigList()},methods:g(g({},(0,c.mapMutations)(["setUserInfo"])),{},{getPlatform:function(){var t=this;e.getSystemInfo({success:function(e){console.log("getSystemInfo",e),t.systemPlatform=e.platform}})},getUserInfo:function(t){var o=this;console.log(o.userInfo),o.userInfo.nickName&&(console.log(o.userInfo),t&&"function"==typeof t&&t()),e.showLoading({title:"获取用户信息",duration:15e3,mask:!0}),e.getStorage({key:"userInfo",success:function(n){var i=n.data,a=(new Date).getTime();i.expirationTime&&a<i.expirationTime?(o.userInfo=i.userInfo,t&&"function"==typeof t&&t()):o.getUserProfile(t),e.hideLoading()},fail:function(){o.getUserProfile(t),e.hideLoading()}})},getUserProfile:function(t){var o=this;e.getUserProfile({desc:"用于您的页面展示用户头像与昵称",lang:"zh_CN",success:function(n){o.userInfo=n.userInfo,e.setStorageSync("userInfo",{userInfo:n.userInfo,expirationTime:(new Date).getTime()+36e5}),t&&"function"==typeof t&&t()},fail:function(){e.setStorageSync("userInfo",{}),e.showToast({title:"获取用户失败",icon:"none"}),t&&"function"==typeof t&&t()}})},getPhotoConfigList:function(){var t=this;e.getStorage({key:"photoConfigData",success:function(e){var o=e.data,n=(new Date).getTime();o.expirationTime&&n<o.expirationTime?t.photoConfigData=o.data:t.getPhotoConfigListByWXDB()},fail:function(){t.getPhotoConfigListByWXDB()}})},getPhotoConfigListByDB:function(){var t=this,o=n.database();console.log("数据库中获取"),o.collection("photo_broder_logo_list").get().then((function(o){var n=o.result;console.log("配置加载完成");var i=n.data;i=s.default.sortBy(i,(function(e){return e.sort_key})),t.photoConfigData=i,e.setStorageSync("photoConfigData",{data:i,expirationTime:(new Date).getTime()+864e5})})).catch((function(o){t.photoConfigData=[],e.showToast({icon:"error",duration:1e3,title:"配置加载失败"})}))},getPhotoConfigListByWXDB:function(){var t=this;return f(i.default.mark((function o(){var n,a,r,c,s,l,u;return i.default.wrap((function(o){while(1)switch(o.prev=o.next){case 0:return n=t,wx.cloud.init({traceUser:!0}),a=wx.cloud.database(),o.next=5,a.collection("photo_broder_logo_list").count();case 5:r=o.sent,console.log("countObj",r),c=r.total||20,s=[],l=0;case 10:if(!(l<c)){o.next=19;break}return o.next=13,a.collection("photo_broder_logo_list").skip(l).orderBy("sort_key","asc").get();case 13:u=o.sent,console.log("list",u),s=s.concat(u.data);case 16:l+=20,o.next=10;break;case 19:n.photoConfigData=s,console.log("getPhotoConfigListByWXDB list",s),e.setStorageSync("photoConfigData",{data:s,expirationTime:(new Date).getTime()+864e5});case 22:case"end":return o.stop()}}),o)})))()},onUpdatedFile:function(){var t=this;return f(i.default.mark((function o(){var n;return i.default.wrap((function(o){while(1)switch(o.prev=o.next){case 0:n=t;try{n.getUserInfo(n.chooseImage),e.hideLoading()}catch(i){console.log("getUserInfo",i),e.showToast({icon:"error",duration:1e3,title:"需要用户信息"}),e.hideLoading()}case 2:case"end":return o.stop()}}),o)})))()},chooseImage:function(){var t=this,o=this;console.log("chooseImage"),o.loading||e.chooseImage({sizeType:["original"],sourceType:["album"],count:1,success:function(){var n=f(i.default.mark((function n(a){var r;return i.default.wrap((function(n){while(1)switch(n.prev=n.next){case 0:e.showLoading({title:"开始绘制",duration:15e3,mask:!0}),o.loading=!0,setTimeout((function(){t.loading=!1}),1e4),r=a.tempFilePaths[0],o.photoDrawInfo.mainImage.content=r,o.tempImage="",o.tempImageBase64="",o.initPhotoInfo(r);case 8:case"end":return n.stop()}}),n)})));function a(e){return n.apply(this,arguments)}return a}(),fail:function(){e.showToast({title:"获取图片失败",icon:"none"})}})},initPhotoInfo:function(e){var t=this;return f(i.default.mark((function o(){var n;return i.default.wrap((function(o){while(1)switch(o.prev=o.next){case 0:return n=t,o.next=3,n.getCanvasSize(e);case 3:setTimeout((function(){(0,a.getImageData)(e).then((function(e){console.log("getImageData",JSON.stringify(e.exif)),n.photoExifInfo=e.exif,n.initExifCanvasInfo(e.exif),n.startDraw()})).catch((function(e){console.log("getImageData error",e),n.initExifCanvasInfo(),n.startDraw()}))}),1e3);case 4:case"end":return o.stop()}}),o)})))()},initExifCanvasInfo:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{},o=this;console.log("initExifCanvasInfo",t),t.FNumber&&t.ExposureTime&&t.FocalLength&&t.Make&&t.Model||e.showToast({icon:"error",duration:1e3,title:"识别失败"}),this.photoDrawInfo.EXIFInfo.brandLogo.content=t.Make||"default",this.photoDrawInfo.EXIFInfo.machineName.content=t.Model||"machine name";var n=t.DateTimeOriginal;n&&n.indexOf(":")>=4&&(n=n.replace(":","-"),n=n.replace(":","-"));var i=r.default.formatTime(new Date,"yyyy-MM-dd hh:mm:ss");this.photoDrawInfo.EXIFInfo.time.content=n||i,this.photoDrawInfo.EXIFInfo.authorName.content="PHOTO BY @"+o.userInfo.nickName||!1;var a="?mm ",c="f/? ",s="?/?",l=" ISO ?";t.FocalLength&&(a=t.FocalLength+"mm "),t.FNumber&&t.FNumber.numerator&&t.FNumber.denominator&&(c="f/"+t.FNumber.numerator/t.FNumber.denominator+" "),t.ExposureTime&&t.ExposureTime.numerator&&t.ExposureTime.denominator&&(s=t.ExposureTime.numerator+"/"+t.ExposureTime.denominator),t.ISOSpeedRatings&&(l=l=" ISO"+(t.ISOSpeedRatings||" ?")),this.photoDrawInfo.EXIFInfo.imgInfo.content=a+c+s+l},resetPhotoInfo:function(t){var o=this;return f(i.default.mark((function n(){return i.default.wrap((function(n){while(1)switch(n.prev=n.next){case 0:return o.tempImage="",o.tempImageBase64="",o.loading=!0,setTimeout((function(){o.loading=!1}),1e4),o.closePopup(),o.photoDrawInfo=t,e.showLoading({title:"绘制中...",duration:6e4}),n.next=9,o.getCanvasSize(o.photoDrawInfo.mainImage.content);case 9:setTimeout((function(){o.startDraw()}),1e3);case 10:case"end":return n.stop()}}),n)})))()},startDraw:function(){var t=this;return f(i.default.mark((function o(){var n,a,r,c,s,l,u,f,h,g,m,d,p,I,w,v,x,S,b,y,D,T,C,P,z,F,k,L;return i.default.wrap((function(o){while(1)switch(o.prev=o.next){case 0:return n=t,console.log("开始绘制"),e.showLoading({title:"绘制中...",duration:6e4}),a=t.photoDrawInfo,t.canvasConfig,r=a.mainImage,c=a.EXIFInfo,console.log("this.photoDrawInfo",JSON.stringify(t.photoDrawInfo)),s=e.createCanvasContext("canvas"),console.log("cavans宽高：",a.width,a.height),s.width=a.width,s.height=a.height,s.clearRect(0,0,a.width,a.height),s.setFillStyle(a.background),s.fillRect(0,0,a.width,a.height),s.drawImage(r.content,r.xAxis,r.yAxis,r.width,r.height),l=n.calculationScaleSize(8),u=n.calculationScaleSize(0),f=n.calculationScaleSize(15),h=n.calculationScaleSize(3),g="gilmerRegular",m=n.calculationScaleSize(5),d=l+n.calculationScaleSize(c.machineName.xAxis),p=u+r.originHeight+h,t.drawText(s,c.machineName.content,n.calculationScaleSize(c.machineName.fontSize),c.machineName.fontColor,d,p,5e3,!0,"",g),I=l+n.calculationScaleSize(c.authorName.xAxis),w=u+n.calculationScaleSize(c.authorName.yAxis)+r.originHeight+f,t.drawText(s,c.authorName.content,n.calculationScaleSize(c.authorName.fontSize),c.authorName.fontColor,I,w,5e3,!1,"",g),o.next=28,t.getTextWidth(s,c.time.content,!0,n.calculationScaleSize(c.time.fontSize),g);case 28:return v=o.sent,o.next=31,t.getTextWidth(s,c.imgInfo.content,!1,n.calculationScaleSize(c.imgInfo.fontSize),g);case 31:x=o.sent,S=v>=x?v:x,console.log("rightWidth",S,r.width),b=r.originWidth-l-S+n.calculationScaleSize(c.imgInfo.xAxis),y=u+n.calculationScaleSize(c.imgInfo.yAxis)+r.originHeight+h,t.drawText(s,c.imgInfo.content,n.calculationScaleSize(c.imgInfo.fontSize),c.imgInfo.fontColor,b,y,5e3,!0,"",g),D=r.originWidth-l-S+n.calculationScaleSize(c.time.xAxis),T=u+n.calculationScaleSize(c.time.yAxis)+r.originHeight+f,t.drawText(s,c.time.content,n.calculationScaleSize(c.time.fontSize),c.time.fontColor,D,T,5e3,!1,"",g),C=(c.InfoWrapperHeight+n.calculationScaleSize(c.time.fontSize)+n.calculationScaleSize(c.imgInfo.fontSize))/2,P=r.originWidth-l-S-m,z=r.originHeight+(c.InfoWrapperHeight-C)/2,s.moveTo(P,z),s.lineTo(P,C+z),s.strokeStyle=c.color,s.lineWidth=n.calculationScaleSize(.3),s.stroke(),F="",k="",L=0;case 51:if(!(L<t.photoConfigData.length)){o.next=60;break}if("default"==t.photoConfigData[L].photo_keyword&&(k=t.photoConfigData[L].photo_url),!t.photoDrawInfo.EXIFInfo.brandLogo.content||!(t.photoDrawInfo.EXIFInfo.brandLogo.content.toLowerCase().indexOf(t.photoConfigData[L].photo_keyword.toLowerCase())>=0||t.photoConfigData[L].photo_keyword.toLowerCase().indexOf(t.photoDrawInfo.EXIFInfo.brandLogo.content.toLowerCase())>=0)){o.next=57;break}return console.log("setLogo"),F=t.photoConfigData[L].photo_url,o.abrupt("break",60);case 57:L++,o.next=51;break;case 60:F&&""!=F?F&&""!=F||k&&""!=k||(F=t.defaultLogo):F=k,console.log("logoImg",F,C),e.getImageInfo({src:F,success:function(t){console.log("logo width",t.width),console.log("logo height",t.height);var o=C/2;t.width/2.3>t.height&&(o=C/3);var i=n.calculationImageScaleSize({width:t.width,height:t.height},o,"height"),a=r.originWidth-l-S-2*m-i.width,u=r.originHeight+(c.InfoWrapperHeight-o)/2;s.drawImage(t.path,a,u,i.width,i.height),s.draw(!1,(function(){n.saveTempImage()})),console.log("结束绘制"),e.hideLoading()},fail:function(){s.draw(!1,(function(){n.saveTempImage()})),console.log("结束绘制"),e.hideLoading()}});case 63:case"end":return o.stop()}}),o)})))()},drawText:function(e,t){var o=arguments.length>2&&void 0!==arguments[2]?arguments[2]:12,n=arguments.length>3&&void 0!==arguments[3]?arguments[3]:"#000",i=arguments.length>4?arguments[4]:void 0,a=arguments.length>5?arguments[5]:void 0,r=arguments.length>6&&void 0!==arguments[6]?arguments[6]:999,c=arguments.length>7?arguments[7]:void 0,s=arguments.length>8?arguments[8]:void 0,l=arguments.length>9?arguments[9]:void 0;if(e.font=c?"bold ".concat(o,"px ").concat(l||"normal"):"normal ".concat(o,"px  ").concat(l||"normal"),e.textAlign=s||"left",e.fillStyle=n,e.textBaseline="middle",console.log("drawText",o,Number(a)+Number(o)),e.measureText(t).width>r){var u=1;while(e.measureText(t.slice(0,t.length-u)).width>693)u++;e.fillText(t.slice(0,t.length-(u+1))+"...",i,Number(a)+Number(o))}else e.fillText(t,i,Number(a)+Number(o))},getCanvasSize:function(){var t=arguments,o=this;return f(i.default.mark((function n(){var a,c;return i.default.wrap((function(n){while(1)switch(n.prev=n.next){case 0:if(a=t.length>0&&void 0!==t[0]?t[0]:"",c=o,""!=a){n.next=4;break}throw"文件格式错误";case 4:return n.prev=4,n.next=7,e.getImageInfo({src:a,success:function(e){console.log("width",e.width),console.log("height",e.height);var t=e.width,o=e.height;e.width>3e3?(t=3e3,o=r.default.formatNumber(r.default.formatDecimal(e.height/e.width*3e3,2))):e.height>3e3&&(o=3e3,t=r.default.formatNumber(r.default.formatDecimal(e.width/e.height*3e3,2))),c.photoDrawInfo.width=t;var n=r.default.formatNumber(r.default.formatDecimal(320/t,5));c.canvasConfig.scale=n,c.showQuality=n;var i=c.calculationScaleSize(c.canvasConfig.maxCanvasInfoWrapperSize,c.canvasConfig.scale);c.photoDrawInfo.EXIFInfo.InfoWrapperHeight=i,c.photoDrawInfo.height=o+i,c.getImageSize(t,o)}});case 7:n.next=12;break;case 9:n.prev=9,n.t0=n["catch"](4),console.log("error",n.t0);case 12:case"end":return n.stop()}}),n,null,[[4,9]])})))()},calculationImageScaleSize:function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{},t=arguments.length>1?arguments[1]:void 0,o=arguments.length>2&&void 0!==arguments[2]?arguments[2]:"width",n=e.width,i=e.height;return"width"==o?(n=t,i=r.default.formatNumber(r.default.formatDecimal(e.height/e.width*t,2))):(i=t,n=r.default.formatNumber(r.default.formatDecimal(e.width/e.height*t,2))),{width:n,height:i}},calculationScaleSize:function(e,t){var o=t;return o&&""!=o||(o=this.canvasConfig.scale),r.default.formatNumber(r.default.formatDecimal(e/o,0))},getImageSize:function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:null,t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:null,o=s.default.cloneDeep(this.photoDrawInfo);e&&t&&(o.mainImage.originWidth=e,o.mainImage.originHeight=t);var n=o.mainImage.originWidth,i=o.mainImage.originHeight;if(o.mainImage.width=o.mainImage.scale*o.mainImage.originWidth,o.mainImage.height=o.mainImage.scale*o.mainImage.originHeight,o.mainImage.xAxis=0,o.mainImage.yAxis=0,!o.mainImage.customXAxis&&!o.mainImage.customXAxis){var a=(n-o.mainImage.width)/2,r=(i-o.mainImage.height)/2,c=a>=r?a:r;"left"==o.mainImage.position?(o.mainImage.yAxis=c,o.mainImage.xAxis=0):"right"==o.mainImage.position?(o.mainImage.yAxis=c,o.mainImage.xAxis=2*c):"top"==o.mainImage.position?(o.mainImage.yAxis=0,o.mainImage.xAxis=c):"bottom"==o.mainImage.position?(o.mainImage.yAxis=2*c,o.mainImage.xAxis=c):(o.mainImage.yAxis=c,o.mainImage.xAxis=c);var l=Math.abs(a-r);a>r?(o.height+=2*l,o.mainImage.originHeight+=2*l):(o.width+=2*l,o.mainImage.originWidth+=2*l)}o.mainImage.angle=o.mainImage.customAngle,this.photoDrawInfo=o,console.log("photoDrawInfo",JSON.stringify(o))},getTextWidth:function(e,t,o){var n=arguments.length>3&&void 0!==arguments[3]?arguments[3]:12,i=arguments.length>4?arguments[4]:void 0;return e.font=o?"bold ".concat(n,"px ").concat(i||"normal"):"normal ".concat(n,"px  ").concat(i||"normal"),e.measureText(t).width},saveImage:function(){var t=this;t.photoDrawInfo.mainImage.content&&""!=t.photoDrawInfo.mainImage.content?t.downloadImage():e.showModal({title:"提示",content:"需要先上传图片",success:function(e){e.confirm&&t.onUpdatedFile()}})},saveTempImage:function(){var t=this;console.log("saveTempImage");var o=this,n=this.photoDrawInfo;e.showLoading({title:"生成中...",duration:6e3,mask:!0});var i=r.default.formatNumber(r.default.formatDecimal(n.compress/100,2));console.log(" photoDrawInfo.width * compressTime * this.showQuality",n.width*i*this.showQuality),e.canvasToTempFilePath({x:0,y:0,width:n.width,height:n.height,destWidth:n.width*i,destHeight:n.height*i,canvasId:"canvas",success:function(a){o.tempImage=a.tempFilePath,e.canvasToTempFilePath({x:0,y:0,width:n.width,height:n.height,destWidth:n.width*i,destHeight:n.height*i,canvasId:"canvas",fileType:"jpg",quality:t.showQuality,success:function(t){try{e.getFileSystemManager().readFile({filePath:t.tempFilePath,encoding:"base64",success:function(e){var t="data:image/jpeg;base64,"+e.data;o.tempImageBase64=t}})}catch(n){console.log("urlTobase64",n)}},fail:function(t){console.log(t),o.loading=!1,e.hideLoading()}},o)},fail:function(t){console.log(t),o.loading=!1,e.hideLoading()}},o)},downloadImage:function(){var t=this,o=this.photoDrawInfo,n=r.default.formatNumber(r.default.formatDecimal(o.compress/100,2));o.width*n>3e3||o.height*n>3e3?e.showLoading({title:"文件较大，下载中...",duration:6e4,mask:!0}):e.showLoading({title:"下载中...",duration:15e3,mask:!0}),e.saveImageToPhotosAlbum({filePath:t.tempImage,success:function(){e.hideLoading(),e.showToast({title:"图片已保存图片到相册",icon:"none",duration:2e3})},fail:function(){e.hideLoading(),e.showToast({title:"保存失败，请打权限功能重试",icon:"none"})}}),t.loading=!1,e.hideLoading()},closePopup:function(){this.showForm=!1},openPopup:function(){var t=this;t.photoDrawInfo.mainImage.content&&""!=t.photoDrawInfo.mainImage.content?t.showForm=!0:e.showModal({title:"提示",content:"需要先上传图片",success:function(e){e.confirm&&t.onUpdatedFile()}})}})};t.default=p}).call(this,o(1)["default"],o(151)["default"])},156:function(e,t,o){"use strict";o.r(t);var n=o(157),i=o.n(n);for(var a in n)"default"!==a&&function(e){o.d(t,e,(function(){return n[e]}))}(a);t["default"]=i.a},157:function(e,t,o){}},[[145,"common/runtime","common/vendor"]]]);
+(global["webpackJsonp"] = global["webpackJsonp"] || []).push([["pages/componentsFunction/photoBorder/photoBorder"],{
+
+/***/ 148:
+/*!*************************************************************************************************************************************!*\
+  !*** /Users/zhengkaijie/Project/iTools-app/iToolsMiniApp/main.js?{"page":"pages%2FcomponentsFunction%2FphotoBorder%2FphotoBorder"} ***!
+  \*************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 5);
+
+__webpack_require__(/*! @dcloudio/vue-cli-plugin-uni/packages/uni-cloud/dist/index.js */ 6);
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 4));
+var _photoBorder = _interopRequireDefault(__webpack_require__(/*! ./pages/componentsFunction/photoBorder/photoBorder.vue */ 149));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} // @ts-ignore
+wx.__webpack_require_UNI_MP_PLUGIN__ = __webpack_require__;createPage(_photoBorder.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
+
+/***/ }),
+
+/***/ 149:
+/*!****************************************************************************************************************!*\
+  !*** /Users/zhengkaijie/Project/iTools-app/iToolsMiniApp/pages/componentsFunction/photoBorder/photoBorder.vue ***!
+  \****************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _photoBorder_vue_vue_type_template_id_35a066a5_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./photoBorder.vue?vue&type=template&id=35a066a5&scoped=true& */ 150);
+/* harmony import */ var _photoBorder_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./photoBorder.vue?vue&type=script&lang=js& */ 152);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _photoBorder_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _photoBorder_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _photoBorder_vue_vue_type_style_index_0_id_35a066a5_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./photoBorder.vue?vue&type=style&index=0&id=35a066a5&lang=scss&scoped=true& */ 156);
+/* harmony import */ var _Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../../../../../Applications/HBuilderX.app/Contents/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/runtime/componentNormalizer.js */ 17);
+
+var renderjs
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _photoBorder_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _photoBorder_vue_vue_type_template_id_35a066a5_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _photoBorder_vue_vue_type_template_id_35a066a5_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "35a066a5",
+  null,
+  false,
+  _photoBorder_vue_vue_type_template_id_35a066a5_scoped_true___WEBPACK_IMPORTED_MODULE_0__["components"],
+  renderjs
+)
+
+component.options.__file = "pages/componentsFunction/photoBorder/photoBorder.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ 150:
+/*!***********************************************************************************************************************************************************!*\
+  !*** /Users/zhengkaijie/Project/iTools-app/iToolsMiniApp/pages/componentsFunction/photoBorder/photoBorder.vue?vue&type=template&id=35a066a5&scoped=true& ***!
+  \***********************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns, recyclableRender, components */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_16_0_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_template_js_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_page_meta_js_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_photoBorder_vue_vue_type_template_id_35a066a5_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../../../Applications/HBuilderX.app/Contents/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../../../../Applications/HBuilderX.app/Contents/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--16-0!../../../../../../../../Applications/HBuilderX.app/Contents/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/template.js!../../../../../../../../Applications/HBuilderX.app/Contents/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-uni-app-loader/page-meta.js!../../../../../../../../Applications/HBuilderX.app/Contents/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!../../../../../../../../Applications/HBuilderX.app/Contents/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!./photoBorder.vue?vue&type=template&id=35a066a5&scoped=true& */ 151);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_16_0_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_template_js_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_page_meta_js_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_photoBorder_vue_vue_type_template_id_35a066a5_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_16_0_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_template_js_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_page_meta_js_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_photoBorder_vue_vue_type_template_id_35a066a5_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "recyclableRender", function() { return _Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_16_0_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_template_js_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_page_meta_js_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_photoBorder_vue_vue_type_template_id_35a066a5_scoped_true___WEBPACK_IMPORTED_MODULE_0__["recyclableRender"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "components", function() { return _Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_16_0_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_template_js_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_page_meta_js_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_photoBorder_vue_vue_type_template_id_35a066a5_scoped_true___WEBPACK_IMPORTED_MODULE_0__["components"]; });
+
+
+
+/***/ }),
+
+/***/ 151:
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--16-0!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/template.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-uni-app-loader/page-meta.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!/Users/zhengkaijie/Project/iTools-app/iToolsMiniApp/pages/componentsFunction/photoBorder/photoBorder.vue?vue&type=template&id=35a066a5&scoped=true& ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns, recyclableRender, components */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "recyclableRender", function() { return recyclableRender; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
+var components
+try {
+  components = {
+    uNoticeBar: function() {
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-notice-bar/u-notice-bar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-notice-bar/u-notice-bar")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-notice-bar/u-notice-bar.vue */ 174))
+    },
+    uIcon: function() {
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-icon/u-icon */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-icon/u-icon")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-icon/u-icon.vue */ 182))
+    },
+    uButton: function() {
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-button/u-button */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-button/u-button")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-button/u-button.vue */ 191))
+    },
+    uPopup: function() {
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-popup/u-popup */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-popup/u-popup")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-popup/u-popup.vue */ 201))
+    }
+  }
+} catch (e) {
+  if (
+    e.message.indexOf("Cannot find module") !== -1 &&
+    e.message.indexOf(".vue") !== -1
+  ) {
+    console.error(e.message)
+    console.error("1. 排查组件名称拼写是否正确")
+    console.error(
+      "2. 排查组件是否符合 easycom 规范，文档：https://uniapp.dcloud.net.cn/collocation/pages?id=easycom"
+    )
+    console.error(
+      "3. 若组件不符合 easycom 规范，需手动引入，并在 components 中注册该组件"
+    )
+  } else {
+    throw e
+  }
+}
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+}
+var recyclableRender = false
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ 152:
+/*!*****************************************************************************************************************************************!*\
+  !*** /Users/zhengkaijie/Project/iTools-app/iToolsMiniApp/pages/componentsFunction/photoBorder/photoBorder.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_12_1_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_photoBorder_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../../../Applications/HBuilderX.app/Contents/HBuilderX/plugins/uniapp-cli/node_modules/babel-loader/lib!../../../../../../../../Applications/HBuilderX.app/Contents/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--12-1!../../../../../../../../Applications/HBuilderX.app/Contents/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/script.js!../../../../../../../../Applications/HBuilderX.app/Contents/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!../../../../../../../../Applications/HBuilderX.app/Contents/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!./photoBorder.vue?vue&type=script&lang=js& */ 153);
+/* harmony import */ var _Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_12_1_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_photoBorder_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_12_1_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_photoBorder_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_12_1_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_photoBorder_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_12_1_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_photoBorder_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_12_1_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_photoBorder_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
+/***/ 153:
+/*!************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--12-1!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/script.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!/Users/zhengkaijie/Project/iTools-app/iToolsMiniApp/pages/componentsFunction/photoBorder/photoBorder.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni, uniCloud) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 7));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var _izExif = __webpack_require__(/*! @/util/js_sdk/izExif/izExif.js */ 154);
+var _index = _interopRequireDefault(__webpack_require__(/*! @/util/tools/index.js */ 155));
+var _vuex = __webpack_require__(/*! vuex */ 19);
+
+var _lodash = _interopRequireDefault(__webpack_require__(/*! lodash */ 141));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var infoForm = function infoForm() {__webpack_require__.e(/*! require.ensure | pages/componentsFunction/photoBorder/components/form */ "pages/componentsFunction/photoBorder/components/form").then((function () {return resolve(__webpack_require__(/*! ./components/form.vue */ 209));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
+uni.loadFontFace({
+  global: true,
+  family: 'gilmerRegular',
+  source: 'url("https://vkceyugu.cdn.bspapp.com/VKCEYUGU-915d01a8-6118-4e1e-840f-697d960cbba2/fb5d1790-57b8-4ae5-a1ab-f6bf975ea055.otf")',
+  scopes: ['webview', 'native'],
+  success: function success(res) {
+    console.log('字体加载完成');
+  },
+  fail: function fail(error) {
+    console.log('字体加载失败', error);
+  } });var _default =
+
+{
+  components: {
+    infoForm: infoForm },
+
+  data: function data() {
+    return {
+      showGenerator: false, // 是否显示生成器
+      systemPlatform: 'devtools',
+      systemPlatformText: 'ios由于安全会擦除图片信息，无法正常识别图片的参数',
+      showQuality: 0.01,
+      showForm: false,
+      saveImgUrl: '', // 保存图片的临时地址
+      photoConfigData: [], // 图片基础logo信息
+      defaultLogo: 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-915d01a8-6118-4e1e-840f-697d960cbba2/47e9cb99-42e4-4b8b-8447-c8597ea8b5b2.png',
+      photoExifInfo: {}, // 图片EXIF信息
+      userInfo: {}, // 用户信息
+      photoDrawList: [], // 用于图片绘制的历史列表
+      tempImage: '', // 用于查看下载的文件
+      tempImageBase64: '', // 用于存储查看的临时文件base64
+      loading: false,
+      // canvas标签配置
+      canvasConfig: {
+        maxCanvasSize: 320,
+        maxCanvasInfoWrapperSize: 30,
+        scale: 1 },
+
+      // 渲染数据
+      renderData: {},
+      // 下载数据
+      downLoadData: {},
+      // 用于图片绘制的信息
+      photoDrawInfo: {
+        width: 320,
+        height: 240,
+        compress: 100,
+        background: '#ffffff', // 背景颜色
+        mainImage: {
+          scale: 1, // 缩放比例 1-0.5也就是整个wrapper的100%和50%
+          customAngle: 0, // 自定义旋转角度
+          position: 'center', // 位置 优先级低于customXAxis，customYAxis
+          content: '', // 图片数据
+          originWidth: 100,
+          originHeight: 100,
+          width: 100,
+          height: 100,
+          xAxis: 0, // x轴偏移：由position和customXAxis决定
+          yAxis: 0, // x轴偏移：由position和customYAxis决定
+          angle: 0 // 旋转角度
+        },
+        // 架构数据
+        EXIFInfo: {
+          imgInfo: {
+            xAxis: 0, // x轴偏移
+            yAxis: 0, // y轴偏
+            content: 'focal, fnumber, exposure, ISO', // 图片焦段 光圈 快门 iso信息
+            fontStyle: '', // 优先级为120
+            fontColor: '#000000', // 颜色 优先级为110
+            fontSize: 8 // 字体颜色 优先级为110
+          },
+          machineName: {
+            xAxis: 0, // x轴偏移
+            yAxis: 0, // y轴偏移
+            content: 'machine name', // 机器名称
+            fontStyle: '', // 优先级为120
+            fontColor: '#000000', // 颜色 优先级为110
+            fontSize: 8 // 字体颜色 优先级为110
+          },
+          time: {
+            xAxis: 0, // x轴偏移
+            yAxis: 0, // y轴偏移
+            content: '时间', // 时间
+            fontStyle: '', // 优先级为120
+            fontColor: '#9f9f9f', // 颜色 优先级为110
+            fontSize: 6 // 字体颜色 优先级为110
+          },
+          authorName: {
+            xAxis: 0, // x轴偏移
+            yAxis: 0, // y轴偏移
+            content: 'PHOTO BY @ ？',
+            fontStyle: '', // 优先级为120
+            fontColor: '#9f9f9f', // 颜色 优先级为110
+            fontSize: 6 // 字体颜色 优先级为110
+          },
+          brandLogo: {
+            xAxis: 0, // x轴偏移
+            yAxis: 0, // y轴偏移
+            content: 'default', // 图片映射
+            xPosition: 'center',
+            yPosition: 'center' } } } };
+
+
+
+
+  },
+  mounted: function mounted() {
+    this.getPlatform();
+    this.getPhotoConfigList();
+    // setTimeout(() => {
+    // 	this.showForm = true;
+    // }, 50);
+  },
+  methods: _objectSpread(_objectSpread({},
+  (0, _vuex.mapMutations)(['setUserInfo'])), {}, {
+    getPlatform: function getPlatform() {
+      var that = this;
+      uni.getSystemInfo({
+        success: function success(res) {
+          console.log('getSystemInfo', res);
+          that.systemPlatform = res.platform;
+        } });
+
+    },
+    // 获取用户信息
+    getUserInfo: function getUserInfo(callback) {
+      var that = this;
+      console.log(that.userInfo);
+      if (that.userInfo.nickName) {
+        console.log(that.userInfo);
+        if (callback && typeof callback == 'function') {
+          callback();
+        }
+      }
+      uni.showLoading({
+        title: '获取用户信息',
+        duration: 15000,
+        mask: true });
+
+      uni.getStorage({
+        key: 'userInfo',
+        success: function success(_ref) {var data = _ref.data;
+          var time = new Date().getTime();
+          if (data.expirationTime && time < data.expirationTime) {
+            that.userInfo = data.userInfo;
+            if (callback && typeof callback == 'function') {
+              callback();
+            }
+          } else {
+            that.getUserProfile(callback);
+          }
+          uni.hideLoading();
+        },
+        fail: function fail() {
+          that.getUserProfile(callback);
+          uni.hideLoading();
+        } });
+
+    },
+    getUserProfile: function getUserProfile(callback) {
+      var that = this;
+      uni.getUserProfile({
+        desc: '用于您的页面展示用户头像与昵称',
+        lang: 'zh_CN',
+        success: function success(resData) {
+          that.userInfo = resData.userInfo,
+          uni.setStorageSync('userInfo', {
+            userInfo: resData.userInfo,
+            expirationTime: new Date().getTime() + 12 * 60 * 60 * 1000 // 过期时间为12小时
+          });
+          if (callback && typeof callback == 'function') {
+            callback();
+          }
+        },
+        fail: function fail() {
+          uni.setStorageSync('userInfo', {});
+          uni.showToast({
+            title: '获取用户失败',
+            icon: 'none' });
+
+          if (callback && typeof callback == 'function') {
+            callback();
+          }
+        } });
+
+    },
+    // 获得配置信息
+    getPhotoConfigList: function getPhotoConfigList() {
+      var that = this;
+      uni.getStorage({
+        key: 'photoConfigData',
+        success: function success(_ref2) {var data = _ref2.data;
+          var time = new Date().getTime();
+          if (data.expirationTime && time < data.expirationTime) {
+            that.photoConfigData = data.data;
+          } else {
+
+            that.getPhotoConfigListByWXDB();
+
+
+
+
+          }
+        },
+        fail: function fail() {
+
+          that.getPhotoConfigListByWXDB();
+
+
+
+
+        } });
+
+    },
+    // 获得配置信息，从数据库中请求
+    getPhotoConfigListByDB: function getPhotoConfigListByDB() {
+      var that = this;
+      var db = uniCloud.database();
+      console.log('数据库中获取');
+      db.collection('photo_broder_logo_list').
+      get().
+      then(function (_ref3) {var result = _ref3.result;
+        // res 为数据库查询结果
+        console.log('配置加载完成');
+        var list = result.data;
+        list = _lodash.default.sortBy(list, function (o) {
+          return o.sort_key;
+        });
+        that.photoConfigData = list;
+        uni.setStorageSync('photoConfigData', {
+          data: list,
+          expirationTime: new Date().getTime() + 24 * 60 * 60 * 1000 // 过期时间为24小时
+        });
+      }).
+      catch(function (e) {
+        that.photoConfigData = [];
+        uni.showToast({
+          icon: 'error',
+          duration: 1000,
+          title: '配置加载失败' });
+
+      });
+    },
+    getPhotoConfigListByWXDB: function getPhotoConfigListByWXDB() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var that, db, countObj, count, all, i, list;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
+                that = _this;
+                wx.cloud.init({ traceUser: true });
+                db = wx.cloud.database();
+                // 1，获取数据的总个数
+                _context.next = 5;return db.collection('photo_broder_logo_list').count();case 5:countObj = _context.sent;
+                console.log('countObj', countObj);
+                count = countObj.total || 20;
+                all = [];
+                i = 0;case 10:if (!(i < count)) {_context.next = 19;break;}_context.next = 13;return (
+                  db.
+                  collection('photo_broder_logo_list').
+                  skip(i).
+                  orderBy('sort_key', 'asc').
+                  get());case 13:list = _context.sent;
+                console.log('list', list);
+                all = all.concat(list.data);case 16:i += 20;_context.next = 10;break;case 19:
+
+                that.photoConfigData = all;
+                console.log('getPhotoConfigListByWXDB list', all);
+                uni.setStorageSync('photoConfigData', {
+                  data: all,
+                  expirationTime: new Date().getTime() + 24 * 60 * 60 * 1000 // 过期时间为24小时
+                });case 22:case "end":return _context.stop();}}}, _callee);}))();
+    },
+    // 点击重新上传图片
+    onUpdatedFile: function onUpdatedFile() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var that;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:
+                that = _this2;
+                try {
+                  that.getUserInfo(that.chooseImage);
+                  uni.hideLoading();
+                } catch (e) {
+                  console.log('getUserInfo', e);
+                  uni.showToast({
+                    icon: 'error',
+                    duration: 1000,
+                    title: '需要用户信息' });
+
+                  uni.hideLoading();
+                }case 2:case "end":return _context2.stop();}}}, _callee2);}))();
+    },
+    chooseImage: function chooseImage() {var _this3 = this;
+      var that = this;
+      console.log('chooseImage');
+      if (that.loading) {
+        return;
+      }
+      uni.chooseImage({
+        sizeType: ['original'],
+        sourceType: ['album'],
+        count: 1,
+        success: function () {var _success = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3(e) {var src;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:
+                    uni.showLoading({
+                      title: '开始绘制',
+                      duration: 15000,
+                      mask: true });
+
+                    that.loading = true;
+                    setTimeout(function () {
+                      _this3.loading = false;
+                    }, 10000);
+                    src = e.tempFilePaths[0];
+                    that.photoDrawInfo.mainImage.content = src;
+                    that.tempImage = '';
+                    that.tempImageBase64 = '';
+                    that.initPhotoInfo(src);case 8:case "end":return _context3.stop();}}}, _callee3);}));function success(_x) {return _success.apply(this, arguments);}return success;}(),
+
+        fail: function fail() {
+          uni.showToast({
+            title: '获取图片失败',
+            icon: 'none' });
+
+        } });
+
+    },
+    /**
+        * 初始化图片信息，重刷调用
+        */
+    initPhotoInfo: function initPhotoInfo(src) {var _arguments = arguments,_this4 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee4() {var canvasId, that;return _regenerator.default.wrap(function _callee4$(_context4) {while (1) {switch (_context4.prev = _context4.next) {case 0:canvasId = _arguments.length > 1 && _arguments[1] !== undefined ? _arguments[1] : 'canvas';
+                that = _this4;_context4.next = 4;return (
+                  that.getCanvasSize(src));case 4:
+                setTimeout(function () {
+                  (0, _izExif.getImageData)(src).
+                  then(function (res) {
+                    console.log('getImageData', JSON.stringify(res.exif));
+                    that.photoExifInfo = res.exif;
+                    that.initExifCanvasInfo(res.exif);
+                    that.startDraw();
+                  }).
+                  catch(function (e) {
+                    console.log('getImageData error', e);
+                    that.initExifCanvasInfo();
+                    that.startDraw();
+                  });
+                  // var array = uni.getFileSystemManager().readFileSync(src);
+                  // var r = handleBinaryFile(array);
+                }, 1000);case 5:case "end":return _context4.stop();}}}, _callee4);}))();
+    },
+    // 初始化exif的info信息到
+    initExifCanvasInfo: function initExifCanvasInfo() {var info = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      var that = this;
+      console.log('initExifCanvasInfo', info);
+      if (!info.FNumber || !info.ExposureTime || !info.FocalLength || !info.Make || !info.Model) {
+        uni.showToast({
+          icon: 'error',
+          duration: 1000,
+          title: '识别失败' });
+
+      }
+      this.photoDrawInfo.EXIFInfo.brandLogo.content = info.Make || 'default';
+      this.photoDrawInfo.EXIFInfo.machineName.content = info.Model || 'machine name';
+      var time = info.DateTimeOriginal;
+      if (time && time.indexOf(':') >= 4) {
+        time = time.replace(':', '-');
+        time = time.replace(':', '-');
+      }
+      var currentTime = _index.default.formatTime(new Date(), 'yyyy-MM-dd hh:mm:ss');
+      this.photoDrawInfo.EXIFInfo.time.content = time || currentTime;
+      this.photoDrawInfo.EXIFInfo.authorName.content = 'PHOTO BY @' + that.userInfo.nickName || false;
+      // 图片焦段 光圈 快门 iso信息
+      // 结构: 28mm f/8 1/500 ISO100
+      // 焦段
+      var FocalLength = '?mm ';
+      var FNumber = 'f/? ';
+      var ExposureTime = '?/?';
+      var ISOSpeedRatings = ' ISO ?';
+      if (info.FocalLength) {
+        FocalLength = info.FocalLength + 'mm ';
+      }
+      if (info.FNumber && info.FNumber.numerator && info.FNumber.denominator) {
+        FNumber = 'f/' + info.FNumber.numerator / info.FNumber.denominator + ' ';
+      }
+      if (info.ExposureTime && info.ExposureTime.numerator && info.ExposureTime.denominator) {
+        ExposureTime = info.ExposureTime.numerator + '/' + info.ExposureTime.denominator;
+      }
+      if (info.ISOSpeedRatings) {
+        ISOSpeedRatings = ISOSpeedRatings = ' ISO' + (info.ISOSpeedRatings || ' ?');
+      }
+      this.photoDrawInfo.EXIFInfo.imgInfo.content = FocalLength + FNumber + ExposureTime + ISOSpeedRatings;
+      console.log('photoDrawInfo', this.photoDrawInfo);
+    },
+    // 重绘图片
+    resetPhotoInfo: function resetPhotoInfo(newPhotoInfo) {var _this5 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee5() {return _regenerator.default.wrap(function _callee5$(_context5) {while (1) {switch (_context5.prev = _context5.next) {case 0:
+                _this5.tempImage = '';
+                _this5.tempImageBase64 = '';
+                _this5.loading = true;
+                setTimeout(function () {
+                  _this5.loading = false;
+                }, 10000);
+                _this5.closePopup();
+                _this5.photoDrawInfo = newPhotoInfo;
+                uni.showLoading({
+                  title: '绘制中...',
+                  duration: 60000 });_context5.next = 9;return (
+
+                  _this5.getCanvasSize(_this5.photoDrawInfo.mainImage.content));case 9:
+                setTimeout(function () {
+                  _this5.startDraw();
+                }, 1000);case 10:case "end":return _context5.stop();}}}, _callee5);}))();
+    },
+    // 开始绘制
+    startDraw: function startDraw() {var _this6 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee6() {var that, photoDrawInfo, canvasConfig, mainImage, EXIFInfo, ctx, currentScanle, paddingX, paddingY, fontHeight, fontTopClose, fontFamily, dividingLinePadding, machineNameX, machineNameY, authorNameX, authorNameY, timeWidth, imgInfoWidth, rightWidth, imgInfoX, imgInfoY, timeX, timeY, dividingLineHeight, dividingLineX, dividingLineY, logoImg, listImgDefault, i;return _regenerator.default.wrap(function _callee6$(_context6) {while (1) {switch (_context6.prev = _context6.next) {case 0:
+                that = _this6;
+                console.log('开始绘制');
+                uni.showLoading({
+                  title: '绘制中...',
+                  duration: 60000 });
+
+                that.showGenerator = true;
+                photoDrawInfo = _this6.photoDrawInfo, canvasConfig = _this6.canvasConfig;
+                mainImage = photoDrawInfo.mainImage, EXIFInfo = photoDrawInfo.EXIFInfo;
+                console.log('绘制开始>>>>>>>>>>>>>>>');
+                ctx = uni.createCanvasContext('canvas');
+                currentScanle = canvasConfig.scale;
+                // 设置宽高
+                console.log('cavans宽高：', photoDrawInfo.width, photoDrawInfo.height);
+                ctx.width = photoDrawInfo.width;
+                ctx.height = photoDrawInfo.height;
+                ctx.clearRect(0, 0, photoDrawInfo.width, photoDrawInfo.height);
+                // 设置背景颜色
+                ctx.setFillStyle(photoDrawInfo.background);
+                ctx.fillRect(0, 0, photoDrawInfo.width, photoDrawInfo.height);
+                // 绘制图片
+                // ctx.drawImage(mainImage.content, mainImage.xAxis, mainImage.yAxis, mainImage.width, mainImage.height);
+                ctx.drawImage(mainImage.content, mainImage.xAxis, mainImage.yAxis, mainImage.width, mainImage.height);
+                // 绘制底部字体
+                paddingX = that.calculationScaleSize(8, currentScanle);
+                paddingY = that.calculationScaleSize(0, currentScanle);
+                if (mainImage.yAxis * 1 > 0) {
+                  paddingY = 0;
+                }
+                fontHeight = that.calculationScaleSize(15, currentScanle);
+                fontTopClose = that.calculationScaleSize(3, currentScanle);
+                fontFamily = 'gilmerRegular';
+                dividingLinePadding = that.calculationScaleSize(5, currentScanle);
+                // let fontFamily = '';
+
+                machineNameX = paddingX + that.calculationScaleSize(EXIFInfo.machineName.xAxis, currentScanle);
+                machineNameY = paddingY + mainImage.originHeight + fontTopClose;
+                _this6.drawText(
+                ctx,
+                EXIFInfo.machineName.content,
+                that.calculationScaleSize(EXIFInfo.machineName.fontSize, currentScanle),
+                EXIFInfo.machineName.fontColor,
+                machineNameX,
+                machineNameY,
+                5000,
+                true,
+                '',
+                fontFamily);
+
+                authorNameX = paddingX + that.calculationScaleSize(EXIFInfo.authorName.xAxis, currentScanle);
+                authorNameY = paddingY + that.calculationScaleSize(EXIFInfo.authorName.yAxis, currentScanle) + mainImage.originHeight + fontHeight;
+                _this6.drawText(
+                ctx,
+                EXIFInfo.authorName.content,
+                that.calculationScaleSize(EXIFInfo.authorName.fontSize, currentScanle),
+                EXIFInfo.authorName.fontColor,
+                authorNameX,
+                authorNameY,
+                5000,
+                false,
+                '',
+                fontFamily);_context6.next = 31;return (
+
+
+                  _this6.getTextWidth(ctx, EXIFInfo.time.content, true, that.calculationScaleSize(EXIFInfo.time.fontSize, currentScanle), fontFamily));case 31:timeWidth = _context6.sent;_context6.next = 34;return (
+                  _this6.getTextWidth(ctx, EXIFInfo.imgInfo.content, false, that.calculationScaleSize(EXIFInfo.imgInfo.fontSize, currentScanle), fontFamily));case 34:imgInfoWidth = _context6.sent;
+                rightWidth = timeWidth >= imgInfoWidth ? timeWidth : imgInfoWidth;
+                console.log('rightWidth', rightWidth, mainImage.width);
+
+                imgInfoX = mainImage.originWidth - paddingX - rightWidth + that.calculationScaleSize(EXIFInfo.imgInfo.xAxis, currentScanle);
+                imgInfoY = paddingY + that.calculationScaleSize(EXIFInfo.imgInfo.yAxis, currentScanle) + mainImage.originHeight + fontTopClose;
+                _this6.drawText(
+                ctx,
+                EXIFInfo.imgInfo.content,
+                that.calculationScaleSize(EXIFInfo.imgInfo.fontSize, currentScanle),
+                EXIFInfo.imgInfo.fontColor,
+                imgInfoX,
+                imgInfoY,
+                5000,
+                true,
+                '',
+                fontFamily);
+
+                timeX = mainImage.originWidth - paddingX - rightWidth + that.calculationScaleSize(EXIFInfo.time.xAxis, currentScanle);
+                timeY = paddingY + that.calculationScaleSize(EXIFInfo.time.yAxis, currentScanle) + mainImage.originHeight + fontHeight;
+                _this6.drawText(
+                ctx,
+                EXIFInfo.time.content,
+                that.calculationScaleSize(EXIFInfo.time.fontSize, currentScanle),
+                EXIFInfo.time.fontColor,
+                timeX,
+                timeY,
+                5000,
+                false,
+                '',
+                fontFamily);
+
+                // 绘制 logo 分割线
+                dividingLineHeight =
+                (EXIFInfo.InfoWrapperHeight +
+                that.calculationScaleSize(EXIFInfo.time.fontSize, currentScanle) +
+                that.calculationScaleSize(EXIFInfo.imgInfo.fontSize, currentScanle)) /
+                2;
+                dividingLineX = mainImage.originWidth - paddingX - rightWidth - dividingLinePadding;
+                dividingLineY = mainImage.originHeight + (EXIFInfo.InfoWrapperHeight - dividingLineHeight) / 2;
+
+                //绘制竖线
+                ctx.moveTo(dividingLineX, dividingLineY); //设置画笔开始点
+                ctx.lineTo(dividingLineX, dividingLineHeight + dividingLineY); //设置画笔结束点
+                ctx.strokeStyle = EXIFInfo.color; //设置画笔的颜色
+                // ctx.lineJoin = 'round';
+                ctx.lineWidth = that.calculationScaleSize(0.3, currentScanle); //设置画笔的大小
+                ctx.stroke();
+
+                // 绘制 logo
+                logoImg = ''; // 最终使用的logo 的url
+                listImgDefault = '';
+                i = 0;case 54:if (!(i < _this6.photoConfigData.length)) {_context6.next = 63;break;}
+                if (_this6.photoConfigData[i].photo_keyword == 'default') {
+                  listImgDefault = _this6.photoConfigData[i].photo_url;
+                }if (!(
+
+                _this6.photoDrawInfo.EXIFInfo.brandLogo.content && (
+                _this6.photoDrawInfo.EXIFInfo.brandLogo.content.toLowerCase().indexOf(_this6.photoConfigData[i].photo_keyword.toLowerCase()) >= 0 ||
+                _this6.photoConfigData[i].photo_keyword.toLowerCase().indexOf(_this6.photoDrawInfo.EXIFInfo.brandLogo.content.toLowerCase()) >= 0))) {_context6.next = 60;break;}
+
+                console.log('setLogo');
+                logoImg = _this6.photoConfigData[i].photo_url;return _context6.abrupt("break", 63);case 60:i++;_context6.next = 54;break;case 63:
+
+
+
+                // 设置logo 的url
+                if (!logoImg || logoImg == '') {
+                  logoImg = listImgDefault;
+                } else if ((!logoImg || logoImg == '') && (!listImgDefault || listImgDefault == '')) {
+                  logoImg = _this6.defaultLogo;
+                }
+                console.log('logoImg', logoImg, dividingLineHeight);
+                uni.getImageInfo({
+                  src: logoImg, //logo 图片
+                  success: function success(logoRes) {
+                    console.log('logo width', logoRes.width);
+                    console.log('logo height', logoRes.height);
+                    // 该高度和分割线的比例
+                    var proportion = 2 / 3;
+                    var logoMaxHeight = dividingLineHeight * proportion;
+                    if (logoRes.width / 2.3 > logoRes.height) {
+                      logoMaxHeight = dividingLineHeight * proportion * proportion;
+                    }
+                    var newSize = that.calculationImageScaleSize({ width: logoRes.width, height: logoRes.height }, logoMaxHeight, 'height');
+                    var logoImgX = mainImage.originWidth - paddingX - rightWidth - 2 * dividingLinePadding - newSize.width;
+                    var logoImgY = mainImage.originHeight + (EXIFInfo.InfoWrapperHeight - logoMaxHeight) / 2;
+                    ctx.drawImage(logoRes.path, logoImgX, logoImgY, newSize.width, newSize.height);
+                    // 绘制方法
+                    ctx.draw(false, function () {
+                      that.saveTempImage();
+                    });
+                    console.log('结束绘制');
+                    uni.hideLoading();
+                  },
+                  fail: function fail() {
+                    // 绘制方法
+                    ctx.draw(false, function () {
+                      that.saveTempImage();
+                    });
+                    console.log('结束绘制');
+                    uni.hideLoading();
+                  } });case 66:case "end":return _context6.stop();}}}, _callee6);}))();
+
+    },
+    // 绘制字体
+    drawText: function drawText(ctx, text) {var fontSize = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 12;var color = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '#000';var x = arguments.length > 4 ? arguments[4] : undefined;var y = arguments.length > 5 ? arguments[5] : undefined;var maxWidth = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : 999;var bold = arguments.length > 7 ? arguments[7] : undefined;var align = arguments.length > 8 ? arguments[8] : undefined;var fontFamily = arguments.length > 9 ? arguments[9] : undefined;
+      if (bold) {
+        ctx.font = "bold ".concat(fontSize, "px ").concat(fontFamily ? fontFamily : 'normal');
+      } else {
+        ctx.font = "normal ".concat(fontSize, "px  ").concat(fontFamily ? fontFamily : 'normal');
+      }
+      if (align) {
+        ctx.textAlign = align;
+      } else {
+        ctx.textAlign = 'left';
+      }
+      ctx.fillStyle = color;
+      ctx.textBaseline = 'middle';
+      // const fontHeight = 12;
+      console.log('drawText', fontSize, Number(y) + Number(fontSize));
+      if (ctx.measureText(text).width > maxWidth) {
+        var count = 1;
+        while (ctx.measureText(text.slice(0, text.length - count)).width > 693) {
+          count++;
+        }
+        ctx.fillText(text.slice(0, text.length - (count + 1)) + '...', x, Number(y) + Number(fontSize));
+      } else {
+        ctx.fillText(text, x, Number(y) + Number(fontSize));
+      }
+    },
+
+    // 获取canvas和图片宽高格式
+    getCanvasSize: function getCanvasSize() {var _arguments2 = arguments,_this7 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee7() {var imgSource, that;return _regenerator.default.wrap(function _callee7$(_context7) {while (1) {switch (_context7.prev = _context7.next) {case 0:imgSource = _arguments2.length > 0 && _arguments2[0] !== undefined ? _arguments2[0] : '';
+                that = _this7;if (!(
+                imgSource == '')) {_context7.next = 4;break;}throw (
+                  '文件格式错误');case 4:_context7.prev = 4;_context7.next = 7;return (
+
+
+                  uni.getImageInfo({
+                    src: imgSource,
+                    success: function success(image) {
+                      console.log('width', image.width);
+                      console.log('height', image.height);
+                      var tempWidth = image.width;
+                      var tempHeight = image.height;
+                      if (image.width > 3000) {
+                        tempWidth = 3000;
+                        tempHeight = _index.default.formatNumber(_index.default.formatDecimal(image.height / image.width * 3000, 2));
+                      } else if (image.height > 3000) {
+                        tempHeight = 3000;
+                        tempWidth = _index.default.formatNumber(_index.default.formatDecimal(image.width / image.height * 3000, 2));
+                      }
+                      // if (image.width >= image.height) {
+                      // canvas 信息
+                      that.photoDrawInfo.width = tempWidth;
+                      var scale = _index.default.formatNumber(_index.default.formatDecimal(320 / tempWidth, 5));
+                      that.canvasConfig.scale = scale;
+                      that.showQuality = scale;
+                      var maxCanvasInfoWrapperSize = that.calculationScaleSize(that.canvasConfig.maxCanvasInfoWrapperSize, that.canvasConfig.scale);
+                      that.photoDrawInfo.EXIFInfo.InfoWrapperHeight = maxCanvasInfoWrapperSize;
+                      that.photoDrawInfo.height = tempHeight + maxCanvasInfoWrapperSize;
+                      that.getImageSize(tempWidth, tempHeight);
+                    } }));case 7:_context7.next = 12;break;case 9:_context7.prev = 9;_context7.t0 = _context7["catch"](4);
+
+
+                //TODO handle the exception
+                console.log('error', _context7.t0);case 12:case "end":return _context7.stop();}}}, _callee7, null, [[4, 9]]);}))();
+
+    },
+    // 重新计算缩放后的图片px比例
+    // 用于计算logo 和 主图片
+    calculationImageScaleSize: function calculationImageScaleSize() {var option = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};var maxLength = arguments.length > 1 ? arguments[1] : undefined;var maxType = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'width';
+      var newWidth = option.width;
+      var newHeight = option.height;
+      if (maxType == 'width') {
+        // 图片信息
+        newWidth = maxLength;
+        newHeight = _index.default.formatNumber(_index.default.formatDecimal(option.height / option.width * maxLength, 2));
+      } else {
+        // 图片信息
+        newHeight = maxLength;
+        newWidth = _index.default.formatNumber(_index.default.formatDecimal(option.width / option.height * maxLength, 2));
+      }
+      return { width: newWidth, height: newHeight };
+    },
+    // 重新计算缩放后的px大小
+    calculationScaleSize: function calculationScaleSize(size, scale) {
+      var tempScale = scale;
+      if (!tempScale || tempScale == '') {
+        tempScale = this.canvasConfig.scale;
+      }
+      return _index.default.formatNumber(_index.default.formatDecimal(size / tempScale, 0));
+    },
+    // 加载图片宽高
+    getImageSize: function getImageSize() {var width = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;var height = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+      var photoDrawInfo = _lodash.default.cloneDeep(this.photoDrawInfo);
+      if (width && height) {
+        photoDrawInfo.mainImage.originWidth = width;
+        photoDrawInfo.mainImage.originHeight = height;
+      }
+      // 初始化原图比例
+      var originWidth = photoDrawInfo.mainImage.originWidth;
+      var originHeight = photoDrawInfo.mainImage.originHeight;
+      photoDrawInfo.mainImage.width = photoDrawInfo.mainImage.scale * photoDrawInfo.mainImage.originWidth;
+      photoDrawInfo.mainImage.height = photoDrawInfo.mainImage.scale * photoDrawInfo.mainImage.originHeight;
+      // 初始化坐标偏移
+      photoDrawInfo.mainImage.xAxis = 0;
+      photoDrawInfo.mainImage.yAxis = 0;
+      if (!photoDrawInfo.mainImage.customXAxis && !photoDrawInfo.mainImage.customXAxis) {
+        var tempX = (originWidth - photoDrawInfo.mainImage.width) / 2;
+        var tempY = (originHeight - photoDrawInfo.mainImage.height) / 2;
+        var padding = tempX >= tempY ? tempX : tempY;
+
+        if (photoDrawInfo.mainImage.position == 'left') {
+          photoDrawInfo.mainImage.yAxis = padding;
+          photoDrawInfo.mainImage.xAxis = 0;
+        } else if (photoDrawInfo.mainImage.position == 'right') {
+          photoDrawInfo.mainImage.yAxis = padding;
+          photoDrawInfo.mainImage.xAxis = padding * 2;
+        } else if (photoDrawInfo.mainImage.position == 'top') {
+          photoDrawInfo.mainImage.yAxis = 0;
+          photoDrawInfo.mainImage.xAxis = padding;
+        } else if (photoDrawInfo.mainImage.position == 'bottom') {
+          photoDrawInfo.mainImage.yAxis = padding * 2;
+          photoDrawInfo.mainImage.xAxis = padding;
+        } else {
+          photoDrawInfo.mainImage.yAxis = padding;
+          photoDrawInfo.mainImage.xAxis = padding;
+        }
+
+        var interpolation = Math.abs(tempX - tempY); // 补充差值
+        if (tempX > tempY) {
+          photoDrawInfo.height += interpolation * 2;
+          photoDrawInfo.mainImage.originHeight += interpolation * 2;
+        } else {
+          photoDrawInfo.width += interpolation * 2;
+          photoDrawInfo.mainImage.originWidth += interpolation * 2;
+        }
+      }
+      // if (photoDrawInfo.mainImage.customXAxis) {
+      // 	photoDrawInfo.mainImage.xAxis = photoDrawInfo.mainImage.customXAxis;
+      // }
+      // if (photoDrawInfo.mainImage.customYAxis) {
+      // 	photoDrawInfo.mainImage.yAxis = photoDrawInfo.mainImage.customYAxis;
+      // }
+      // 初始化旋转
+      photoDrawInfo.mainImage.angle = photoDrawInfo.mainImage.customAngle;
+      this.photoDrawInfo = photoDrawInfo;
+
+      console.log('photoDrawInfo', JSON.stringify(photoDrawInfo));
+    },
+    getTextWidth: function getTextWidth(ctx, text, bold) {var fontSize = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 12;var fontFamily = arguments.length > 4 ? arguments[4] : undefined;
+      if (bold) {
+        ctx.font = "bold ".concat(fontSize, "px ").concat(fontFamily ? fontFamily : 'normal');
+      } else {
+        ctx.font = "normal ".concat(fontSize, "px  ").concat(fontFamily ? fontFamily : 'normal');
+      }
+      return ctx.measureText(text).width;
+    },
+    saveImage: function saveImage() {
+      var that = this;
+      if (!that.photoDrawInfo.mainImage.content || that.photoDrawInfo.mainImage.content == '') {
+        uni.showModal({
+          title: '提示',
+          content: '需要先上传图片',
+          success: function success(res) {
+            if (res.confirm) {
+              that.onUpdatedFile();
+            }
+          } });
+
+      } else {
+        this.downloadImage();
+      }
+    },
+    //点击保存到相册
+    saveTempImage: function saveTempImage() {var _this8 = this;
+      console.log('saveTempImage');
+      var that = this;var
+      photoDrawInfo = this.photoDrawInfo,canvasConfig = this.canvasConfig;
+      uni.showLoading({
+        title: '生成中...',
+        duration: 6000,
+        mask: true });
+
+      var currentScanle = canvasConfig.scale;
+      var ctx = 'canvas';
+      var compressTime = _index.default.formatNumber(_index.default.formatDecimal(photoDrawInfo.compress / 100, 2));
+      console.log(' photoDrawInfo.width * compressTime * this.showQuality', photoDrawInfo.width * compressTime * this.showQuality);
+      uni.canvasToTempFilePath({
+        //将canvas生成图片
+        x: 0,
+        y: 0,
+        width: photoDrawInfo.width,
+        height: photoDrawInfo.height,
+        destWidth: photoDrawInfo.width * compressTime, //截取canvas的宽度
+        destHeight: photoDrawInfo.height * compressTime, //截取canvas的高度
+        canvasId: ctx,
+        success: function success(res) {
+          that.tempImage = res.tempFilePath;
+          that.tempImage = res.tempFilePath;
+          uni.canvasToTempFilePath({
+            //将canvas生成图片
+            x: 0,
+            y: 0,
+            width: photoDrawInfo.width,
+            height: photoDrawInfo.height,
+            destWidth: photoDrawInfo.width * compressTime, //截取canvas的宽度
+            destHeight: photoDrawInfo.height * compressTime, //截取canvas的高度
+            canvasId: ctx,
+            fileType: 'jpg',
+            quality: _this8.showQuality,
+            success: function success(res2) {
+              // console.log('res.tempFilePath', res.tempFilePath);
+              try {
+                uni.getFileSystemManager().readFile({
+                  filePath: res2.tempFilePath,
+                  encoding: 'base64',
+                  success: function success(res3) {
+                    var base64 = 'data:image/jpeg;base64,' + res3.data; //不加上这串字符，在页面无法显示
+                    that.tempImageBase64 = base64;
+                    that.showGenerator = false;
+                  } });
+
+              } catch (e) {
+                //TODO handle the exception
+                console.log('urlTobase64', e);
+                that.showGenerator = false;
+              }
+            },
+            fail: function fail(err) {
+              console.log(err);
+              that.loading = false;
+              uni.hideLoading();
+              that.showGenerator = false;
+            } });
+
+        },
+        fail: function fail(err) {
+          console.log(err);
+          that.loading = false;
+          uni.hideLoading();
+          that.showGenerator = false;
+        } });
+
+    },
+    //点击保存到相册
+    downloadImage: function downloadImage() {
+      var that = this;var
+      photoDrawInfo = this.photoDrawInfo;
+      var compressTime = _index.default.formatNumber(_index.default.formatDecimal(photoDrawInfo.compress / 100, 2));
+      if (photoDrawInfo.width * compressTime > 3000 || photoDrawInfo.height * compressTime > 3000) {
+        uni.showLoading({
+          title: '文件较大，下载中...',
+          duration: 60000,
+          mask: true });
+
+      } else {
+        uni.showLoading({
+          title: '下载中...',
+          duration: 15000,
+          mask: true });
+
+      }
+      uni.saveImageToPhotosAlbum({
+        filePath: that.tempImage,
+        success: function success() {
+          uni.hideLoading();
+          uni.showToast({
+            title: '图片已保存图片到相册',
+            icon: 'none',
+            duration: 2000 });
+
+        },
+        fail: function fail(error) {
+          console.log('error', error);
+          uni.hideLoading();
+          if (error.errMsg.indexOf('cancel') >= 0) {
+            uni.showToast({
+              title: '取消保存',
+              icon: 'none' });
+
+          } else {
+            uni.showToast({
+              title: '保存失败，请检查权限功能重试',
+              icon: 'none' });
+
+          }
+        } });
+
+      that.loading = false;
+      uni.hideLoading();
+    },
+
+    closePopup: function closePopup() {
+      this.showForm = false;
+    },
+    openPopup: function openPopup() {
+      var that = this;
+      if (!that.photoDrawInfo.mainImage.content || that.photoDrawInfo.mainImage.content == '') {
+        uni.showModal({
+          title: '提示',
+          content: '需要先上传图片',
+          success: function success(res) {
+            if (res.confirm) {
+              that.onUpdatedFile();
+            }
+          } });
+
+      } else {
+        that.showForm = true;
+      }
+    } }) };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"], __webpack_require__(/*! ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/uni-cloud/dist/index.js */ 6)["default"]))
+
+/***/ }),
+
+/***/ 156:
+/*!**************************************************************************************************************************************************************************!*\
+  !*** /Users/zhengkaijie/Project/iTools-app/iToolsMiniApp/pages/componentsFunction/photoBorder/photoBorder.vue?vue&type=style&index=0&id=35a066a5&lang=scss&scoped=true& ***!
+  \**************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_stylePostLoader_js_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_2_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_5_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_photoBorder_vue_vue_type_style_index_0_id_35a066a5_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../../../Applications/HBuilderX.app/Contents/HBuilderX/plugins/uniapp-cli/node_modules/mini-css-extract-plugin/dist/loader.js??ref--8-oneOf-1-0!../../../../../../../../Applications/HBuilderX.app/Contents/HBuilderX/plugins/uniapp-cli/node_modules/css-loader/dist/cjs.js??ref--8-oneOf-1-1!../../../../../../../../Applications/HBuilderX.app/Contents/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/stylePostLoader.js!../../../../../../../../Applications/HBuilderX.app/Contents/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-2!../../../../../../../../Applications/HBuilderX.app/Contents/HBuilderX/plugins/uniapp-cli/node_modules/postcss-loader/src??ref--8-oneOf-1-3!../../../../../../../../Applications/HBuilderX.app/Contents/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/sass-loader/dist/cjs.js??ref--8-oneOf-1-4!../../../../../../../../Applications/HBuilderX.app/Contents/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-5!../../../../../../../../Applications/HBuilderX.app/Contents/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!../../../../../../../../Applications/HBuilderX.app/Contents/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!./photoBorder.vue?vue&type=style&index=0&id=35a066a5&lang=scss&scoped=true& */ 157);
+/* harmony import */ var _Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_stylePostLoader_js_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_2_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_5_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_photoBorder_vue_vue_type_style_index_0_id_35a066a5_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_stylePostLoader_js_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_2_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_5_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_photoBorder_vue_vue_type_style_index_0_id_35a066a5_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_stylePostLoader_js_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_2_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_5_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_photoBorder_vue_vue_type_style_index_0_id_35a066a5_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_stylePostLoader_js_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_2_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_5_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_photoBorder_vue_vue_type_style_index_0_id_35a066a5_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_stylePostLoader_js_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_2_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_5_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_Applications_HBuilderX_app_Contents_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_photoBorder_vue_vue_type_style_index_0_id_35a066a5_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
+/***/ 157:
+/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/mini-css-extract-plugin/dist/loader.js??ref--8-oneOf-1-0!./node_modules/css-loader/dist/cjs.js??ref--8-oneOf-1-1!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-2!./node_modules/postcss-loader/src??ref--8-oneOf-1-3!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/sass-loader/dist/cjs.js??ref--8-oneOf-1-4!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-5!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!/Users/zhengkaijie/Project/iTools-app/iToolsMiniApp/pages/componentsFunction/photoBorder/photoBorder.vue?vue&type=style&index=0&id=35a066a5&lang=scss&scoped=true& ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+    if(false) { var cssReload; }
+  
+
+/***/ })
+
+},[[148,"common/runtime","common/vendor"]]]);
 //# sourceMappingURL=../../../../.sourcemap/mp-weixin/pages/componentsFunction/photoBorder/photoBorder.js.map

@@ -100,7 +100,7 @@
         "setting" : {
             "urlCheck" : false,
             "es6" : false,
-            "minified" : false,
+            "minified" : true,
             "postcss" : false
         },
         "optimization" : {
