@@ -5,14 +5,18 @@
  * uView自定义的css类名和scss变量，均以"u-"开头，不会造成冲突，请放心使用 
  */
 .itools-home .list-wrap.data-v-92bb8f34 {
-  margin: 20px;
-  width: calc(100vw - 40px);
+  padding: 10px;
+  width: calc(100vw - 20px);
+  min-height: 100vh;
   background-color: #f8fcf8;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: flex-start;
 }
 .itools-home .list-wrap .list-item.data-v-92bb8f34 {
-  width: 100%;
-  min-height: 40px;
-  line-height: 40px;
-  padding: 0px 12px;
+  width: 260px;
+  margin-bottom: 20px;
+  margin-right: 10px;
 }
 

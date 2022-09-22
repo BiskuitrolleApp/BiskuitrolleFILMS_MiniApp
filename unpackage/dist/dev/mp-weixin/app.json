@@ -1,8 +1,8 @@
 {
   "pages": [
-    "pages/componentsFunction/photoBorder/photoBorder",
-    "pages/componentsFunction/canvas/index",
-    "pages/home/home"
+    "pages/home/home",
+    "pages/borderList/photoBorder/index",
+    "pages/borderList/photoBorder2/index"
   ],
   "subPackages": [],
   "window": {

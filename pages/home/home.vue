@@ -1,45 +1,44 @@
 <template>
 	<view class="itools-home">
+		<u-navbar title="个人中心" @rightClick="rightClick" :autoBack="true"></u-navbar>
 		<view class="list-wrap">
-			<view class="list-item" v-for="(item,index) in list" @click="pushPages(item.pageIndex)">
-				{{item.name}}
-			</view>
+			<cardItem class="list-item" :value="item" v-for="(item, index) in list">{{ item.title }}</cardItem>
 		</view>
 	</view>
-	
 </template>
 
 <script>
-	export default {
-		data() {
-			return {
-				list:[{
-					name:'phone',
-					pageIndex:'/pages/componentsFunction/photoBorder/photoBorder'
-				}]
-			};
-		},
-		methods:{
-			pushPages(path){
-				uni.$u.route({
-					url: path
-				})
-			},
-		}
-	}
+import config from './config.js';
+import cardItem from './components/cardItem.vue';
+export default {
+	components: {
+		cardItem
+	},
+	data() {
+		return {
+			list: config.pageEntrance
+		};
+	},
+	methods: {}
+};
 </script>
 
 <style lang="scss" scoped>
-.itools-home{
-	.list-wrap{
-		margin: 20px;
-		width: calc(100vw - 40px);
+.itools-home {
+	.list-wrap {
+		padding: 10px;
+		width: calc(100vw - 20px);
+		min-height: 100vh;
 		background-color: #f8fcf8;
-		.list-item{
-			width: 100%;
-			min-height: 40px;
-			line-height: 40px;
-			padding: 0px 12px;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		align-content: flex-start;
+		.list-item {
+			width: 260px;
+			margin-bottom: 20px;
+			margin-right: 10px;
+			// flex: 1;
 		}
 	}
 }

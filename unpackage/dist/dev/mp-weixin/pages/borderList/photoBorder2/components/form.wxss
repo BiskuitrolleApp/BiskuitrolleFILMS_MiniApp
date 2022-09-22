@@ -4,30 +4,30 @@
  * 使用的时候，请将下面的一行复制到您的uniapp项目根目录的uni.scss中即可
  * uView自定义的css类名和scss变量，均以"u-"开头，不会造成冲突，请放心使用 
  */
-.photoBorder-form.data-v-53ccc6c4 {
+.photoBorder-form.data-v-2aea0c1e {
   padding: 6px 24px;
   max-height: 80vh;
   overflow-y: auto;
 }
-.photoBorder-form .form-switch-wrapper.data-v-53ccc6c4 {
+.photoBorder-form .form-switch-wrapper.data-v-2aea0c1e {
   display: flex;
   justify-content: flex-end;
 }
-.photoBorder-form .form-switch-wrapper .switch-box.data-v-53ccc6c4 {
+.photoBorder-form .form-switch-wrapper .switch-box.data-v-2aea0c1e {
   display: inline-block;
 }
-.photoBorder-form .inputWrapper.data-v-53ccc6c4 .u-input__content__field-wrapper__field {
+.photoBorder-form .inputWrapper.data-v-2aea0c1e .u-input__content__field-wrapper__field {
   text-align: right !important;
 }
-.photoBorder-form .button-wrapper .button-item.data-v-53ccc6c4 {
+.photoBorder-form .button-wrapper .button-item.data-v-2aea0c1e {
   margin-top: 8px;
   margin-bottom: 8px;
 }
-.photoBorder-form .colorBox-wrapper.data-v-53ccc6c4 {
+.photoBorder-form .colorBox-wrapper.data-v-2aea0c1e {
   display: flex;
   justify-content: flex-end;
 }
-.photoBorder-form .colorBox-wrapper .colorBox.data-v-53ccc6c4 {
+.photoBorder-form .colorBox-wrapper .colorBox.data-v-2aea0c1e {
   display: inline-block;
   height: 18px;
   font-size: 14px;
@@ -36,43 +36,43 @@
   border: 1px solid #d6d7d9;
   font-weight: 600;
 }
-.photoBorder-form .slider-wrapper.data-v-53ccc6c4 {
+.photoBorder-form .slider-wrapper.data-v-2aea0c1e {
   width: 100%;
   display: flex;
   align-content: center;
   justify-content: center;
 }
-.photoBorder-form .slider-wrapper .tip-wrapper.data-v-53ccc6c4 {
+.photoBorder-form .slider-wrapper .tip-wrapper.data-v-2aea0c1e {
   flex: 1;
   line-height: 38px;
 }
-.photoBorder-form .slider-wrapper .slider.data-v-53ccc6c4 {
+.photoBorder-form .slider-wrapper .slider.data-v-2aea0c1e {
   flex: 5;
 }
-.photoBorder-form .slider-wrapper .inputWrapper.data-v-53ccc6c4 {
+.photoBorder-form .slider-wrapper .inputWrapper.data-v-2aea0c1e {
   text-align: right;
   flex: 1;
   line-height: 38px;
 }
-.photoBorder-form .logo-wrapper.data-v-53ccc6c4 {
+.photoBorder-form .logo-wrapper.data-v-2aea0c1e {
   height: 40px;
   display: flex;
   align-content: center;
   justify-content: flex-end;
   align-items: center;
 }
-.photoBorder-form .logo-wrapper .name.data-v-53ccc6c4 {
+.photoBorder-form .logo-wrapper .name.data-v-2aea0c1e {
   font-size: 14px;
   line-height: 40px;
   margin: 0px 10px;
 }
-.photoBorder-form .logo-wrapper image.data-v-53ccc6c4 {
+.photoBorder-form .logo-wrapper image.data-v-2aea0c1e {
   height: 16px;
 }
-.photoBorder-form .more-form-wrapper .more-form-item.data-v-53ccc6c4 {
+.photoBorder-form .more-form-wrapper .more-form-item.data-v-2aea0c1e {
   background-color: #fff;
 }
-.photoBorder-form .more-form-wrapper .more-form-item .u-line.data-v-53ccc6c4 {
+.photoBorder-form .more-form-wrapper .more-form-item .u-line.data-v-2aea0c1e {
   margin: 0px;
   border-bottom: 1px solid #d6d7d9;
   width: 100%;
@@ -82,7 +82,7 @@
   border-right-color: #d6d7d9;
   border-left-color: #d6d7d9;
 }
-.photoBorder-form .more-form-wrapper .title.data-v-53ccc6c4 {
+.photoBorder-form .more-form-wrapper .title.data-v-2aea0c1e {
   font-size: 18px;
   line-height: 28px;
   color: #8f9ca2;
