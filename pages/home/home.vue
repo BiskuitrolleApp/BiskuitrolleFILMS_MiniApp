@@ -1,6 +1,6 @@
 <template>
 	<view class="itools-home">
-		<u-navbar title="个人中心" @rightClick="rightClick" :autoBack="true"></u-navbar>
+		<u-navbar title="主页" @rightClick="rightClick" :autoBack="true" leftIcon="home" :rightIcon="rightIcon"></u-navbar>
 		<view class="list-wrap">
 			<cardItem class="list-item" :value="item" v-for="(item, index) in list">{{ item.title }}</cardItem>
 		</view>
@@ -16,6 +16,7 @@ export default {
 	},
 	data() {
 		return {
+			rightIcon:'grid',
 			list: config.pageEntrance
 		};
 	},

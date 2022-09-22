@@ -1,9 +1,0 @@
-{
-  "navigationBarTitleText": "主页",
-  "enablePullDownRefresh": false,
-  "backgroundColor": "#ECECEC",
-  "usingComponents": {
-    "u-navbar": "/uni_modules/uview-ui/components/u-navbar/u-navbar",
-    "card-item": "/pages/home/components/cardItem"
-  }
-}
