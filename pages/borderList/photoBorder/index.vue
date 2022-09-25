@@ -19,7 +19,7 @@
 					:style="{ width: photoDrawInfo.width * canvasConfig.scale + 'px', height: photoDrawInfo.width * canvasConfig.scale + 'px' }"
 					@click="onUpdatedFile"
 				>
-					<view class="iconTipBox_wrapper"
+					<view class="iconTipBox_wrapper">
 						<view class="icon_wrapper"><u-icon name="photo"></u-icon></view>
 						<view class="tip">点击上传图片</view>
 					</view>
@@ -48,6 +48,7 @@
 
 <script>
 import { getImageData, getFloatLocationByExif } from '@/util/js_sdk/izExif/izExif.js';
+import { saveStorage, queryStorage } from '@/util/storage/index.js';
 import tools from '@/util/tools/index.js';
 import { mapGetters, mapMutations } from 'vuex';
 import infoForm from './components/form.vue';
@@ -483,7 +484,7 @@ export default {
 			// 绘制底部字体
 			let paddingX = that.calculationScaleSize(8, currentScanle);
 			let paddingY = that.calculationScaleSize(0, currentScanle);
-			if(mainImage.yAxis *1 >0){
+			if (mainImage.yAxis * 1 > 0) {
 				paddingY = 0;
 			}
 			let fontHeight = that.calculationScaleSize(15, currentScanle);
@@ -601,7 +602,7 @@ export default {
 					console.log('logo width', logoRes.width);
 					console.log('logo height', logoRes.height);
 					// 该高度和分割线的比例
-					let proportion = 2/3
+					let proportion = 2 / 3;
 					let logoMaxHeight = dividingLineHeight * proportion;
 					if (logoRes.width / 2.3 > logoRes.height) {
 						logoMaxHeight = dividingLineHeight * proportion * proportion;
@@ -755,7 +756,7 @@ export default {
 
 				let interpolation = Math.abs(tempX - tempY); // 补充差值
 				if (tempX > tempY) {
-					photoDrawInfo.height += interpolation * 2 ;
+					photoDrawInfo.height += interpolation * 2;
 					photoDrawInfo.mainImage.originHeight += interpolation * 2;
 				} else {
 					photoDrawInfo.width += interpolation * 2;

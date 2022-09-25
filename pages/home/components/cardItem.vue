@@ -89,7 +89,7 @@ export default {
 		right: -40px;
 		top: 10px;
 		transform: rotate(45deg); /* 旋转45°*/
-		box-shadow: 0 0 10px #888; /* 飘带的阴影*/
+		// box-shadow: 0 0 10px #888; /* 飘带的阴影*/
 		.ribbon {
 			border: 1px solid #1890ff;
 			color: #fff;
