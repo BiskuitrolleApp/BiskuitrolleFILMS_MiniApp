@@ -33,7 +33,16 @@
 			}
 		}
 
-	],
+	    ,{
+            "path" : "pages/demo/demo",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "demo",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
 	// "subPackages": [{
 	// 	"root": "pages/componentsFunction",
 	// 	"pages": [{
