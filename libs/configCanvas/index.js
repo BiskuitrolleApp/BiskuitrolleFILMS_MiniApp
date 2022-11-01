@@ -2,6 +2,7 @@ import { imgEXIFINFO, textEXIFINFO, blockEXIFLIST } from './EXIFINFO';
 
 import { uuid2 } from './utils/uuid'
 import { orderBy } from './utils/selfLodash'
+import { canvasDrawMain } from './canvas';
 
 /**
  * 用于计算当前节点的uuid
@@ -32,7 +33,7 @@ const initNodeListLevel = function (nodeList = [], level = 0) {
   return nodeList
 }
 
-const initConfig = function (cxt, configData = [], parentNode = {}) {
+const initConfig = function (ctx, configData = [], parentNode = {}) {
   let tempConfig = configData;
   let newConfigObject = [];
 
@@ -41,18 +42,18 @@ const initConfig = function (cxt, configData = [], parentNode = {}) {
     let exifObj = {}
     if (configItem.type == 'image') {
       // 初始化图片信息
-      exifObj = initTypeImageObject(cxt, configItem, parentNode)
+      exifObj = initTypeImageObject(ctx, configItem, parentNode)
     } else if (configItem.type == 'text') {
       // 初始化文字信息
-      exifObj = initTypeTextObject(cxt, configItem, parentNode, configItem.font)
+      exifObj = initTypeTextObject(ctx, configItem, parentNode, configItem.font)
     } else {
       // 初始化块元素信息
-      exifObj = initTypeBlockObject(cxt, configItem, parentNode)
+      exifObj = initTypeBlockObject(ctx, configItem, parentNode)
     }
     newConfigObject.push(exifObj)
     // 当前有子项
     if (configItem.child) {
-      let list = initConfig(cxt, configItem.child, exifObj)
+      let list = initConfig(ctx, configItem.child, exifObj)
       newConfigObject = [...newConfigObject, ...list]
     }
 
@@ -65,7 +66,7 @@ const initConfig = function (cxt, configData = [], parentNode = {}) {
  * init image json content to imgEXIFINFO
  * @param {Object} value 需要初始化为EXIF对象的信息
  */
-const initTypeImageObject = function (cxt, value = {}, parentNode = {}) {
+const initTypeImageObject = function (ctx, value = {}, parentNode = {}) {
   let id = initUUID(value, parentNode)
   // setting id type and conntent
   let exifObj = new imgEXIFINFO(id, value, parentNode);
@@ -78,7 +79,7 @@ const initTypeImageObject = function (cxt, value = {}, parentNode = {}) {
  * init text json content to textEXIFINFO
  * @param {Object} value 需要初始化为EXIF对象的信息
  */
-const initTypeTextObject = function (cxt, value = {}, parentNode = {}, font = {}) {
+const initTypeTextObject = function (ctx, value = {}, parentNode = {}, font = {}) {
   let id = initUUID(value, parentNode)
   // setting id type and conntent
   let exifObj = new textEXIFINFO(id, value, parentNode, font);
@@ -91,11 +92,11 @@ const initTypeTextObject = function (cxt, value = {}, parentNode = {}, font = {}
 /**
  * 初始化块元素信息为为EXIF对象的信息，用于布局，抽象类o'l类型
  * init block json content to textEXIFINFO
- * @param {Object} cxt canvas 元素
+ * @param {Object} ctx canvas 元素
  * @param {Object} value 需要初始化为EXIF对象的信息
  * @param {*} parentNode 父节点
  */
-const initTypeBlockObject = function (cxt, value = {}, parentNode = {}) {
+const initTypeBlockObject = function (ctx, value = {}, parentNode = {}) {
   let id = initUUID(value, parentNode)
   // setting id type and conntent
   let exifObj = new blockEXIFLIST(id, value, parentNode);
@@ -104,7 +105,7 @@ const initTypeBlockObject = function (cxt, value = {}, parentNode = {}) {
 
 let initLooptCount = 0;
 // 重复校对宽高，从叶子到根进行校验
-const initSize = function (nodeList = []) {
+const initSize = function (ctx, domcomentVue, nodeList = []) {
   let newList = nodeList;
   let hasAuto = false
   initLooptCount++;
@@ -121,10 +122,10 @@ const initSize = function (nodeList = []) {
         if (cItem.parentNode && cItem.parentNode.id && item.id === cItem.parentNode.id) {
           childList.push(cItem)
         }
-        specifications = item.getSize(childList)
+        specifications = item.getSize(childList, ctx, domcomentVue)
       }
     } else {
-      specifications = item.getSize(item.content)
+      specifications = item.getSize(item.content, ctx, domcomentVue)
     }
     if (specifications.width === 'auto' || specifications.height === 'auto' || specifications.contentWidth === 'auto' || specifications.contentHeight === 'auto') {
       hasAuto = true
@@ -230,10 +231,10 @@ const initPositionCore = function (tree = {}) {
     currentPosition.y = tree.root.axisInfo.y
   }
   if (tree.child && tree.child.length > 0) {
-    console.log(tree)
+    // console.log(tree)
     let rootConfig = {
       display: tree.root?.display || 'block',
-      horizontal: tree.roo?.horizontal || 'left',
+      horizontal: tree.root?.horizontal || 'left',
       vertical: tree.root?.vertical || 'top',
       width: tree.root?.width || 0,
       height: tree.root?.height || 0,
@@ -248,10 +249,11 @@ const initPositionCore = function (tree = {}) {
       for (let index = 0; index < tree.child.length; index++) {
         const item = tree.child[index];
         // flex 布局
-        if (item.width) {
-          entireContentWidth += item.width * 1
+        if (item.root && item.root.width) {
+          entireContentWidth += item.root.width * 1
         }
       }
+      console.log('rootConfig horizontal', tree, entireContentWidth, rootConfig.horizontal, rootConfig)
       // 计算整个间隔
       if (rootConfig.horizontal === 'right') {
         // 居右
@@ -259,7 +261,7 @@ const initPositionCore = function (tree = {}) {
         gap[1] = 0;
         gap[2] = 0;
       } else if (rootConfig.horizontal === 'center') {
-        // 居右
+        // 中间
         gap[0] = (rootConfig.width * 1 - entireContentWidth) / 2;
         gap[1] = 0;
         gap[2] = (rootConfig.width * 1 - entireContentWidth) / 2;
@@ -272,6 +274,7 @@ const initPositionCore = function (tree = {}) {
         } else {
           gap[1] = (rootConfig.width * 1 - entireContentWidth) / (tree.child.length - 1)
         }
+        console.log('space-between', gap)
       } else if (rootConfig.horizontal === 'space-around') {
         let gapItem = (rootConfig.width * 1 - entireContentWidth) / (tree.child.length * 2)
         // 每个项目两侧的间隔相等。
@@ -315,11 +318,25 @@ const initPositionCore = function (tree = {}) {
     for (let index = 0; index < tree.child.length; index++) {
       //  布局 - flex布局
       if (rootConfig.display === 'flex') {
+        if (index == 0) {
+          currentPosition.x += gap[0]
+        } else {
+          currentPosition.x += gap[1]
+        }
         // 水平对齐
         tree.child[index].root.axisInfo.x = currentPosition.x;
+        console.log('currentPosition start', currentPosition)
         // 偏移width位置
         currentPosition.x += tree.child[index].root.width
 
+        // 添加间隔
+        // if (index == 0) {
+        //   currentPosition.x += gap[0]
+        // } else if (index == tree.child.length - 1) {
+        //   currentPosition.x += gap[2]
+        // } else {
+        //   currentPosition.x += gap[1]
+        // }
         // 垂直对齐
         if (rootConfig.vertical === 'center') {
           tree.child[index].root.axisInfo.y = (rootConfig.height * 1 - tree.child[index].root.height * 1) / 2 + currentPosition.y
@@ -327,15 +344,6 @@ const initPositionCore = function (tree = {}) {
           tree.child[index].root.axisInfo.y = rootConfig.height * 1 - tree.child[index].root.height * 1 + currentPosition.y
         } else {
           tree.child[index].root.axisInfo.y = currentPosition.y
-        }
-
-        // 添加间隔
-        if (index == 0) {
-          currentPosition.x += gap[0]
-        } else if (index == tree.child.length - 1) {
-          currentPosition.x += gap[2]
-        } else {
-          currentPosition.x += gap[1]
         }
       } else if ((tree.root && tree.root.display == 'block') || !tree.root) {
         // 布局 - 普通布局
@@ -352,14 +360,23 @@ const initPositionCore = function (tree = {}) {
         currentPosition.y += tree.child[index].root.height
 
         // 添加间隔
+        // if (index == 0) {
+        //   currentPosition.y += gap[0]
+        // }else if (index == tree.child.length - 1) {
+        //   currentPosition.y += gap[2]
+        // } else {
+        //   currentPosition.y += gap[1]
+        // }
         if (index == 0) {
           currentPosition.y += gap[0]
-        } else if (index == tree.child.length - 1) {
-          currentPosition.y += gap[2]
         } else {
           currentPosition.y += gap[1]
         }
       }
+      // 加上padding和margin
+      tree.child[index].root.axisInfo.x += tree.child[index].root.computedData.padding.left + tree.child[index].root.computedData.margin.left
+      tree.child[index].root.axisInfo.y += tree.child[index].root.computedData.padding.top + tree.child[index].root.computedData.margin.top
+
       if (tree.child[index].child && tree.child[index].child.length > 0) {
         tree.child[index] = initPositionCore(tree.child[index])
       }
@@ -375,7 +392,7 @@ const initPosition = function (nodeList = []) {
   initLooptCount++;
   // 构建树
   let nodeListTree = listConvertTree({}, nodeList).root
-  console.log('nodeListTree', nodeListTree)
+  // console.log('nodeListTree', nodeListTree)
   // 获得position信息的核心方法
   nodeListTree = initPositionCore(nodeListTree)
   // 获得canvas 宽高
@@ -384,7 +401,7 @@ const initPosition = function (nodeList = []) {
   newList = treeConverList(nodeListTree)
   // 排序
   newList = orderBy(newList, ['level'], 'asc').results
-  console.log('nodeListTree end ', newList)
+  // console.log('nodeListTree end ', newList)
   return newList
 }
 
@@ -404,12 +421,12 @@ const initPosition = function (nodeList = []) {
 
 
 // 重新按照该页面数据进行重新计算间隔
-const EXIFReload = function (canvasConfig = []) {
+const EXIFReload = function (ctx, domcomentVue, canvasConfig = []) {
   // 按照level重新从小到大排序
   canvasConfig = orderBy(canvasConfig, ['level'], 'asc').results
   // 校对宽高度 逆level进行
   initLooptCount = 0; // 嵌套初始化宽高次数
-  canvasConfig = initSize(canvasConfig);
+  canvasConfig = initSize(ctx, domcomentVue, canvasConfig);
   // 校对组件处于的位置信息 position 顺level进行 ，对元素占位和居中等定位进行计算
   initLooptCount = 0; // 嵌套初始化次数
   canvasConfig = initPosition(canvasConfig);
@@ -421,28 +438,40 @@ const EXIFReload = function (canvasConfig = []) {
 // 提供EXIF列表到渲染到canvas
 // 不同的页面进行不同的渲染操作
 //
-const EXIFRedraw = function (cxt, canvasConfig = []) {
-  for (let index = 0; index < array.length; index++) {
-    const item = array[index];
-
+const EXIFRedraw = function (ctx, domcomentVue, canvasConfig = []) {
+  for (let index = 0; index < canvasConfig.length; index++) {
+    const item = canvasConfig[index];
+    canvasDrawMain(ctx, item)
   }
+  // console.log('EXIFRedraw for end', ctx)
+
+  //demo start
+  ctx.setFontSize(20)
+  ctx.setFillStyle('pink')
+  ctx.fillText('hello,world', 0, 0)
+  //demo end
+
+  ctx.draw(false, function () {
+    console.log('draw 完成')
+  });
+  // console.log('EXIFRedraw draw end')
 }
 
 /**
  * The export method of json drawing canvas
  * Json绘制canvas的出口方法
- * @param {*} cxt canvas object
+ * @param {*} ctx canvas object
  * @param {*} nodeList output config 
  */
-const EXIFDrawJSON = function (cxt, nodeList = [], parentNode = {}) {
+const EXIFDrawJSON = function (ctx, domcomentVue, nodeList = [], parentNode = {}) {
   // 初始化等级
   let configData = initNodeListLevel(nodeList, 0);
   // 初始化为EXIFINFO对象数据
-  let canvasConfig = initConfig(cxt, configData, parentNode)
+  let canvasConfig = initConfig(ctx, configData, parentNode)
   // 计算间隔该元素的数据的间隔和位置
-  canvasConfig = EXIFReload(canvasConfig);
+  canvasConfig = EXIFReload(ctx, domcomentVue, canvasConfig);
   // 渲染列表操作
-  EXIFRedraw(cxt, canvasConfig)
+  EXIFRedraw(ctx, domcomentVue, canvasConfig)
 }
 
 

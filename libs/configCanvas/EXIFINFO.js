@@ -1,5 +1,5 @@
 // config 中支持直接设置的数据
-const dataDictionary = ['padding', 'border', 'margin', 'xAxisOffset', 'yAxisOffset', 'level', 'horizontal', 'vertical', 'width', 'height', 'customOption']
+const dataDictionary = ['padding', 'border', 'round', 'margin', 'xAxisOffset', 'yAxisOffset', 'level', 'horizontal', 'vertical', 'width', 'height', 'customOption', 'display']
 // 生成的数据 需要排斥外部自己定义
 const dataDictionaryNotNeed = ['content', 'type', 'child', 'id', 'computedData']
 import { clearNoNum } from './utils/number/index'
@@ -42,6 +42,7 @@ class EXIFINFO {
     this.padding = '0';
     this.margin = '0';
     this.border = '0px solid #000' // 支持 dotted solid double dashed
+    this.round = 0;
 
     // 计算属性
     this.computedData = {
@@ -73,7 +74,7 @@ class EXIFINFO {
     }
     this.id = id;
     this.content = content;
-    this.type = type;
+    this.type = type; // text block image
   }
   /**
    * 设置EXIFINFO的盒子模型信息后可以用这个方法来计算盒子模型信息的具体信息
@@ -98,7 +99,7 @@ class EXIFINFO {
       } else if (Array.isArray(boxModelData)) {
         gapList = boxModelData
       } else {
-        gapList = boxModelData.split("");
+        gapList = boxModelData.split(" ");
       }
       if (gapList.length == 0) {
         throw "invalid padding or margin data!";
@@ -114,11 +115,11 @@ class EXIFINFO {
         ];
       } else if (gapList.length == 3) {
         [gap.top, gap.right, gap.bottom, gap.left] = [gapList[0] * 1,
-        gapList[1] * 1, gapList[3] * 1, gapList[1] * 1
+        gapList[1] * 1, gapList[2] * 1, gapList[1] * 1
         ];
       } else if (gapList.length >= 4) {
         [gap.top, gap.right, gap.bottom, gap.left] = [gapList[0] * 1,
-        gapList[1] * 1, gapList[3] * 1, gapList[4] * 1
+        gapList[1] * 1, gapList[2] * 1, gapList[3] * 1
         ];
       }
     } catch (error) {
@@ -154,54 +155,6 @@ class EXIFINFO {
       width
     }
   }
-  /**
-   * 获取EXIFINFO于x轴和y轴的位置信息
-   * Get the position information of EXIFINFO on the x-axis and y-axis
-   * @returns {Object} Returns the new object of position.
-   */
-  getPosition() {
-    if (!this.xAxisOffset && this.xAxisOffset != 0) {
-      throw "invalid xAxisOffset data!";
-    }
-    if (!this.yAxisOffset && this.yAxisOffset != 0) {
-      throw "invalid yAxisOffset data!";
-    }
-    let axisInfo = {
-      x: 0,
-      y: 0,
-    };
-    // 保存父组件的位置
-    if (this.parentNode && typeof this.parentNode.getPosition == 'function') {
-      let sPositionX = this.root ? 0 : (this.parentNode.getPosition().x || 0) * 1
-      let sPositionY = this.root ? 0 : (this.parentNode.getPosition().y || 0) * 1
-      axisInfo.x += sPositionX;
-      axisInfo.y += sPositionY
-    }
-    let paddingInfo = this.getBoxModelFillGap(this.padding)
-    let marginInfo = this.getBoxModelFillGap(this.margin)
-    // 加上自己偏移xAxisOffset,yAxisOffset和padding位置
-    axisInfo.x += (this.xAxisOffset || 0) * 1 + (paddingInfo.left) * 1;
-    axisInfo.y += (this.yAxisOffset || 0) * 1 + (paddingInfo.top) * 1;
-
-    let parentNode_Width = this.root ? 0 : (this.parentNode.width || 0) * 1
-    let parentNode_Height = this.root ? 0 : (this.parentNode.height || 0) * 1
-
-    if (this.horizontal == 'center') {
-      axisInfo.x += (parentNode_Width - this.width) / 2;
-    } else if (this.horizontal == 'right') {
-      axisInfo.x += (parentNode_Width - this.width);
-    } else {
-      axisInfo.x += 0;
-    }
-    if (this.vertical == 'center') {
-      axisInfo.y += (parentNode_Height - this.height) / 2;
-    } else if (this.vertical == 'bottom') {
-      axisInfo.y += (parentNode_Height - this.height);
-    } else {
-      axisInfo.y += 0;
-    }
-    return axisInfo
-  }
 }
 /**
  * The image EXIFINFO
@@ -211,7 +164,7 @@ export class imgEXIFINFO extends EXIFINFO {
   constructor(id, value, parentNode) {
     super(id, "image", parentNode, value.content, value);
   }
-  getSize(content = '') {
+  getSize(content = '', ctx, domcomentVue) {
     // 创建对象
     let img = new Image();
     // 改变图片的src
@@ -249,7 +202,7 @@ export class textEXIFINFO extends EXIFINFO {
     super(id, "text", parentNode, value.content, value);
     this.font = {
       fontSize: 12,
-      color: '#ffffff',
+      color: '#000000',
       style: null,
       fontFamily: "normal",
       bold: false,
@@ -276,32 +229,46 @@ export class textEXIFINFO extends EXIFINFO {
    * @params {Object} option The text style, Contains：Bold，fontSize，fontFamily
    * @returns {Object} Returns the new length of text width.
    */
-  getSize(text) {
-    var span = document.createElement("span");
+  getSize(text, ctx, domcomentVue) {
+
+    let bold = this.font.bold;
+    let fontSize = this.font.fontSize || 12;
+    let fontFamily = this.font.fontFamily || "normal";
+
     var result = {
       width: 0,
       height: 0,
       contentWidth: 0,
       contentHeight: 0
     };
-    span.style.visibility = "hidden";
-    span.style.display = "inline-block";
+    let width = 0;
+    let height = 0;
+    if (document) {
+      var span = document.createElement("span");
+      span.style.visibility = "hidden";
+      span.style.display = "inline-block";
+      span.style.fontSize = fontSize + 'px';//文字大小
+      span.style.fontFamily = fontFamily;//字体
 
-    let fontSize = (this.font.fontSize || 12) + 'px';
-    let fontFamily = this.font.fontFamily || "normal";
-    span.style.fontSize = fontSize;//文字大小
-    span.style.fontFamily = fontFamily;//字体
-
-    document.body.appendChild(span);
-    if (typeof span.textContent != "undefined") {
-      span.textContent = text;
+      document.body.appendChild(span);
+      if (typeof span.textContent != "undefined") {
+        span.textContent = text;
+      } else {
+        span.innerText = text;
+      }
+      width = window.getComputedStyle(span).width.replace(/[^\d.-]/g, '') * 1
+      height = window.getComputedStyle(span).height.replace(/[^\d.-]/g, '') * 1
     } else {
-      span.innerText = text;
+      if (bold) {
+        ctx.font = `bold ${fontSize}px ${fontFamily ? fontFamily : 'normal'}`;
+      } else {
+        ctx.font = `normal ${fontSize}px  ${fontFamily ? fontFamily : 'normal'}`;
+      }
+      width = ctx.measureText(text).width;
+      height = fontSize * 7 / 5 // 默认是行高为7/5的fontsize
     }
     let paddingInfo = this.getBoxModelFillGap(this.padding)
     let marginInfo = this.getBoxModelFillGap(this.margin)
-    let width = window.getComputedStyle(span).width.replace(/[^\d.-]/g, '') * 1
-    let height = window.getComputedStyle(span).height.replace(/[^\d.-]/g, '') * 1
     //使用window.getComputedStyle方法获取
     let boder = this.getBorder();
     // 填充计算属性
@@ -329,13 +296,14 @@ export class blockEXIFLIST extends EXIFINFO {
     // setEXIFINFO(value)
     this.width = value.width || 'auto';
     this.height = value.height || 'auto';
+
   }
   /**
    * 计算元素宽高
    * @param {*} childList 获得元素子元素列表
    * @returns 
    */
-  getSize(childList = []) {
+  getSize(childList = [], ctx, domcomentVue) {
     let paddingInfo = this.getBoxModelFillGap(this.padding)
     let marginInfo = this.getBoxModelFillGap(this.margin)
     var result = {
@@ -344,45 +312,52 @@ export class blockEXIFLIST extends EXIFINFO {
       contentWidth: 'auto',
       contentHeight: 'auto',
     };
-
     let maxHeight = 0
     let maxWidth = 0
-    if (this.display === 'flex') {
-      // flex 布局 高度由子元素最高决定，宽度是所有子元素宽度累
-      for (let index = 0; index < childList.length; index++) {
-        const item = childList[index];
-        // 打断
-        if (maxHeight == 'auto' && maxWidth == 'auto') {
-          break;
+    if (this.width !== 'auto') {
+      maxWidth = this.width
+    }
+    if (this.height !== 'auto') {
+      maxHeight = this.height
+    }
+    if (this.width == 'auto' || this.height == 'auto') {
+      if (this.display === 'flex') {
+        // flex 布局 高度由子元素最高决定，宽度是所有子元素宽度累
+        for (let index = 0; index < childList.length; index++) {
+          const item = childList[index];
+          // 打断
+          if (maxHeight == 'auto' && maxWidth == 'auto') {
+            break;
+          }
+          // 设置 width 宽度是所有子元素宽度累
+          if (item.width == 'auto') {
+            maxWidth = 'auto'
+          } else if (maxWidth != 'auto' && this.width === 'auto') {
+            maxWidth += item.width * 1
+          }
+          // 设置 heihgt 高度由子元素最高决定
+          if (item.height > maxHeight && maxHeight != 'auto' && this.height === 'auto') {
+            maxHeight = item.height * 1
+          }
         }
-        // 设置 width
-        if (item.width == 'auto') {
-          maxWidth = 'auto'
-        } else if (maxWidth != 'auto') {
-          maxWidth += item.width * 1
-        }
-        // 设置 heihgt
-        if (item.height > maxHeight && maxHeight != 'auto') {
-          maxHeight = item.height * 1
-        }
-      }
-    } else {
-      // block 布局 宽度由子元素最高决定，高度是所有子元素宽度累加
-      for (let index = 0; index < childList.length; index++) {
-        const item = childList[index];
-        // 打断
-        if (maxHeight == 'auto' && maxWidth == 'auto') {
-          break;
-        }
-        // 设置 height
-        if (item.height == 'auto') {
-          maxHeight = 'auto'
-        } else if (maxHeight != 'auto') {
-          maxHeight += item.height * 1
-        }
-        // 设置 width
-        if (item.width > maxWidth && maxWidth != 'auto') {
-          maxWidth = item.width * 1
+      } else {
+        // block 布局 宽度由子元素最高决定，高度是所有子元素宽度累加
+        for (let index = 0; index < childList.length; index++) {
+          const item = childList[index];
+          // 打断
+          if (maxHeight == 'auto' && maxWidth == 'auto') {
+            break;
+          }
+          // 设置 height
+          if (item.height == 'auto') {
+            maxHeight = 'auto'
+          } else if (maxHeight != 'auto' && this.width === 'auto') {
+            maxHeight += item.height * 1
+          }
+          // 设置 width
+          if (item.width > maxWidth && maxWidth != 'auto' && this.height === 'auto') {
+            maxWidth = item.width * 1
+          }
         }
       }
     }
@@ -394,8 +369,8 @@ export class blockEXIFLIST extends EXIFINFO {
       border: boder,
     }
     // 设置内容高度
-    result.width = maxWidth === 'auto' ? 'auto' : maxWidth + paddingInfo.left + paddingInfo.right + marginInfo.left + marginInfo.right + boder.width.left + boder.width.right
-    result.height = maxHeight === 'auto' ? 'auto' : maxHeight + paddingInfo.top + paddingInfo.bottom + marginInfo.top + marginInfo.bottom + boder.width.top + boder.width.bottom;
+    result.width = (maxWidth === 'auto' || maxWidth === 0) ? this.width : maxWidth + paddingInfo.left + paddingInfo.right + marginInfo.left + marginInfo.right + boder.width.left + boder.width.right
+    result.height = (maxHeight === 'auto' || maxHeight === 0) ? this.height : maxHeight + paddingInfo.top + paddingInfo.bottom + marginInfo.top + marginInfo.bottom + boder.width.top + boder.width.bottom;
     result.contentWidth = maxWidth
     result.contentHeight = maxHeight
     return result
