@@ -1,69 +1,109 @@
 <template>
   <view class="demopage">
-    <canvas class="canvas" id="canvas" canvas-id="canvas"></canvas>
+    <exif-canvas :value="demo" ref="exifCanvas"></exif-canvas>
+    <view class="downLoadBtn">
+      <u-button
+        text="下载"
+        size="normal"
+        color="#67C23A"
+        @click="saveImage"
+      ></u-button>
+    </view>
   </view>
 </template>
 
 <script>
-import EXIFDrawJSON from "@/libs/configCanvas";
+// import { EXIFDrawJSON } from "@/libs/configCanvas";
+import exifCanvas from "@/libs/EXIFCanvas";
 export default {
+  components: {
+    exifCanvas,
+  },
   data() {
     return {
-      textFont: "",
-      textFontStyle: "",
       demo: [
         {
           id: "canvas",
           child: [
-            // {
-            //   type: "image",
-            //   content: "http://127.0.0.1/image/test.JPG",
-            //   border: "1px solid #ccc",
-            // },
             {
-              content: "",
-              display: "flex",
-              horizontal: "space-between",
-              vertical: "bottom",
-              width: 320,
-              child: [
-                {
-                  type: "text",
-                  content: "XSXS",
-                  padding: "10 10 1 10",
-                  margin: "10 10 1 10",
-                  border: "1 solid #000",
-                  // round: "6",
-                },
-                {
-                  type: "text",
-                  content: "56mm f/2.2 1/1600 ISO600",
-                  // padding: "10 10 1 10",
-                  // margin: "10 10 1 10",
-                  // border: "1px solid #000",
-                },
-              ],
+              type: "imageMain",
+              width: 320, // 只能设置宽度
+              content: "http://127.0.0.1/image/test.JPG",
+              border: "1px solid #ccc",
             },
             {
               content: "",
               display: "flex",
-              width: 320,
               horizontal: "space-between",
-              vertical: "top",
+              vertical: "center",
+              width: 320,
               child: [
                 {
-                  type: "text",
-                  content: "PHOTO BY KZ。",
-                  // padding: "1 10 10 10",
-                  // margin: "1 10 10 10",
-                  // border: "1px solid #000",
+                  content: "",
+                  width: 120,
+                  child: [
+                    {
+                      type: "text",
+                      content: "XSXS",
+                      padding: "10 10 1 10",
+                      font: {
+                        fontSize: 8,
+                      },
+                    },
+                    {
+                      type: "text",
+                      content: "56mm f/2.2 1/1600 ISO600",
+                      padding: "1 10 10 10",
+                      font: {
+                        fontSize: 8,
+                      },
+                    },
+                  ],
                 },
                 {
-                  type: "text",
-                  content: "2022年10月12日 22:10:11",
-                  // padding: "1 10 10 10",
-                  // margin: "1 10 10 10",
-                  // border: "1px solid #000",
+                  width: 200,
+                  horizontal: "right",
+                  vertical: "center",
+                  display: "flex",
+                  type: "block",
+                  // border: "1 solid #000",
+                  child: [
+                    {
+                      type: "image",
+                      height: 10, // 只能设置宽度
+                      maxHeight: 20,
+                      maxWidth: 60,
+                      content: "http://127.0.0.1/image/fujifilm.png",
+                      // marign: "0 5 0 0",
+                      margin: "0 5 0 0",
+                    },
+                    {
+                      type: "block",
+                      border: "0 0 0 0.7 solid #000",
+                      margin: "0 10 0 5",
+                      // border: "1 solid #000",
+                      child: [
+                        {
+                          type: "text",
+                          content: "XSXS",
+                          padding: "0 0 1 5",
+                          font: {
+                            fontSize: 8,
+                            textAlign: "right",
+                          },
+                        },
+                        {
+                          type: "text",
+                          content: "56mm f/2.2 1/1600 ISO600",
+                          margin: "1 0 5 5",
+                          font: {
+                            fontSize: 8,
+                            textAlign: "right",
+                          },
+                        },
+                      ],
+                    },
+                  ],
                 },
               ],
             },
@@ -73,9 +113,14 @@ export default {
     };
   },
   mounted() {
-    let ctx = uni.createCanvasContext("canvas");
-
-    EXIFDrawJSON(ctx, this, this.demo);
+    // let ctx = uni.createCanvasContext("canvas");
+    // EXIFDrawJSON(ctx, this, this.demo);
+  },
+  //方法集合
+  methods: {
+    saveImage() {
+      this.$refs.exifCanvas.downLoader();
+    },
   },
 };
 </script>
@@ -88,7 +133,20 @@ export default {
     border: 1px;
     margin: 10px;
     width: 320px;
-    background: rgb(229, 222, 255);
+    // background: rgb(229, 222, 255);
+  }
+  .downLoadBtn {
+    position: fixed;
+    bottom: 0px;
+    width: calc(100vw - 24px);
+    padding: 12px;
+    background-color: #fff;
+    border-top: 1px #ebedf0 solid;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 10px;
+    margin-bottom: constant(safe-area-inset-bottom); /* 兼容 iOS<11.2 */
+    margin-bottom: env(safe-area-inset-bottom); /* 兼容iOS>= 11.2 */
   }
 }
 </style>

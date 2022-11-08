@@ -1,8 +1,17 @@
+
+import tools from '../tools/index'
+import { setScaling } from './Core'
+
+
 // config 中支持直接设置的数据
 const dataDictionary = ['padding', 'border', 'round', 'margin', 'xAxisOffset', 'yAxisOffset', 'level', 'horizontal', 'vertical', 'width', 'height', 'customOption', 'display']
 // 生成的数据 需要排斥外部自己定义
-const dataDictionaryNotNeed = ['content', 'type', 'child', 'id', 'computedData']
+const dataDictionaryNotNeed = ['content', 'type', 'child', 'id', 'computedData', 'mainImage']
 import { clearNoNum } from './utils/number/index'
+
+// 常用固定数值
+const $MAX_IMAGE_THUMBNAIL_WIDTH = 300 // 图片显示缩略图显示最大为300 
+const $MAX_IMAGE_DOWNLOADER_WIDTH = 3000 // 图片下载器最大为下载为3000
 
 // exif 信息对象
 class EXIFINFO {
@@ -14,10 +23,8 @@ class EXIFINFO {
     } else {
       this.root = true;
     }
-
     // 位置信息
     this.display = 'block'; // 显示类型 支持flex和block布局
-
     // 水平位置
     // left（默认值）：左对齐
     // rigth：右对齐
@@ -163,32 +170,94 @@ class EXIFINFO {
 export class imgEXIFINFO extends EXIFINFO {
   constructor(id, value, parentNode) {
     super(id, "image", parentNode, value.content, value);
+    if (value.mainImage) this.mainImage = true
+    // 用于计算
+    let calculationWidth = value.width || 'auto'
+    let calculationHeight = value.height || 'auto'
+    if (!value.width || value.width == '' || value.width == 'auto') {
+      calculationWidth = 'auto'
+    }
+    if (!value.height || value.height == '' || value.height == 'auto') {
+      calculationHeight = 'auto'
+      if (calculationWidth === 'auto') {
+        calculationWidth = $MAX_IMAGE_THUMBNAIL_WIDTH  // 如果没有设置width，自动设置内容宽度为缩略图$MAX_IMAGE_THUMBNAIL_WIDTH
+      }
+    }
+    // 当前设置的
+    this.contentWidth = calculationWidth;
+    this.contentHeight = calculationHeight;
   }
   getSize(content = '', ctx, domcomentVue) {
-    // 创建对象
-    let img = new Image();
-    // 改变图片的src
-    img.src = content || this.content;
-    let result = {
-      width: 0,
-      height: 0,
-      contentWidth: 0,
-      contentHeight: 0
-    };
-    let paddingInfo = this.getBoxModelFillGap(this.padding)
-    let marginInfo = this.getBoxModelFillGap(this.margin)
-    let boder = this.getBorder();
-    // 填充计算属性
-    this.computedData = {
-      padding: paddingInfo,
-      margin: marginInfo,
-      border: boder,
-    }
-    result.width = img.width + paddingInfo.left + paddingInfo.right + marginInfo.left + marginInfo.right + boder.width.left + boder.width.right
-    result.height = img.height + paddingInfo.top + paddingInfo.bottom + marginInfo.top + marginInfo.bottom + boder.width.top + boder.width.bottom;
-    result.contentWidth = img.width
-    result.contentHeight = img.height
-    return result
+    let that = this;
+    return new Promise((res, req) => {
+      // 创建对象
+      uni.getImageInfo({
+        src: content || that.content,
+        success(img) {
+          that.content = img.path
+          // that.tempContent = img.path
+          console.log('getImageInfo,img', img)
+          // 改变图片的src
+          // img.src = content || this.content;
+          let result = {
+            width: 0,
+            height: 0,
+            contentWidth: 0,
+            contentHeight: 0
+          };
+          let paddingInfo = that.getBoxModelFillGap(that.padding)
+          let marginInfo = that.getBoxModelFillGap(that.margin)
+          let boder = that.getBorder();
+          // 填充计算属性
+          that.computedData = {
+            padding: paddingInfo,
+            margin: marginInfo,
+            border: boder,
+          }
+          let imgWidth = img.width;
+          let imgHeight = img.height;
+          let tempWidth = img.width;
+          let tempHeight = img.height;
+          console.log('tempHeight start', that.contentHeight, that.contentWidth)
+          // 以缩放
+          let scaling;
+          if (that.contentWidth !== 'auto') {
+            tempWidth = that.contentWidth
+            scaling = Number(tools.div(that.contentWidth, imgWidth, 5))
+            if (that.contentHeight === 'auto') {
+              tempHeight = Number(tools.times(scaling, imgHeight, 5))
+            }
+          }
+          if (that.contentHeight !== 'auto') {
+            tempHeight = that.contentHeight
+            let hscaling = Number(tools.div(that.contentHeight, imgHeight, 5))
+            if (that.contentWidth === 'auto') {
+              tempWidth = Number(tools.times(hscaling, imgWidth, 5))
+            }
+            if (scaling) {
+              scaling = hscaling >= scaling ? hscaling : scaling;
+            } else {
+              scaling = 1;
+            }
+          }
+          // 是主要图片
+          if (that.mainImage) {
+            // 设置当前缩放比例
+            setScaling(scaling)
+          }
+          result.width = tempWidth + paddingInfo.left + paddingInfo.right + marginInfo.left + marginInfo.right + boder.width.left + boder.width.right
+          result.height = tempHeight + paddingInfo.top + paddingInfo.bottom + marginInfo.top + marginInfo.bottom + boder.width.top + boder.width.bottom;
+          result.contentWidth = tempWidth
+          result.contentHeight = tempHeight
+
+          result.originContentWidth = imgWidth;
+          result.originContentHeight = imgHeight;
+
+          console.log('result', result)
+          res(result)
+        }
+      })
+    })
   }
 };
 
@@ -296,7 +365,6 @@ export class blockEXIFLIST extends EXIFINFO {
     // setEXIFINFO(value)
     this.width = value.width || 'auto';
     this.height = value.height || 'auto';
-
   }
   /**
    * 计算元素宽高
@@ -351,7 +419,7 @@ export class blockEXIFLIST extends EXIFINFO {
           // 设置 height
           if (item.height == 'auto') {
             maxHeight = 'auto'
-          } else if (maxHeight != 'auto' && this.width === 'auto') {
+          } else if (maxHeight != 'auto') {
             maxHeight += item.height * 1
           }
           // 设置 width

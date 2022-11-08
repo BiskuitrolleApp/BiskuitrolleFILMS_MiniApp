@@ -1,11 +1,17 @@
+// /** 
+//  * [orderBy description]
+//  * @param { [type] } source[description]
+//  * @param { [type] } orders[description]
+//  * @return { [type]}[description]
+//  */
 /** 
- * [orderBy description]
- * @param { [type] } source[description]
- * @param { [type] } orders[description]
- * @param { [type] } type { asc, desc } [description]
- * @return { [type]}[description]
+ * order排序
+ * @param { Array } source 数据源列表
+ * @param { Array } 结果如何排序
+ * @param { Array } type { asc, desc } 升降序排序
+ * @return { Array} 新列表
  */
- export const orderBy = function (source, orders, type) {
+export const orderBy = function (source, orders, type) {
   if (source instanceof Array && orders instanceof Array && orders.length > 0) {
     var ordersc = orders.concat([]);
     var sorttype = type || 'asc';
@@ -61,4 +67,38 @@
   } else {
     return source;
   }
+}
+
+/** 
+ * 查询数据源是否存在该数据
+ * @param { Object } source 查询的数据源
+ * @param { Array | String } key 数据key 
+ * @return { Boolean} 是否存在
+ */
+export const has = function (source, key) {
+  let keyList = []
+  if (Object.prototype.toString.call(key) === '[object String]') {
+    keyList = key.split('.')
+  } else if (Object.prototype.toString.call(key) === '[object Array]') {
+    keyList = key
+  } else {
+    console.error('Input parameter key format error')
+    return false
+  }
+  const hasOwnProperty = Object.prototype.hasOwnProperty
+  function hasOriginFunction(object, key) {
+    return object != null && hasOwnProperty.call(object, key)
+  }
+  let currentObject = source;
+  let hasObject = true;
+  for (let index = 0; index < keyList.length; index++) {
+    const keyItem = keyList[index];
+    if (hasOriginFunction(currentObject, keyItem)) {
+      currentObject = currentObject[keyItem]
+    } else {
+      hasObject = false
+      break;
+    }
+  }
+  return hasObject
 }
