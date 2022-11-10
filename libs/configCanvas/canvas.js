@@ -182,11 +182,11 @@ const drawText = function (ctx, text, font, x, y, maxWidth = 999) {
   } else {
     ctx.font = `normal ${fontSize * scaling}px ${fontFamily ? fontFamily : "sans-serif"}`;
   }
-  if (textAlign) {
-    ctx.textAlign = textAlign;
-  } else {
-    ctx.textAlign = "left";
-  }
+  // if (textAlign) {
+  //   ctx.textAlign = textAlign;
+  // } else {
+  //   ctx.textAlign = "left";
+  // }
   ctx.textBaseline = "middle";
   ctx.setFontSize(fontSize * scaling);
   ctx.setFillStyle(color);
@@ -223,8 +223,8 @@ const canvasDrawImage = function (ctx, domcomentVue, imgEXIFINFO) {
   let scaling = getScaling()
   drawBorder(ctx, imgEXIFINFO); // 绘制border
   // ctx.drawImage(img, 0, 0, width, height, 0, 0, canvasWidth, canvasHeight)
-  ctx.drawImage(imgEXIFINFO.content, imgEXIFINFO.axisInfo.x * scaling, imgEXIFINFO.axisInfo.y * scaling, imgEXIFINFO.contentWidth * scaling, imgEXIFINFO.contentHeight * scaling); // 绘制图案
-
+  if (!imgEXIFINFO.mainImage)
+    ctx.drawImage(imgEXIFINFO.content, imgEXIFINFO.axisInfo.x * scaling, imgEXIFINFO.axisInfo.y * scaling, imgEXIFINFO.contentWidth * scaling, imgEXIFINFO.contentHeight * scaling); // 绘制图案
 };
 
 // canvas text draw方法

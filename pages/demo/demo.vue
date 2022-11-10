@@ -27,7 +27,7 @@ export default {
           child: [
             {
               type: "imageMain",
-              width: 320, // 只能设置宽度
+              maxWidth: 320, // 只能设置宽度
               content: "http://127.0.0.1/image/test.JPG",
               border: "1px solid #ccc",
             },
@@ -40,7 +40,7 @@ export default {
               child: [
                 {
                   content: "",
-                  width: 120,
+                  width: 100,
                   child: [
                     {
                       type: "text",
@@ -61,32 +61,35 @@ export default {
                   ],
                 },
                 {
-                  width: 200,
+                  width: 180,
                   horizontal: "right",
                   vertical: "center",
                   display: "flex",
-                  type: "block",
                   // border: "1 solid #000",
+                  content: "66",
+                  margin: "0 10 0 0",
                   child: [
                     {
                       type: "image",
-                      height: 10, // 只能设置宽度
+                      // height: 20, // 只能设置宽度
                       maxHeight: 20,
                       maxWidth: 60,
                       content: "http://127.0.0.1/image/fujifilm.png",
+                      // content: "http://127.0.0.1/image/leica.png",
                       // marign: "0 5 0 0",
                       margin: "0 5 0 0",
                     },
                     {
                       type: "block",
                       border: "0 0 0 0.7 solid #000",
-                      margin: "0 10 0 5",
+                      margin: "0 5 0 0",
                       // border: "1 solid #000",
                       child: [
                         {
                           type: "text",
                           content: "XSXS",
                           padding: "0 0 1 5",
+                          // border: "1 solid #000",
                           font: {
                             fontSize: 8,
                             textAlign: "right",
@@ -95,7 +98,8 @@ export default {
                         {
                           type: "text",
                           content: "56mm f/2.2 1/1600 ISO600",
-                          margin: "1 0 5 5",
+                          padding: "1 0 0 5",
+                          // border: "1 solid #000",
                           font: {
                             fontSize: 8,
                             textAlign: "right",

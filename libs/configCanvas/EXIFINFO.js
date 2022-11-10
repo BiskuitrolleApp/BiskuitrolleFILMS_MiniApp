@@ -4,7 +4,7 @@ import { setScaling } from './Core'
 
 
 // config 中支持直接设置的数据
-const dataDictionary = ['padding', 'border', 'round', 'margin', 'xAxisOffset', 'yAxisOffset', 'level', 'horizontal', 'vertical', 'width', 'height', 'customOption', 'display']
+const dataDictionary = ['padding', 'border', 'round', 'margin', 'xAxisOffset', 'yAxisOffset', 'level', 'horizontal', 'vertical', 'width', 'height', 'maxHeight', 'maxWidth', 'customOption', 'display']
 // 生成的数据 需要排斥外部自己定义
 const dataDictionaryNotNeed = ['content', 'type', 'child', 'id', 'computedData', 'mainImage']
 import { clearNoNum } from './utils/number/index'
@@ -45,6 +45,9 @@ class EXIFINFO {
     // 内容宽高
     this.contentWidth = 0;
     this.contentHeight = 0;
+    // 内容最大宽高
+    this.maxWidth = 0;
+    this.maxHeight = 0;
 
     this.padding = '0';
     this.margin = '0';
@@ -172,20 +175,20 @@ export class imgEXIFINFO extends EXIFINFO {
     super(id, "image", parentNode, value.content, value);
     if (value.mainImage) this.mainImage = true
     // 用于计算
-    let calculationWidth = value.width || 'auto'
-    let calculationHeight = value.height || 'auto'
-    if (!value.width || value.width == '' || value.width == 'auto') {
+    let calculationWidth = value.maxWidth || 'auto'
+    let calculationHeight = value.maxHeight || 'auto'
+    if (!value.maxWidth || value.maxWidth == '' || value.maxWidth == 'auto') {
       calculationWidth = 'auto'
     }
-    if (!value.height || value.height == '' || value.height == 'auto') {
+    if (!value.maxHeight || value.maxHeight == '' || value.maxHeight == 'auto') {
       calculationHeight = 'auto'
       if (calculationWidth === 'auto') {
         calculationWidth = $MAX_IMAGE_THUMBNAIL_WIDTH  // 如果没有设置width，自动设置内容宽度为缩略图$MAX_IMAGE_THUMBNAIL_WIDTH
       }
     }
     // 当前设置的
-    this.contentWidth = calculationWidth;
-    this.contentHeight = calculationHeight;
+    this.maxWidth = calculationWidth;
+    this.maxHeight = calculationHeight;
   }
   getSize(content = '', ctx, domcomentVue) {
     let that = this;
@@ -218,26 +221,37 @@ export class imgEXIFINFO extends EXIFINFO {
           let imgHeight = img.height;
           let tempWidth = img.width;
           let tempHeight = img.height;
-          console.log('tempHeight start', that.contentHeight, that.contentWidth)
+          console.log('tempHeight start', that.maxWidth, that.maxHeight)
           // 以缩放
           let scaling;
-          if (that.contentWidth !== 'auto') {
-            tempWidth = that.contentWidth
-            scaling = Number(tools.div(that.contentWidth, imgWidth, 5))
-            if (that.contentHeight === 'auto') {
-              tempHeight = Number(tools.times(scaling, imgHeight, 5))
+          if (that.maxWidth !== 'auto' && that.maxHeight === 'auto') {
+            tempWidth = that.maxWidth
+            scaling = Number(tools.div(that.maxWidth, imgWidth, 5))
+            tempHeight = Number(tools.times(scaling, imgHeight, 5))
+          } else if (that.maxHeight !== 'auto' && that.maxWidth === 'auto') {
+            tempHeight = that.maxHeight
+            scaling = Number(tools.div(that.maxHeight, imgHeight, 5))
+            tempWidth = Number(tools.times(scaling, imgWidth, 5))
+            // if (scaling) {
+            //   scaling = hscaling >= scaling ? hscaling : scaling;
+            // } else {
+            //   scaling = 1;
+            // }
+          } else if (that.maxHeight !== 'auto' && that.maxWidth !== 'auto') {
+            let hscaling = Number(tools.div(that.maxHeight, imgHeight, 5))
+            let countWByH = Number(tools.times(hscaling, imgWidth, 5)) // 计算出来的高度
+            if (countWByH <= that.maxWidth) {
+              tempHeight = that.maxHeight
+              tempWidth = countWByH
+              scaling = hscaling
             }
-          }
-          if (that.contentHeight !== 'auto') {
-            tempHeight = that.contentHeight
-            let hscaling = Number(tools.div(that.contentHeight, imgHeight, 5))
-            if (that.contentWidth === 'auto') {
-              tempWidth = Number(tools.times(hscaling, imgWidth, 5))
-            }
-            if (scaling) {
-              scaling = hscaling >= scaling ? hscaling : scaling;
-            } else {
-              scaling = 1;
+
+            let wscaling = Number(tools.div(that.maxWidth, imgWidth, 5))
+            let countHByW = Number(tools.times(wscaling, imgHeight, 5)) // 计算出来的高度
+            if (countHByW <= that.maxHeight) {
+              tempWidth = that.maxWidth
+              tempHeight = countHByW
+              scaling = wscaling
             }
           }
           // 是主要图片
@@ -388,6 +402,7 @@ export class blockEXIFLIST extends EXIFINFO {
     if (this.height !== 'auto') {
       maxHeight = this.height
     }
+    // console.log('maxWidth', this.content, maxWidth, maxHeight, this)
     if (this.width == 'auto' || this.height == 'auto') {
       if (this.display === 'flex') {
         // flex 布局 高度由子元素最高决定，宽度是所有子元素宽度累

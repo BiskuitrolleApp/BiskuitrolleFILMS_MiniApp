@@ -243,6 +243,8 @@ const initPositionCore = function (tree = {}) {
       vertical: tree.root?.vertical || "top",
       width: tree.root?.width || 0,
       height: tree.root?.height || 0,
+      contentWidth: tree.root?.contentWidth || 0,
+      contentHeight: tree.root?.contentHeight || 0,
     };
 
     // 间隔 第一个，中间所有，最后一个
@@ -261,25 +263,25 @@ const initPositionCore = function (tree = {}) {
       // 计算整个间隔
       if (rootConfig.horizontal === "right") {
         // 居右
-        gap[0] = rootConfig.width * 1 - entireContentWidth;
+        gap[0] = rootConfig.contentWidth * 1 - entireContentWidth;
         gap[1] = 0;
         gap[2] = 0;
       } else if (rootConfig.horizontal === "center") {
         // 中间
-        gap[0] = (rootConfig.width * 1 - entireContentWidth) / 2;
+        gap[0] = (rootConfig.contentWidth * 1 - entireContentWidth) / 2;
         gap[1] = 0;
-        gap[2] = (rootConfig.width * 1 - entireContentWidth) / 2;
+        gap[2] = (rootConfig.contentWidth * 1 - entireContentWidth) / 2;
       } else if (rootConfig.horizontal === "space-between") {
         // 两端对齐，项目之间的间隔都相等。
         gap[0] = 0;
         gap[2] = 0;
         if (tree.child.length <= 1) {
-          gap[1] = rootConfig.width * 1 - entireContentWidth;
+          gap[1] = rootConfig.contentWidth * 1 - entireContentWidth;
         } else {
-          gap[1] = (rootConfig.width * 1 - entireContentWidth) / (tree.child.length - 1);
+          gap[1] = (rootConfig.contentWidth * 1 - entireContentWidth) / (tree.child.length - 1);
         }
       } else if (rootConfig.horizontal === "space-around") {
-        let gapItem = (rootConfig.width * 1 - entireContentWidth) / (tree.child.length * 2);
+        let gapItem = (rootConfig.contentWidth * 1 - entireContentWidth) / (tree.child.length * 2);
         // 每个项目两侧的间隔相等。
         gap[0] = gapItem;
         gap[1] = 2 * gapItem;
@@ -288,7 +290,7 @@ const initPositionCore = function (tree = {}) {
         // 居左
         gap[0] = 0;
         gap[1] = 0;
-        gap[2] = rootConfig.width * 1 - entireContentWidth;
+        gap[2] = rootConfig.contentWidth * 1 - entireContentWidth;
       }
     } else {
       // 计算整个内容高度
@@ -303,17 +305,17 @@ const initPositionCore = function (tree = {}) {
 
       // 垂直对齐
       if (rootConfig.vertical === "center") {
-        gap[0] = (rootConfig.height * 1 - entireContentHeight) / 2;
+        gap[0] = (rootConfig.contentHeight * 1 - entireContentHeight) / 2;
         gap[1] = 0;
-        gap[2] = (rootConfig.height * 1 - entireContentHeight) / 2;
+        gap[2] = (rootConfig.contentHeight * 1 - entireContentHeight) / 2;
       } else if (rootConfig.vertical === "bottom") {
-        gap[0] = rootConfig.height * 1 - entireContentHeight;
+        gap[0] = rootConfig.contentHeight * 1 - entireContentHeight;
         gap[1] = 0;
         gap[2] = 0;
       } else {
         gap[0] = 0;
         gap[1] = 0;
-        gap[2] = rootConfig.height * 1 - entireContentHeight;
+        gap[2] = rootConfig.contentHeight * 1 - entireContentHeight;
       }
     }
     // 解决相减少于 0
@@ -354,12 +356,12 @@ const initPositionCore = function (tree = {}) {
           tree.child[index].root.axisInfo.y = currentPosition.y;
         }
         // text exif textalign is right
-        if (has(tree.child[index], 'root.type') &&
-          has(tree.child[index], 'root.font.textAlign') &&
-          tree.child[index].root.type === 'text' &&
-          tree.child[index].root.font.textAlign == 'right') {
-          tree.child[index].root.font.textAlign = 'left'
-        }
+        // if (has(tree.child[index], 'root.type') &&
+        //   has(tree.child[index], 'root.font.textAlign') &&
+        //   tree.child[index].root.type === 'text' &&
+        //   tree.child[index].root.font.textAlign == 'right') {
+        //   tree.child[index].root.font.textAlign = 'left'
+        // }
       } else if ((tree.root && tree.root.display == "block") || !tree.root) {
         // 布局 - 普通布局
         // 水平对齐
@@ -393,13 +395,22 @@ const initPositionCore = function (tree = {}) {
           has(tree.child[index], 'root.font.textAlign') &&
           tree.child[index].root.type === 'text' &&
           tree.child[index].root.font.textAlign == 'right') {
-          tree.child[index].root.axisInfo.x = tree.root.axisInfo.x + tree.root.contentWidth - tree.child[index].root.computedData.padding.right - tree.child[index].root.computedData.margin.right;
+          tree.child[index].root.axisInfo.x =
+            tree.root.axisInfo.x + tree.root.contentWidth -
+            tree.child[index].root.width +
+            tree.child[index].root.computedData.padding.left + tree.child[index].root.computedData.margin.left
         }
       }
 
       // 加上padding和margin
-      tree.child[index].root.axisInfo.x += tree.child[index].root.computedData.padding.left + tree.child[index].root.computedData.margin.left;
-      tree.child[index].root.axisInfo.y += tree.child[index].root.computedData.padding.top + tree.child[index].root.computedData.margin.top;
+      tree.child[index].root.axisInfo.x +=
+        tree.child[index].root.computedData.padding.left +
+        tree.child[index].root.computedData.margin.left +
+        tree.child[index].root.computedData.border.width.left;
+      tree.child[index].root.axisInfo.y +=
+        tree.child[index].root.computedData.padding.top +
+        tree.child[index].root.computedData.margin.top +
+        tree.child[index].root.computedData.border.width.top;
 
       if (tree.child[index].child && tree.child[index].child.length > 0) {
         tree.child[index] = initPositionCore(tree.child[index]);
