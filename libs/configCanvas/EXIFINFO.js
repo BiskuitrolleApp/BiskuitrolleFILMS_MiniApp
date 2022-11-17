@@ -1,6 +1,7 @@
 
 import tools from '../tools/index'
-import { setScaling } from './Core'
+// import { setScaling } from './Core'
+import { setCoreValue, getCoreVar } from './var'
 
 
 // config 中支持直接设置的数据
@@ -221,43 +222,79 @@ export class imgEXIFINFO extends EXIFINFO {
           let imgHeight = img.height;
           let tempWidth = img.width;
           let tempHeight = img.height;
+          if (img.orientation === 'left' || img.orientation === 'right') {
+            imgWidth = img.height;
+            imgHeight = img.width;
+            tempWidth = img.height;
+            tempHeight = img.width;
+          }
           console.log('tempHeight start', that.maxWidth, that.maxHeight)
+          // // 以缩放
+          // let scaling;
+          // if (that.maxWidth !== 'auto' && that.maxHeight === 'auto') {
+          //   tempWidth = that.maxWidth
+          //   scaling = Number(tools.div(that.maxWidth, imgWidth, 5))
+          //   tempHeight = Number(tools.times(scaling, imgHeight, 5))
+          // } else if (that.maxHeight !== 'auto' && that.maxWidth === 'auto') {
+          //   tempHeight = that.maxHeight
+          //   scaling = Number(tools.div(that.maxHeight, imgHeight, 5))
+          //   tempWidth = Number(tools.times(scaling, imgWidth, 5))
+          // } else if (that.maxHeight !== 'auto' && that.maxWidth !== 'auto') {
+          //   let hscaling = Number(tools.div(that.maxHeight, imgHeight, 5))
+          //   let countWByH = Number(tools.times(hscaling, imgWidth, 5)) // 计算出来的高度
+          //   if (countWByH <= that.maxWidth) {
+          //     tempHeight = that.maxHeight
+          //     tempWidth = countWByH
+          //     scaling = hscaling
+          //   }
+
+          //   let wscaling = Number(tools.div(that.maxWidth, imgWidth, 5))
+          //   let countHByW = Number(tools.times(wscaling, imgHeight, 5)) // 计算出来的高度
+          //   if (countHByW <= that.maxHeight) {
+          //     tempWidth = that.maxWidth
+          //     tempHeight = countHByW
+          //     scaling = wscaling
+          //   }
+          // }
+          // let isDownloader = getCoreVar('downloader')
+          // // 是主要图片
+          // if (that.mainImage && !isDownloader) {
+          //   // 设置当前缩放比例
+          //   setCoreValue('scaling', scaling)
+          // }
+          // result.width = tempWidth + paddingInfo.left + paddingInfo.right + marginInfo.left + marginInfo.right + boder.width.left + boder.width.right
           // 以缩放
           let scaling;
           if (that.maxWidth !== 'auto' && that.maxHeight === 'auto') {
             tempWidth = that.maxWidth
-            scaling = Number(tools.div(that.maxWidth, imgWidth, 5))
-            tempHeight = Number(tools.times(scaling, imgHeight, 5))
+            scaling = Number(tools.div(imgWidth, that.maxWidth, 5))
+            tempHeight = Number(tools.div(imgHeight, scaling, 5))
           } else if (that.maxHeight !== 'auto' && that.maxWidth === 'auto') {
             tempHeight = that.maxHeight
-            scaling = Number(tools.div(that.maxHeight, imgHeight, 5))
-            tempWidth = Number(tools.times(scaling, imgWidth, 5))
-            // if (scaling) {
-            //   scaling = hscaling >= scaling ? hscaling : scaling;
-            // } else {
-            //   scaling = 1;
-            // }
+            scaling = Number(tools.div(imgHeight, that.maxHeight, 5))
+            tempWidth = Number(tools.div(imgWidth, scaling, 5))
           } else if (that.maxHeight !== 'auto' && that.maxWidth !== 'auto') {
-            let hscaling = Number(tools.div(that.maxHeight, imgHeight, 5))
-            let countWByH = Number(tools.times(hscaling, imgWidth, 5)) // 计算出来的高度
+            let hscaling = Number(tools.div(imgHeight, that.maxHeight, 5))
+            let countWByH = Number(tools.div(imgWidth, hscaling, 5)) // 计算出来的高度
             if (countWByH <= that.maxWidth) {
               tempHeight = that.maxHeight
               tempWidth = countWByH
               scaling = hscaling
             }
 
-            let wscaling = Number(tools.div(that.maxWidth, imgWidth, 5))
-            let countHByW = Number(tools.times(wscaling, imgHeight, 5)) // 计算出来的高度
+            let wscaling = Number(tools.div(imgWidth, that.maxWidth, 5))
+            let countHByW = Number(tools.div(imgHeight, wscaling, 5)) // 计算出来的高度
             if (countHByW <= that.maxHeight) {
               tempWidth = that.maxWidth
               tempHeight = countHByW
               scaling = wscaling
             }
           }
+          let isDownloader = getCoreVar('downloader')
           // 是主要图片
-          if (that.mainImage) {
+          if (that.mainImage && !isDownloader) {
             // 设置当前缩放比例
-            setScaling(scaling)
+            setCoreValue('scaling', scaling)
           }
           result.width = tempWidth + paddingInfo.left + paddingInfo.right + marginInfo.left + marginInfo.right + boder.width.left + boder.width.right
           result.height = tempHeight + paddingInfo.top + paddingInfo.bottom + marginInfo.top + marginInfo.bottom + boder.width.top + boder.width.bottom;

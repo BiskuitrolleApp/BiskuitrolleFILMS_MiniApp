@@ -3,6 +3,7 @@ import { imgEXIFINFO, textEXIFINFO, blockEXIFLIST } from "./EXIFINFO";
 import { uuid2 } from "./utils/uuid";
 import { orderBy, has } from "./utils/selfLodash";
 import { canvasDrawMain } from "./canvas";
+import { setCoreValue, getScaling } from "./var";
 
 /**
  * 用于计算当前节点的uuid
@@ -440,6 +441,20 @@ const initPosition = function (nodeList = []) {
   return newList;
 };
 
+// 初始化页面需要设置的option
+const setOptions = function (options = {}) {
+  if (options.downloader) {
+    setCoreValue('downloader', true) // 设置当前渲染是下载器渲染 
+  }
+}
+
+// 渲染canvas时候需要设置的option
+const setOptionsBeforeDraw = function (options = {}) {
+  // if (options.downloader) {
+  //   setCoreValue('downloader', true) // 设置当前渲染是下载器渲染 
+  // }
+}
+
 // TODO 使用config 预加载一个格式
 // TODO 添加元素到ObjectList中，使用默认排序
 // TODO 实现redraw方法 只重新渲染页面图片 无视页面间隔和排序
@@ -470,43 +485,41 @@ export const EXIFReload = async function (ctx, domcomentVue, canvasConfig = []) 
 // 提供EXIF列表到渲染到canvas
 // 不同的页面进行不同的渲染操作
 // 重新绘制 
-export const EXIFRedraw = function (ctx, domcomentVue, canvasConfig = []) {
-  // //demo start
-  // ctx.setFontSize(20)
-  // ctx.setFillStyle('pink')
-  // ctx.fillText('hello,world', 0, 0)
-  // //demo end
+export const EXIFRedraw = function (ctx, domcomentVue, canvasConfig = [], option = {}, callback) {
+  setOptionsBeforeDraw(option);
   console.log("drawInfo", canvasConfig);
   for (let index = 0; index < canvasConfig.length; index++) {
     const item = canvasConfig[index];
     if (item.root) {
-      ctx.width = item.width;
-      ctx.height = item.height;
-      ctx.clearRect(0, 0, item.width, item.height);
+      let scaling = getScaling();
+      console.log('scaling', scaling)
+      ctx.width = item.width * scaling;
+      ctx.height = item.height * scaling
+      ctx.clearRect(0, 0, item.width * scaling, item.width * scaling);
     }
     canvasDrawMain(ctx, domcomentVue, item);
   }
-  console.log('EXIFRedraw for end')
-  ctx.draw(false, function () {
-    console.log("draw 完成");
-  });
-  // console.log('EXIFRedraw draw end')
+  console.log('EXIFRedraw for end', ctx)
+  ctx.draw(false, callback);
 };
 
 /**
  * The export method of json drawing canvas
  * Json绘制canvas的出口方法
  * @param {*} ctx canvas object
+ * @param {*} domcomentVue vue object
  * @param {*} nodeList output config
+ * @param {*} callback callback function
  */
-export const EXIFDrawJSON = async function (ctx, domcomentVue, nodeList = [], parentNode = {}) {
+export const EXIFDrawJSON = async function (ctx, domcomentVue, nodeList = [], option = {}, callback) {
+  setOptions(option);
   // 初始化等级
   let configData = initNodeListLevel(nodeList, 0);
   // 初始化为EXIFINFO对象数据
-  let canvasConfig = initConfig(ctx, configData, parentNode);
+  let canvasConfig = initConfig(ctx, configData, {});
   // 计算间隔该元素的数据的间隔和位置
   canvasConfig = await EXIFReload(ctx, domcomentVue, canvasConfig);
   domcomentVue.setCanvasConfigList(canvasConfig)
   // 渲染列表操作
-  EXIFRedraw(ctx, domcomentVue, canvasConfig);
+  EXIFRedraw(ctx, domcomentVue, canvasConfig, option = {}, callback);
 };

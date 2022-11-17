@@ -29,7 +29,8 @@ export default {
               type: "imageMain",
               maxWidth: 320, // 只能设置宽度
               content: "http://127.0.0.1/image/test.JPG",
-              border: "1px solid #ccc",
+              // content: "http://127.0.0.1/image/test2.JPG",
+              border: "20px solid #ccc",
             },
             {
               content: "",

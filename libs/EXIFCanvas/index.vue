@@ -6,11 +6,21 @@
       canvas-id="exifCanvas"
       :style="[canvasStyle]"
     ></canvas>
+    <!-- <view class="downloader" v-show="showGenerator"> -->
+    <view class="downloader">
+      <canvas
+        class="downloaderCanvas"
+        id="downloaderCanvas"
+        canvas-id="downloaderCanvas"
+        :style="[downloaderCanvasStyle]"
+      ></canvas>
+    </view>
   </view>
 </template>
 
 <script>
-import { EXIFDrawJSON } from "@/libs/configCanvas";
+import { EXIFDrawJSON, EXIFRedraw } from "@/libs/configCanvas";
+import { getScaling, getCoreVar } from "@/libs/configCanvas/var";
 export default {
   props: {
     value: {
@@ -28,7 +38,8 @@ export default {
       EXIFConfigList: [],
       canvas: null,
       canvasStyle: {},
-      showGenerator: false,
+      downloaderCanvasStyle: {},
+      showGenerator: true,
 
       tempImage: "",
       tempImageBase64: "",
@@ -58,7 +69,9 @@ export default {
     let that = this;
     setTimeout(() => {
       that.canvas = uni.createCanvasContext("exifCanvas", this);
-      EXIFDrawJSON(that.canvas, that, that.value);
+      EXIFDrawJSON(that.canvas, that, that.value, {}, function () {
+        console.log("EXIFDrawJSON end cb 1");
+      });
     }, 500);
   },
   //方法集合
@@ -66,71 +79,92 @@ export default {
     setCanvasConfigList(list = []) {
       this.EXIFConfigList = list;
       if (list.length > 0) {
+        let scaling = getScaling();
         // 设置 canvas 样式
         let style = {};
         for (let index = 0; index < list.length; index++) {
           const item = list[index];
           if (item.root) {
-            style.width = item.width + "px";
-            style.height = item.height + "px";
+            style.width = item.width * scaling + "px";
+            style.height = item.height * scaling + "px";
+            // style.width = item.width + "px";
+            // style.height = item.height + "px";
             break;
           }
         }
-        this.canvasStyle = style;
+        let isDownloader = getCoreVar("downloader");
+        if (!isDownloader) {
+          this.canvasStyle = style;
+        } else {
+          this.downloaderCanvasStyle = style;
+        }
+        console.log("style", style);
       }
     },
     downLoader() {
       let that = this;
       console.log("down");
-      let { EXIFConfigList } = this;
       this.showGenerator = true;
-      let photoDrawInfo = {};
-      for (let index = 0; index < EXIFConfigList.length; index++) {
-        const item = EXIFConfigList[index];
-        if (item.root) {
-          photoDrawInfo = item;
-        }
-      }
-
-      uni.canvasToTempFilePath(
-        {
-          //将canvas生成图片
-          x: 0,
-          y: 0,
-          width: photoDrawInfo.width,
-          height: photoDrawInfo.height,
-          canvasId: "exifCanvas",
-          // canvas: that.canvas,
-          fileType: "jpg",
-          success: (res) => {
-            console.log("res.tempFilePath", res.tempFilePath);
-            that.tempImage = res.tempFilePath;
-            try {
-              uni.getFileSystemManager().readFile({
-                filePath: res.tempFilePath,
-                encoding: "base64",
-                success: (res2) => {
-                  let base64 = "data:image/jpeg;base64," + res2.data; //不加上这串字符，在页面无法显示
-                  that.tempImageBase64 = base64;
-                  that.showGenerator = false;
-                  that.downloadImage();
-                },
-              });
-            } catch (e) {
-              //TODO handle the exception
-              console.log("urlTobase64", e);
-              that.showGenerator = false;
+      setTimeout(() => {
+        let tempCanvas = uni.createCanvasContext("downloaderCanvas", this);
+        EXIFDrawJSON(
+          tempCanvas,
+          that,
+          that.value,
+          {
+            downloader: true,
+          },
+          function () {
+            console.log("EXIFDrawJSON end cb");
+            let scaling = getScaling();
+            let photoDrawInfo = {};
+            for (let index = 0; index < that.EXIFConfigList.length; index++) {
+              const item = that.EXIFConfigList[index];
+              if (item.root) {
+                photoDrawInfo = item;
+              }
             }
-          },
-          fail: (err) => {
-            console.log(err);
-            that.loading = false;
-            uni.hideLoading();
-            that.showGenerator = false;
-          },
-        },
-        that
-      );
+            uni.canvasToTempFilePath(
+              {
+                //将canvas生成图片
+                x: 0,
+                y: 0,
+                width: photoDrawInfo.width * scaling,
+                height: photoDrawInfo.height * scaling,
+                canvasId: "downloaderCanvas",
+                // canvas: that.canvas,
+                fileType: "jpg",
+                success: (res) => {
+                  that.tempImage = res.tempFilePath;
+                  try {
+                    uni.getFileSystemManager().readFile({
+                      filePath: res.tempFilePath,
+                      encoding: "base64",
+                      success: (res2) => {
+                        let base64 = "data:image/jpeg;base64," + res2.data; //不加上这串字符，在页面无法显示
+                        that.tempImageBase64 = base64;
+                        that.showGenerator = false;
+                        that.downloadImage();
+                      },
+                    });
+                  } catch (e) {
+                    //TODO handle the exception
+                    console.log("urlTobase64", e);
+                    that.showGenerator = false;
+                  }
+                },
+                fail: (err) => {
+                  console.log(err);
+                  that.loading = false;
+                  uni.hideLoading();
+                  that.showGenerator = false;
+                },
+              },
+              that
+            );
+          }
+        );
+      }, 500);
     },
 
     //点击保存到相册
@@ -193,12 +227,22 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  // overflow: hidden;
+  position: relative;
   .canvas {
     border: 1px rgb(229, 222, 255) solid;
     margin: 10px;
     min-width: 320px;
     height: 320px;
     background: rgb(229, 222, 255);
+  }
+  .downloaderCanvas {
+    // visibility: hidden;
+    position: absolute;
+    // left: 0px;
+    // right: 0px;
+    // background: rgb(177, 229, 190);
+    left: 10000px;
   }
 }
 </style>

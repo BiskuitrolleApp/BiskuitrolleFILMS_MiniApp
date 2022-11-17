@@ -1,4 +1,4 @@
-import { getScaling } from "./Core";
+import { getScaling } from "./var";
 /**
  * 绘制圆角矩形
  * @param {*} ctx canvas object
@@ -149,7 +149,7 @@ const roundRect = function (ctx, border, xAxis, yxAxis, width, height, round) {
       borderInfoList[7].lineWidth = borderInfoList[7].lineWidth > border.width.left ? borderInfoList[7].lineWidth : border.width.left
       borderInfoList[0].lineWidth = borderInfoList[0].lineWidth > border.width.left ? borderInfoList[0].lineWidth : border.width.left
     }
-    // console.log('borderList', borderInfoList)
+    console.log('borderList', borderInfoList)
     for (let index = 0; index < borderInfoList.length; index++) {
       const item = borderInfoList[index];
       if (item.lineWidth && item.lineWidth > 0) {
@@ -177,10 +177,12 @@ const roundRect = function (ctx, border, xAxis, yxAxis, width, height, round) {
 const drawText = function (ctx, text, font, x, y, maxWidth = 999) {
   let scaling = getScaling()
   let { bold, fontSize = 12, color = "#000000", fontFamily, textAlign } = font;
+  let currentFontSize = fontSize * scaling
+  // let currentFontSize = 30
   if (bold) {
-    ctx.font = `bold ${fontSize * scaling}px ${fontFamily ? fontFamily : "sans-serif"}`;
+    ctx.font = `bold ${currentFontSize}px ${fontFamily ? fontFamily : "sans-serif"}`;
   } else {
-    ctx.font = `normal ${fontSize * scaling}px ${fontFamily ? fontFamily : "sans-serif"}`;
+    ctx.font = `normal ${currentFontSize}px ${fontFamily ? fontFamily : "sans-serif"}`;
   }
   // if (textAlign) {
   //   ctx.textAlign = textAlign;
@@ -188,17 +190,17 @@ const drawText = function (ctx, text, font, x, y, maxWidth = 999) {
   //   ctx.textAlign = "left";
   // }
   ctx.textBaseline = "middle";
-  ctx.setFontSize(fontSize * scaling);
+  ctx.setFontSize(currentFontSize);
   ctx.setFillStyle(color);
   // const fontHeight = 12;
   if (ctx.measureText(text).width > maxWidth * scaling) {
     var count = 1;
-    while (ctx.measureText(text.slice(0, text.length - count)).width > 693 * scaling) {
+    while (ctx.measureText(text.slice(0, text.length - count)).width > maxWidth * scaling) {
       count++;
     }
-    ctx.fillText(text.slice(0, text.length - (count + 1)) + "...", x * scaling, (Number(y) + Number(fontSize)) * scaling);
+    ctx.fillText(text.slice(0, text.length - (count + 1)) + "...", x, (Number(y) + Number(fontSize)));
   } else {
-    ctx.fillText(text, x * scaling, (Number(y) + Number(fontSize)) * scaling);
+    ctx.fillText(text, x, (Number(y) + Number(currentFontSize)));
   }
 };
 /**
@@ -210,8 +212,11 @@ const drawBorder = function (ctx, EXIFINFO) {
   let border = EXIFINFO.getBorder();
   let padding = [EXIFINFO.computedData.padding.top * 1 || 0, EXIFINFO.computedData.padding.right * 1 || 0, EXIFINFO.computedData.padding.bottom * 1 || 0, EXIFINFO.computedData.padding.left * 1 || 0];
   let margin = [EXIFINFO.computedData.margin.top * 1 || 0, EXIFINFO.computedData.margin.right * 1 || 0, EXIFINFO.computedData.margin.bottom * 1 || 0, EXIFINFO.computedData.margin.left * 1 || 0];
-  let x = EXIFINFO.axisInfo.x * 1 - padding[3];
-  let y = EXIFINFO.axisInfo.y * 1 - padding[0];
+  let borderDate = [border.width.top * 1 || 0, border.width.right * 1 || 0, border.width.bottom * 1 || 0, border.width.left * 1 || 0];
+  let x = EXIFINFO.axisInfo.x * 1 - padding[3] - borderDate[3];
+  let y = EXIFINFO.axisInfo.y * 1 - padding[0] - borderDate[0];
+  // let w = EXIFINFO.width * 1 - margin[1] - margin[3] - borderDate[3] - borderDate[1];
+  // let h = EXIFINFO.height * 1 - margin[0] - margin[2] - borderDate[2]- borderDate[2];
   let w = EXIFINFO.width * 1 - margin[1] - margin[3];
   let h = EXIFINFO.height * 1 - margin[0] - margin[2];
   roundRect(ctx, border, x, y, w, h, EXIFINFO.round);
@@ -223,8 +228,8 @@ const canvasDrawImage = function (ctx, domcomentVue, imgEXIFINFO) {
   let scaling = getScaling()
   drawBorder(ctx, imgEXIFINFO); // 绘制border
   // ctx.drawImage(img, 0, 0, width, height, 0, 0, canvasWidth, canvasHeight)
-  if (!imgEXIFINFO.mainImage)
-    ctx.drawImage(imgEXIFINFO.content, imgEXIFINFO.axisInfo.x * scaling, imgEXIFINFO.axisInfo.y * scaling, imgEXIFINFO.contentWidth * scaling, imgEXIFINFO.contentHeight * scaling); // 绘制图案
+  // if (!imgEXIFINFO.mainImage)
+  ctx.drawImage(imgEXIFINFO.content, imgEXIFINFO.axisInfo.x * scaling, imgEXIFINFO.axisInfo.y * scaling, imgEXIFINFO.contentWidth * scaling, imgEXIFINFO.contentHeight * scaling); // 绘制图案
 };
 
 // canvas text draw方法
@@ -232,7 +237,7 @@ const canvasDrawText = function (ctx, textEXIFINFO) {
   let scaling = getScaling()
   drawBorder(ctx, textEXIFINFO); // 绘制border
   // 绘制文字
-  drawText(ctx, textEXIFINFO.content, textEXIFINFO.font, textEXIFINFO.axisInfo.x * scaling, textEXIFINFO.axisInfo.y * scaling, 320 * scaling);
+  drawText(ctx, textEXIFINFO.content, textEXIFINFO.font, textEXIFINFO.axisInfo.x * scaling, textEXIFINFO.axisInfo.y * scaling, 320);
 };
 
 // canvas block draw方法
