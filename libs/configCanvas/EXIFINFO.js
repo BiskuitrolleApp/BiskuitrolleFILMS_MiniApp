@@ -16,7 +16,7 @@ const $MAX_IMAGE_DOWNLOADER_WIDTH = 3000 // 图片下载器最大为下载为300
 
 // exif 信息对象
 class EXIFINFO {
-  constructor(id, type, parentNode, content, value) {
+  constructor(id, type, parentNode, content, value, customDataDictionary = [], customDataDictionaryNotNeed = []) {
     this.level = 0; // 层级
     this.parentNode = parentNode; // 父元素
     if (parentNode.id) {
@@ -71,14 +71,15 @@ class EXIFINFO {
     }
     this.xAxisOffset = 0; // x偏移
     this.yAxisOffset = 0; // y偏移
-
+    let cDataDictionary = [...customDataDictionary, ...dataDictionary]
+    let cDataDictionaryNotNeed = [...customDataDictionaryNotNeed, ...dataDictionaryNotNeed]
     // 赋值默认信息
     for (const key in value) {
       if (Object.hasOwnProperty.call(value, key)) {
         const ObjValue = value[key];
-        if (dataDictionary.indexOf(key) >= 0 && dataDictionaryNotNeed.indexOf(key) < 0) {
+        if (cDataDictionary.indexOf(key) >= 0 && cDataDictionaryNotNeed.indexOf(key) < 0) {
           this[key] = ObjValue
-        } else if (dataDictionaryNotNeed.indexOf(key) < 0) {
+        } else if (cDataDictionaryNotNeed.indexOf(key) < 0) {
           this.customOption[key] = ObjValue
         }
       }
@@ -319,7 +320,7 @@ export class imgEXIFINFO extends EXIFINFO {
 export class textEXIFINFO extends EXIFINFO {
   constructor(id, value, parentNode, LIST_fontInfo) {
     // super(id, value.content, parentNode, "text");
-    super(id, "text", parentNode, value.content, value);
+    super(id, "text", parentNode, value.content, value, [], ['font']);
     this.font = {
       fontSize: 12,
       color: '#000000',

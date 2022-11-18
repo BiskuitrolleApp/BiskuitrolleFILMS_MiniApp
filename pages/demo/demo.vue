@@ -27,13 +27,17 @@ export default {
           child: [
             {
               type: "imageMain",
-              maxWidth: 200, // 只能设置宽度
+              maxWidth: 320, // 只能设置宽度
               content: "http://127.0.0.1/image/test.JPG",
               // content: "http://127.0.0.1/image/test2.JPG",
-              border: "20 solid #ccc",
-              margin:'20',
-              padding:'20',
-              round: 10,
+              // border: "20 solid #ccc",
+              // margin:'20',
+              // padding:'20',
+              // round: 10,
+              input: {
+                type: "imagePick",
+                id: "imageMain",
+              },
             },
             {
               content: "",
@@ -52,6 +56,11 @@ export default {
                       padding: "10 10 1 10",
                       font: {
                         fontSize: 8,
+                        bold: true,
+                      },
+                      input: {
+                        type: "input",
+                        id: "Model",
                       },
                     },
                     {
@@ -60,6 +69,10 @@ export default {
                       padding: "1 10 10 10",
                       font: {
                         fontSize: 8,
+                      },
+                      input: {
+                        type: "input",
+                        id: "pictureMessage",
                       },
                     },
                   ],
@@ -82,6 +95,10 @@ export default {
                       // content: "http://127.0.0.1/image/leica.png",
                       // marign: "0 5 0 0",
                       margin: "0 5 0 0",
+                      input: {
+                        type: "icon",
+                        id: "brandLogo",
+                      },
                     },
                     {
                       type: "block",
@@ -97,6 +114,11 @@ export default {
                           font: {
                             fontSize: 8,
                             textAlign: "right",
+                            bold: true,
+                          },
+                          input: {
+                            type: "input",
+                            id: "userInfo",
                           },
                         },
                         {
@@ -107,6 +129,10 @@ export default {
                           font: {
                             fontSize: 8,
                             textAlign: "right",
+                          },
+                          input: {
+                            type: "input",
+                            id: "shotTime",
                           },
                         },
                       ],
