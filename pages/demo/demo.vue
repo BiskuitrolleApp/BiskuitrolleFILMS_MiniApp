@@ -27,10 +27,13 @@ export default {
           child: [
             {
               type: "imageMain",
-              maxWidth: 320, // 只能设置宽度
+              maxWidth: 200, // 只能设置宽度
               content: "http://127.0.0.1/image/test.JPG",
               // content: "http://127.0.0.1/image/test2.JPG",
-              border: "20px solid #ccc",
+              border: "20 solid #ccc",
+              margin:'20',
+              padding:'20',
+              round: 10,
             },
             {
               content: "",

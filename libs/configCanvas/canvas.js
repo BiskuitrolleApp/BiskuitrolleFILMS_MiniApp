@@ -42,10 +42,10 @@ const roundRect = function (ctx, border, xAxis, yxAxis, width, height, round) {
     {
       type: "angle",
       name: "left-top",
-      x1: x,
-      y1: y,
-      x2: x + r,
-      y2: y,
+      angleX: x,
+      angleY: y,
+      endX: x + r,
+      endY: y,
       r: r,
       moveX: x,
       moveY: y + r,
@@ -54,8 +54,8 @@ const roundRect = function (ctx, border, xAxis, yxAxis, width, height, round) {
     {
       type: "line",
       name: "top",
-      x1: x + w - r,
-      y1: y,
+      endX: x + w - r,
+      endY: y,
       moveX: x + r,
       moveY: y,
       lineWidth: 0,
@@ -63,10 +63,10 @@ const roundRect = function (ctx, border, xAxis, yxAxis, width, height, round) {
     {
       type: "angle",
       name: "right-top",
-      x1: x + w,
-      y1: y,
-      x2: x + w,
-      y2: y + r,
+      angleX: x + w,
+      angleY: y,
+      endX: x + w,
+      endY: y + r,
       r: r,
       moveX: x + w - r,
       moveY: y,
@@ -75,8 +75,8 @@ const roundRect = function (ctx, border, xAxis, yxAxis, width, height, round) {
     {
       type: "line",
       name: "right",
-      x1: x + w,
-      y1: y + h - r,
+      endX: x + w,
+      endY: y + h - r,
       moveX: x + w,
       moveY: y + r,
       lineWidth: 0,
@@ -84,10 +84,10 @@ const roundRect = function (ctx, border, xAxis, yxAxis, width, height, round) {
     {
       type: "angle",
       name: "right-bottom",
-      x1: x + w,
-      y1: y + h,
-      x2: x + w - r,
-      y2: y + h,
+      angleX: x + w,
+      angleY: y + h,
+      endX: x + w - r,
+      endY: y + h,
       r: r,
       moveX: x + w,
       moveY: y + h - r,
@@ -96,8 +96,8 @@ const roundRect = function (ctx, border, xAxis, yxAxis, width, height, round) {
     {
       type: "line",
       name: "bottom",
-      x1: x + r,
-      y1: y + h,
+      endX: x + r,
+      endY: y + h,
       moveX: x + w - r,
       moveY: y + h,
       lineWidth: 0,
@@ -105,10 +105,10 @@ const roundRect = function (ctx, border, xAxis, yxAxis, width, height, round) {
     {
       type: "angle",
       name: "left-bottom",
-      x1: x,
-      y1: y + h,
-      x2: x,
-      y2: y + h - r,
+      angleX: x,
+      angleY: y + h,
+      endX: x,
+      endY: y + h - r,
       r: r,
       moveX: x + r,
       moveY: y + h,
@@ -117,8 +117,8 @@ const roundRect = function (ctx, border, xAxis, yxAxis, width, height, round) {
     {
       type: "line",
       name: "left",
-      x1: x,
-      y1: y + r,
+      endX: x,
+      endY: y + r,
       moveX: x,
       moveY: y + h - r,
       lineWidth: 0,
@@ -130,40 +130,76 @@ const roundRect = function (ctx, border, xAxis, yxAxis, width, height, round) {
       borderInfoList[0].lineWidth = borderInfoList[0].lineWidth > border.width.top ? borderInfoList[0].lineWidth : border.width.top
       borderInfoList[1].lineWidth = borderInfoList[1].lineWidth > border.width.top ? borderInfoList[1].lineWidth : border.width.top
       borderInfoList[2].lineWidth = borderInfoList[2].lineWidth > border.width.top ? borderInfoList[2].lineWidth : border.width.top
+      if (borderInfoList[0].r === 0) {
+        let borderWidth = border.width.left || 0;
+        borderInfoList[1].moveX -= borderWidth / 2
+      }
+      if (borderInfoList[2].r === 0) {
+        let borderWidth = border.width.right || 0;
+        borderInfoList[1].endX += borderWidth / 2
+      }
     }
     if (border.width.right && border.width.right > 0) {
       // 右
       borderInfoList[2].lineWidth = borderInfoList[2].lineWidth > border.width.right ? borderInfoList[0].lineWidth : border.width.right
       borderInfoList[3].lineWidth = borderInfoList[3].lineWidth > border.width.right ? borderInfoList[1].lineWidth : border.width.right
       borderInfoList[4].lineWidth = borderInfoList[4].lineWidth > border.width.right ? borderInfoList[2].lineWidth : border.width.right
+
+      if (borderInfoList[2].r === 0) {
+        let borderWidth = border.width.top || 0;
+        borderInfoList[3].moveY -= borderWidth / 2
+      }
+      if (borderInfoList[4].r === 0) {
+        let borderWidth = border.width.bottom || 0;
+        borderInfoList[3].endY += borderWidth / 2
+      }
     }
     if (border.width.bottom && border.width.bottom > 0) {
       // 下
       borderInfoList[4].lineWidth = borderInfoList[4].lineWidth > border.width.bottom ? borderInfoList[4].lineWidth : border.width.bottom
       borderInfoList[5].lineWidth = borderInfoList[5].lineWidth > border.width.bottom ? borderInfoList[5].lineWidth : border.width.bottom
       borderInfoList[6].lineWidth = borderInfoList[6].lineWidth > border.width.bottom ? borderInfoList[6].lineWidth : border.width.bottom
+
+      if (borderInfoList[4].r === 0) {
+        let borderWidth = border.width.right || 0;
+        borderInfoList[5].moveX += borderWidth / 2
+      }
+      if (borderInfoList[6].r === 0) {
+        let borderWidth = border.width.left || 0;
+        borderInfoList[5].endX -= borderWidth / 2
+      }
     }
     if (border.width.left && border.width.left > 0) {
       // 左
       borderInfoList[6].lineWidth = borderInfoList[6].lineWidth > border.width.left ? borderInfoList[6].lineWidth : border.width.left
       borderInfoList[7].lineWidth = borderInfoList[7].lineWidth > border.width.left ? borderInfoList[7].lineWidth : border.width.left
       borderInfoList[0].lineWidth = borderInfoList[0].lineWidth > border.width.left ? borderInfoList[0].lineWidth : border.width.left
+
+      if (borderInfoList[6].r === 0) {
+        let borderWidth = border.width.bottom || 0;
+        borderInfoList[7].moveY += borderWidth / 2
+      }
+      if (borderInfoList[0].r === 0) {
+        let borderWidth = border.width.top || 0;
+        borderInfoList[7].endY -= borderWidth / 2
+      }
+
     }
-    console.log('borderList', borderInfoList)
+    // console.log('borderList', borderInfoList)
     for (let index = 0; index < borderInfoList.length; index++) {
       const item = borderInfoList[index];
       if (item.lineWidth && item.lineWidth > 0) {
-        if (item.type === "angle") {
+        if (item.type === "line") {
           ctx.beginPath();
           ctx.moveTo(item.moveX * scaling, item.moveY * scaling);
           ctx.lineWidth = item.lineWidth * scaling;
-          ctx.arcTo(item.x1 * scaling, item.y1 * scaling, item.x2 * scaling, item.y2 * scaling, item.r * scaling); // 角
+          ctx.lineTo(item.endX * scaling, item.endY * scaling); // 线
           ctx.stroke();
-        } else if (item.type === "line") {
+        } else if (item.type === "angle") {
           ctx.beginPath();
           ctx.moveTo(item.moveX * scaling, item.moveY * scaling);
           ctx.lineWidth = item.lineWidth * scaling;
-          ctx.lineTo(item.x1 * scaling, item.y1 * scaling); // 线
+          ctx.arcTo(item.angleX * scaling, item.angleY * scaling, item.endX * scaling, item.endY * scaling, item.r * scaling); // 角
           ctx.stroke();
         }
       }
@@ -213,12 +249,12 @@ const drawBorder = function (ctx, EXIFINFO) {
   let padding = [EXIFINFO.computedData.padding.top * 1 || 0, EXIFINFO.computedData.padding.right * 1 || 0, EXIFINFO.computedData.padding.bottom * 1 || 0, EXIFINFO.computedData.padding.left * 1 || 0];
   let margin = [EXIFINFO.computedData.margin.top * 1 || 0, EXIFINFO.computedData.margin.right * 1 || 0, EXIFINFO.computedData.margin.bottom * 1 || 0, EXIFINFO.computedData.margin.left * 1 || 0];
   let borderDate = [border.width.top * 1 || 0, border.width.right * 1 || 0, border.width.bottom * 1 || 0, border.width.left * 1 || 0];
-  let x = EXIFINFO.axisInfo.x * 1 - padding[3] - borderDate[3];
-  let y = EXIFINFO.axisInfo.y * 1 - padding[0] - borderDate[0];
-  // let w = EXIFINFO.width * 1 - margin[1] - margin[3] - borderDate[3] - borderDate[1];
-  // let h = EXIFINFO.height * 1 - margin[0] - margin[2] - borderDate[2]- borderDate[2];
-  let w = EXIFINFO.width * 1 - margin[1] - margin[3];
-  let h = EXIFINFO.height * 1 - margin[0] - margin[2];
+  let x = EXIFINFO.axisInfo.x * 1 - padding[3] - borderDate[3] / 2;
+  let y = EXIFINFO.axisInfo.y * 1 - padding[0] - borderDate[0] / 2;
+  let w = EXIFINFO.width * 1 - margin[1] - margin[3] - borderDate[3] / 2 - borderDate[1] / 2;
+  let h = EXIFINFO.height * 1 - margin[0] - margin[2] - borderDate[2] / 2 - borderDate[2] / 2;
+  // let w = EXIFINFO.width * 1 - margin[1] - margin[3];
+  // let h = EXIFINFO.height * 1 - margin[0] - margin[2];
   roundRect(ctx, border, x, y, w, h, EXIFINFO.round);
 };
 
