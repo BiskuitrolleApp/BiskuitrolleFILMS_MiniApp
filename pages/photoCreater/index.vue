@@ -73,7 +73,7 @@ export default {
                         bold: true,
                       },
                       input: {
-                        content:'XSXS'
+                        content:'XSXS',
                         type: "input",
                         id: "Model",
                       },
