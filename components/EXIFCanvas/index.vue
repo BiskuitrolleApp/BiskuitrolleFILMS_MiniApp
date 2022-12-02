@@ -21,6 +21,7 @@
 <script>
 import { EXIFDrawJSON, EXIFRedraw } from "@/libs/configCanvas";
 import { getScaling, getCoreVar } from "@/libs/configCanvas/var";
+import value from "../../uni_modules/uview-ui/components/u-text/value";
 export default {
   props: {
     value: {
@@ -50,15 +51,8 @@ export default {
     value: {
       handler(newValue, oldValue) {
         // console.log("newValue, oldValue", newValue, oldValue);
-        if (newValue.length > 0) {
-          if (oldValue.length > 0) {
-            if (this.autoReDraw) {
-              EXIFDrawJSON(this.canvas, this, newValue);
-            }
-          }
-          if (oldValue.length == 0) {
-            EXIFDrawJSON(this.canvas, this, newValue);
-          }
+        if (newValue.length > 0 && oldValue.length > 0 && this.autoReDraw) {
+          EXIFDrawJSON(this.canvas, this, newValue);
         }
       },
       deep: true,
@@ -67,15 +61,21 @@ export default {
   //生命周期 - 挂载完成（可以访问DOM元素）
   mounted() {
     let that = this;
-    setTimeout(() => {
-      that.canvas = uni.createCanvasContext("exifCanvas", this);
-      EXIFDrawJSON(that.canvas, that, that.value, {}, function () {
-        console.log("EXIFDrawJSON end cb 1");
-      });
-    }, 500);
+    // setTimeout(() => {
+    that.canvas = uni.createCanvasContext("exifCanvas", this);
+    //   EXIFDrawJSON(that.canvas, that, that.value, {}, function () {
+    //     console.log("EXIFDrawJSON end cb 1");
+    //   });
+    // }, 500);
   },
   //方法集合
   methods: {
+    draw() {
+      console.log("value", JSON.stringify(this.value));
+      EXIFDrawJSON(this.canvas, this, this.value, {}, function () {
+        console.log("EXIFDrawJSON end cb 1");
+      });
+    },
     setCanvasConfigList(list = []) {
       this.EXIFConfigList = list;
       if (list.length > 0) {
@@ -230,11 +230,11 @@ export default {
   // overflow: hidden;
   position: relative;
   .canvas {
-    border: 1px rgb(229, 222, 255) solid;
+    // border: 1px rgb(229, 222, 255) solid;
     margin: 10px;
     min-width: 320px;
     height: 320px;
-    background: rgb(229, 222, 255);
+    // background: rgb(229, 222, 255);
   }
   .downloaderCanvas {
     // visibility: hidden;

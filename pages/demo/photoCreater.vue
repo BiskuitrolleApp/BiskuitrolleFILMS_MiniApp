@@ -14,7 +14,7 @@
 
 <script>
 // import { EXIFDrawJSON } from "@/libs/configCanvas";
-import exifCanvas from "@/libs/EXIFCanvas";
+import exifCanvas from "@/components/EXIFCanvas";
 export default {
   components: {
     exifCanvas,
@@ -149,6 +149,7 @@ export default {
   mounted() {
     // let ctx = uni.createCanvasContext("canvas");
     // EXIFDrawJSON(ctx, this, this.demo);
+    console.log("demo", this.demo);
   },
   //方法集合
   methods: {

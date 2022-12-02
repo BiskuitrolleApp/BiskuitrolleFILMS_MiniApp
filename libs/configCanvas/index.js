@@ -3,8 +3,6 @@ import core from './Core'
 import { canvasDrawMain } from "./canvas";
 import { getScaling } from "./var";
 
-// TODO 使用config 预加载一个格式
-// TODO 添加元素到ObjectList中，使用默认排序
 // TODO 实现redraw方法 只重新渲染页面图片 无视页面间隔和排序
 // TODO 实现reLoad方法，重新按照该页面数据进行重新计算间隔
 // TODO 提供一键优化调用实现reLoad方法进行页面重排序

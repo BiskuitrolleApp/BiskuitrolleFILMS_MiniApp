@@ -307,7 +307,7 @@ export class imgEXIFINFO extends EXIFINFO {
 
           console.log('result', result)
           res(result)
-        }
+        },
       })
     })
   }

@@ -1,62 +1,73 @@
 {
-	// "condition": { //模式配置，仅开发期间生效
-	// 	"current": 0, //当前激活的模式(list 的索引项)
-	// 	"list": [{
-	// 		"name": "test", //模式名称
-	// 		"path": "pages/componentsA/test/test", //启动页面，必选
-	// 		"query": "" //启动参数，在页面的onLoad函数里面得到
-	// 	}]
-	// },
-	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-		{
-			"path": "pages/home/home",
-			"style": {
-				"navigationBarTitleText": "主页",
-				"enablePullDownRefresh": false,
-				"backgroundColor": "#ECECEC"
-				// "navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/borderList/photoBorder/index",
-			"style": {
-				"navigationBarTitleText": "通用边框",
-				"backgroundColor": "#ECECEC"
-			}
-		},
-		{
-			"path": "pages/borderList/photoBorder2/index",
-			"style": {
-				"navigationBarTitleText": "居中边框",
-				"enablePullDownRefresh": false,
-				"backgroundColor": "#ECECEC"
-			}
-		}
-
-	    ,{
-            "path" : "pages/demo/demo",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "demo",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-    ],
-	// "subPackages": [{
-	// 	"root": "pages/componentsFunction",
-	// 	"pages": [{
-	// 		"path": "photoBorder/photoBorder",
-	// 		"style": {
-	// 			"navigationBarTitleText": "边框",
-	// 			"backgroundColor": "#cecece"
-	// 		}
-	// 	}]
-	// }],
-	"globalStyle": {
-		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "itools",
-		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8"
-	}
+  // "condition": { //模式配置，仅开发期间生效
+  // 	"current": 0, //当前激活的模式(list 的索引项)
+  // 	"list": [{
+  // 		"name": "test", //模式名称
+  // 		"path": "pages/componentsA/test/test", //启动页面，必选
+  // 		"query": "" //启动参数，在页面的onLoad函数里面得到
+  // 	}]
+  // },
+  "pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+    {
+      "path": "pages/home/home",
+      "style": {
+        "navigationBarTitleText": "主页",
+        "enablePullDownRefresh": false,
+        "backgroundColor": "#ECECEC"
+        // "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/borderList/photoBorder/index",
+      "style": {
+        "navigationBarTitleText": "通用边框",
+        "backgroundColor": "#ECECEC"
+      }
+    },
+    {
+      "path": "pages/borderList/photoBorder2/index",
+      "style": {
+        "navigationBarTitleText": "居中边框",
+        "enablePullDownRefresh": false,
+        "backgroundColor": "#ECECEC"
+      }
+    },
+    {
+      "path": "pages/demo/photoCreater",
+      "style": {
+        "navigationBarTitleText": "demo",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/photoCreater/index",
+      "style": {
+        "navigationBarTitleText": "生成系统",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/photoCreater/list",
+      "style": {
+        "navigationBarTitleText": "选择列表",
+        "enablePullDownRefresh": false
+      }
+    }
+  ],
+  // "subPackages": [{
+  // 	"root": "pages/componentsFunction",
+  // 	"pages": [{
+  // 		"path": "photoBorder/photoBorder",
+  // 		"style": {
+  // 			"navigationBarTitleText": "边框",
+  // 			"backgroundColor": "#cecece"
+  // 		}
+  // 	}]
+  // }],
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "itools",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  }
 }
