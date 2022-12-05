@@ -1,19 +1,45 @@
 <template>
   <view class="photoCreater">
-    <view class="canvas-box" @click="onUpdatedFile" v-if="emptyCanvas">
+    <view class="select-box" @click="onUpdatedFile" v-show="emptyCanvas">
       <view class="iconTipBox_wrapper">
         <view class="icon_wrapper"><u-icon name="photo"></u-icon></view>
         <view class="tip">点击上传图片</view>
       </view>
     </view>
-    <exif-canvas :value="configListInfo" ref="exifCanvas"></exif-canvas>
+    <view class="canvas-box" v-show="!emptyCanvas">
+      <exif-canvas :value="configListInfo" ref="exifCanvas"></exif-canvas>
+    </view>
     <view class="downLoadBtn">
+      <u-button
+        text="高级"
+        size="normal"
+        type="info"
+        @click="openPopup"
+      ></u-button>
       <u-button
         text="下载"
         size="normal"
-        color="#67C23A"
+        color="#D7C2F3"
         @click="saveImage"
       ></u-button>
+    </view>
+    <view class="popup-wrapper">
+      <u-popup
+        mode="bottom"
+        :closeable="true"
+        :round="10"
+        :show="showForm"
+        @close="closePopup"
+        :safeAreaInsetTop="true"
+        :safeAreaInsetBottom="true"
+      >
+        <info-form
+          :data="configListInfo"
+          :visible="showForm"
+          @close="closePopup"
+          @change="resetPhotoInfo"
+        ></info-form>
+      </u-popup>
     </view>
   </view>
 </template>
@@ -24,15 +50,20 @@ import exifCanvas from "@/components/EXIFCanvas";
 import { ImageInfo } from "./js/readImageInfo";
 import dataMap from "./config/dataMap";
 import setContentByInputType from "./js/inputConfigSetter";
+import editForm from "./components/editForm";
 import tools from "@/libs/tools";
 
 export default {
   components: {
     exifCanvas,
+    editForm,
   },
   data() {
     return {
       emptyCanvas: true,
+      // showForm: false,
+      showForm: true,
+
       userInfo: {},
       imageInfo: {},
       configListInfo: [
@@ -73,7 +104,7 @@ export default {
                         bold: true,
                       },
                       input: {
-                        content:'XSXS',
+                        content: "XSXS",
                         type: "input",
                         id: "Model",
                       },
@@ -171,6 +202,25 @@ export default {
   },
   //方法集合
   methods: {
+    closePopup() {
+      this.showForm = false;
+    },
+    openPopup() {
+      let that = this;
+      if (!that.imageInfo.url || that.imageInfo.url == "") {
+        uni.showModal({
+          title: "提示",
+          content: "需要先上传图片",
+          success: function (res) {
+            if (res.confirm) {
+              that.onUpdatedFile();
+            }
+          },
+        });
+      } else {
+        that.showForm = true;
+      }
+    },
     saveImage() {
       this.$refs.exifCanvas.downLoader();
     },
@@ -347,8 +397,17 @@ export default {
   // display: flex;
   // align-items: center;
   // justify-content: center;
-  .canvas-box {
-    margin: 10px auto;
+  background-color: #f8f8f8;
+  min-height: calc(100vh - 10px - constant(safe-area-inset-bottom) - 12px);
+  min-height: calc(100vh - 10px - env(safe-area-inset-bottom) - 12px);
+  padding-top: 10px;
+  padding-bottom: calc(
+    constant(safe-area-inset-bottom) + 12px
+  ); /* 兼容 iOS<11.2 */
+  padding-bottom: calc(env(safe-area-inset-bottom) + 12px); /* 兼容iOS>= 11.2 */
+  .select-box {
+    background: #fff;
+    margin: 0 auto;
     border: 1px dashed #ccc;
     width: 320px;
     height: 240px;
@@ -375,11 +434,14 @@ export default {
       }
     }
   }
-  .canvas {
-    border: 1px;
-    margin: 10px;
-    width: 320px;
-    // background: rgb(229, 222, 255);
+  .canvas-box {
+    /deep/.exifCanvas {
+      border: 1px dashed #ccc;
+      background: #fff;
+      width: 320px;
+      margin: 0 auto;
+      // background: rgb(229, 222, 255);
+    }
   }
   .downLoadBtn {
     position: fixed;
@@ -391,8 +453,20 @@ export default {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-column-gap: 10px;
-    margin-bottom: constant(safe-area-inset-bottom); /* 兼容 iOS<11.2 */
-    margin-bottom: env(safe-area-inset-bottom); /* 兼容iOS>= 11.2 */
+    padding-bottom: calc(
+      constant(safe-area-inset-bottom) + 12px
+    ); /* 兼容 iOS<11.2 */
+    padding-bottom: calc(
+      env(safe-area-inset-bottom) + 12px
+    ); /* 兼容iOS>= 11.2 */
+  }
+  .popup-wrapper {
+    .form-wrapper {
+      background-color: #fff;
+      max-height: 60vh;
+      height: 60vh;
+      overflow-y: auto;
+    }
   }
 }
 </style>

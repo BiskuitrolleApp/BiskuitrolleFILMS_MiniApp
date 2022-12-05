@@ -1,8 +1,17 @@
 <template>
   <view class="itools-list move-bg">
-    <view class="layoutToggleWrapper">
-      <u-icon :name="rightIcon" size="30" @click="layoutChange"></u-icon>
-    </view>
+    <!-- <u-navbar title="主页" :autoBack="false" leftIcon="home">
+      <view class="u-nav-slot" slot="right" :style="navStyle">
+        <u-icon :name="rightIcon" size="20" @click="layoutChange"></u-icon>
+      </view>
+    </u-navbar> -->
+    <u-navbar
+      title="主页"
+      :autoBack="false"
+      :leftIcon="rightIcon"
+      @leftClick="layoutChange"
+    >
+    </u-navbar>
     <view class="list-wrap" v-if="rightIcon == 'grid'">
       <cardItem
         class="cardList-item"
@@ -34,11 +43,20 @@ export default {
   },
   data() {
     return {
+      navStyle: 0,
       rightIcon: "grid",
       list: config.pageEntrance,
     };
   },
   async mounted() {
+    try {
+      let menu = uni.getMenuButtonBoundingClientRect();
+      let navRight = menu.width + 5 || 0;
+      this.navStyle = "padding-right:" + (navRight || 0) + "px";
+    } catch (error) {
+      console.error("getMenuButtonBoundingClientRect error", error);
+    }
+
     try {
       let config = await queryStorage("home:config");
       console.log("config", config);
@@ -75,14 +93,21 @@ export default {
     justify-content: center;
     align-content: flex-start;
     .cardList-item {
-      width: 260px;
-      margin-bottom: 20px;
-      margin-right: 10px;
+      // width: 300px;
+      width: 300px;
+      margin-top: 10px;
       // flex: 1;
     }
     .cellList-item {
       width: calc(100vw - 20px);
       margin: 0px 10px 0px 10px;
+      background: #fff;
+    }
+    .cellList-item:first-child {
+      border-radius: 4px 4px 0px 0px;
+    }
+    .cellList-item:last-child {
+      border-radius: 0px 0px 4px 4px;
     }
   }
   .layoutToggleWrapper {
@@ -95,28 +120,30 @@ export default {
 .move-bg {
   margin: 0;
   min-height: 100vh;
-  background-color: #e493d0;
-  background-image: radial-gradient(
-      closest-side,
-      rgba(235, 105, 78, 1),
-      rgba(235, 105, 78, 0)
-    ),
-    radial-gradient(closest-side, rgba(243, 11, 164, 1), rgba(243, 11, 164, 0)),
-    radial-gradient(
-      closest-side,
-      rgba(254, 234, 131, 1),
-      rgba(254, 234, 131, 0)
-    ),
-    radial-gradient(
-      closest-side,
-      rgba(170, 142, 245, 1),
-      rgba(170, 142, 245, 0)
-    ),
-    radial-gradient(
-      closest-side,
-      rgba(248, 192, 147, 1),
-      rgba(248, 192, 147, 0)
-    );
+  // background-color: #e493d0;
+  // background-color: #d7c2f3;
+  background-color: #f8f8f8;
+  // background-image: radial-gradient(
+  //     closest-side,
+  //     rgba(235, 105, 78, 1),
+  //     rgba(235, 105, 78, 0)
+  //   ),
+  //   radial-gradient(closest-side, rgba(243, 11, 164, 1), rgba(243, 11, 164, 0)),
+  //   radial-gradient(
+  //     closest-side,
+  //     rgba(254, 234, 131, 1),
+  //     rgba(254, 234, 131, 0)
+  //   ),
+  //   radial-gradient(
+  //     closest-side,
+  //     rgba(170, 142, 245, 1),
+  //     rgba(170, 142, 245, 0)
+  //   ),
+  //   radial-gradient(
+  //     closest-side,
+  //     rgba(248, 192, 147, 1),
+  //     rgba(248, 192, 147, 0)
+  //   );
   background-size: 130vmax 130vmax, 80vmax 80vmax, 90vmax 90vmax,
     110vmax 110vmax, 90vmax 90vmax;
   background-position: -80vmax -80vmax, 60vmax -30vmax, 10vmax 10vmax,

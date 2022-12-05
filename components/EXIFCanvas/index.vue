@@ -231,7 +231,7 @@ export default {
   position: relative;
   .canvas {
     // border: 1px rgb(229, 222, 255) solid;
-    margin: 10px;
+    // margin: 10px;
     min-width: 320px;
     height: 320px;
     // background: rgb(229, 222, 255);

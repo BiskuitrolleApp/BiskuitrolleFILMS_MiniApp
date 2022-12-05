@@ -25,14 +25,6 @@
       }
     },
     {
-      "path": "pages/borderList/photoBorder2/index",
-      "style": {
-        "navigationBarTitleText": "居中边框",
-        "enablePullDownRefresh": false,
-        "backgroundColor": "#ECECEC"
-      }
-    },
-    {
       "path": "pages/demo/photoCreater",
       "style": {
         "navigationBarTitleText": "demo",
@@ -49,7 +41,9 @@
     {
       "path": "pages/photoCreater/list",
       "style": {
-        "navigationBarTitleText": "选择列表",
+        // "navigationBarBackgroundColor": "#F8F8F8",
+        "navigationStyle": "custom", // 隐藏系统导航栏
+        "navigationBarTextStyle": "white", // 状态栏字体为白色，只能为 white-白色，black-黑色 二选一
         "enablePullDownRefresh": false
       }
     }
