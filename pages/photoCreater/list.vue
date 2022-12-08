@@ -49,13 +49,13 @@ export default {
     };
   },
   async mounted() {
-    try {
-      let menu = uni.getMenuButtonBoundingClientRect();
-      let navRight = menu.width + 5 || 0;
-      this.navStyle = "padding-right:" + (navRight || 0) + "px";
-    } catch (error) {
-      console.error("getMenuButtonBoundingClientRect error", error);
-    }
+    // try {
+    //   let menu = uni.getMenuButtonBoundingClientRect();
+    //   let navRight = menu.width + 5 || 0;
+    //   this.navStyle = "padding-right:" + (navRight || 0) + "px";
+    // } catch (error) {
+    //   console.error("getMenuButtonBoundingClientRect error", error);
+    // }
 
     try {
       let config = await queryStorage("home:config");

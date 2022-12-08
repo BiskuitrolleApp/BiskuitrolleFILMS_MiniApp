@@ -10,35 +10,12 @@
       <exif-canvas :value="configListInfo" ref="exifCanvas"></exif-canvas>
     </view>
     <view class="downLoadBtn">
-      <u-button
-        text="高级"
-        size="normal"
-        type="info"
-        @click="openPopup"
-      ></u-button>
-      <u-button
-        text="下载"
-        size="normal"
-        color="#D7C2F3"
-        @click="saveImage"
-      ></u-button>
+      <u-button text="高级" size="normal" type="info" @click="openPopup"></u-button>
+      <u-button text="下载" size="normal" color="#D7C2F3" @click="saveImage"></u-button>
     </view>
     <view class="popup-wrapper">
-      <u-popup
-        mode="bottom"
-        :closeable="true"
-        :round="10"
-        :show="showForm"
-        @close="closePopup"
-        :safeAreaInsetTop="true"
-        :safeAreaInsetBottom="true"
-      >
-        <info-form
-          :data="configListInfo"
-          :visible="showForm"
-          @close="closePopup"
-          @change="resetPhotoInfo"
-        ></info-form>
+      <u-popup mode="bottom" :closeable="true" :round="10" :show="showForm" @close="closePopup" :safeAreaInsetTop="true" :safeAreaInsetBottom="true">
+        <edit-form :value="configListInfo" :visible="showForm" :markLogo="markLogoList" @close="closePopup" @change="resetPhotoInfo"></edit-form>
       </u-popup>
     </view>
   </view>
@@ -51,6 +28,7 @@ import { ImageInfo } from "./js/readImageInfo";
 import dataMap from "./config/dataMap";
 import setContentByInputType from "./js/inputConfigSetter";
 import editForm from "./components/editForm";
+import photoLogo from "@/static/common/json/database_photoLogo.json";
 import tools from "@/libs/tools";
 
 export default {
@@ -61,11 +39,10 @@ export default {
   data() {
     return {
       emptyCanvas: true,
-      // showForm: false,
-      showForm: true,
-
+      showForm: false,
       userInfo: {},
       imageInfo: {},
+      markLogoList: [],
       configListInfo: [
         {
           id: "canvas",
@@ -80,6 +57,7 @@ export default {
               // padding:'20',
               // round: 10,
               input: {
+                cnName: "主要图片",
                 type: "imageMain",
                 id: "imageMain",
               },
@@ -104,6 +82,7 @@ export default {
                         bold: true,
                       },
                       input: {
+                        cnName: "型号",
                         content: "XSXS",
                         type: "input",
                         id: "Model",
@@ -117,6 +96,7 @@ export default {
                         fontSize: 8,
                       },
                       input: {
+                        cnName: "作者",
                         content: "PHOTO BY @User",
                         type: "input",
                         id: "Author",
@@ -143,7 +123,8 @@ export default {
                       // marign: "0 5 0 0",
                       margin: "0 5 0 0",
                       input: {
-                        content: "http://127.0.0.1/image/fujifilm.png",
+                        cnName: "品牌",
+                        content: "fujifilm",
                         type: "icon",
                         id: "Make",
                       },
@@ -165,6 +146,7 @@ export default {
                             bold: true,
                           },
                           input: {
+                            cnName: "拍摄信息",
                             content: "56mm f/2.2 1/1600 ISO600",
                             type: "input",
                             id: "ShotInfo",
@@ -180,8 +162,9 @@ export default {
                             textAlign: "right",
                           },
                           input: {
-                            content: "2022-01-01 00:00:00",
-                            type: "input",
+                            cnName: "时间",
+                            content: 1640966400000,
+                            type: "timepicker",
                             id: "DateTime",
                           },
                         },
@@ -197,29 +180,84 @@ export default {
     };
   },
   mounted() {
+    this.getPhotoConfigList();
     // let ctx = uni.createCanvasContext("canvas");
     // EXIFDrawJSON(ctx, this, this.demo);
   },
   //方法集合
   methods: {
+    // 获得配置信息
+    getPhotoConfigList() {
+      let that = this;
+      uni.getStorage({
+        key: "photoConfigData",
+        success: function ({ data }) {
+          let time = new Date().getTime();
+          if (data.expirationTime && time < data.expirationTime) {
+            that.photoConfigData = data.data;
+          } else {
+            that.getPhotoConfigListByDB();
+          }
+        },
+        fail: () => {
+          that.getPhotoConfigListByDB();
+        },
+      });
+    },
+    // 获得配置信息，从数据库中请求
+    getPhotoConfigListByDB() {
+      let that = this;
+      let tempPhotoLogo = photoLogo;
+      tempPhotoLogo = _.sortBy(tempPhotoLogo, function (o) {
+        return o.sort_key;
+      });
+      // console.log("photoLogo", photoLogo, tempPhotoLogo);
+      that.markLogoList = tempPhotoLogo;
+      // console.log("photoLogo", photoLogo);
+      // const db = uniCloud.database();
+      // console.log("数据库中获取");
+      // db.collection("photo_broder_logo_list")
+      //   .get()
+      //   .then(({ result }) => {
+      //     // res 为数据库查询结果
+      //     console.log("配置加载完成");
+      //     let list = result.data;
+      //     list = _.sortBy(list, function (o) {
+      //       return o.sort_key;
+      //     });
+      //     that.photoConfigData = list;
+      //     uni.setStorageSync("photoConfigData", {
+      //       data: list,
+      //       expirationTime: new Date().getTime() + 24 * 60 * 60 * 1000, // 过期时间为24小时
+      //     });
+      //   })
+      //   .catch((e) => {
+      //     that.photoConfigData = [];
+      //     uni.showToast({
+      //       icon: "error",
+      //       duration: 1000,
+      //       title: "配置加载失败",
+      //     });
+      //   });
+    },
     closePopup() {
       this.showForm = false;
     },
     openPopup() {
       let that = this;
-      if (!that.imageInfo.url || that.imageInfo.url == "") {
-        uni.showModal({
-          title: "提示",
-          content: "需要先上传图片",
-          success: function (res) {
-            if (res.confirm) {
-              that.onUpdatedFile();
-            }
-          },
-        });
-      } else {
-        that.showForm = true;
-      }
+      // if (!that.imageInfo.url || that.imageInfo.url == "") {
+      //   uni.showModal({
+      //     title: "提示",
+      //     content: "需要先上传图片",
+      //     success: function (res) {
+      //       if (res.confirm) {
+      //         that.onUpdatedFile();
+      //       }
+      //     },
+      //   });
+      // } else {
+      that.showForm = true;
+      // }
     },
     saveImage() {
       this.$refs.exifCanvas.downLoader();
@@ -260,8 +298,7 @@ export default {
           let time = new Date().getTime();
           if (data.expirationTime && time < data.expirationTime) {
             that.userInfo = data.userInfo;
-            that.userInfo.author =
-              "PHOTO BY @" + that.userInfo.nickName || "User";
+            that.userInfo.author = "PHOTO BY @" + that.userInfo.nickName || "User";
             if (callback && typeof callback == "function") {
               callback();
             }
@@ -284,8 +321,7 @@ export default {
         lang: "zh_CN",
         success: (resData) => {
           that.userInfo = resData.userInfo;
-          that.userInfo.author =
-            "PHOTO BY @" + that.userInfo.nickName || "User";
+          that.userInfo.author = "PHOTO BY @" + that.userInfo.nickName || "User";
           uni.setStorageSync("userInfo", {
             userInfo: resData.userInfo,
             expirationTime: new Date().getTime() + 12 * 60 * 60 * 1000, // 过期时间为12小时
@@ -369,25 +405,23 @@ export default {
         const item = configList[index];
         // console.log("input.id", item.input);
         if (item.input && item.input.id) {
-          let newContent =
-            map.get(item.input.id) || item.content || map.get("Default");
+          let newContent = map.get(item.input.id) || item.content || map.get("Default");
           if (map.has(item.input.id)) {
-            configList[index].input.content = _.get(
-              that,
-              newContent,
-              item.input.content || ""
-            );
+            configList[index].input.content = _.get(that, newContent, item.input.content || "");
           } else {
             configList[index].input.content = newContent;
           }
-          configList[index].content =
-            setContentByInputType(configList[index].input) || item.content;
+          configList[index].content = setContentByInputType(configList[index].input) || item.content;
         }
         if (item.child && item.child.length > 0) {
           configList[index].child = this.reLoadConfigData(item.child, map);
         }
       }
       return configList;
+    },
+
+    resetPhotoInfo(data) {
+      console.log("resetPhotoInfo", data.value);
     },
   },
 };
@@ -401,9 +435,7 @@ export default {
   min-height: calc(100vh - 10px - constant(safe-area-inset-bottom) - 12px);
   min-height: calc(100vh - 10px - env(safe-area-inset-bottom) - 12px);
   padding-top: 10px;
-  padding-bottom: calc(
-    constant(safe-area-inset-bottom) + 12px
-  ); /* 兼容 iOS<11.2 */
+  padding-bottom: calc(constant(safe-area-inset-bottom) + 12px); /* 兼容 iOS<11.2 */
   padding-bottom: calc(env(safe-area-inset-bottom) + 12px); /* 兼容iOS>= 11.2 */
   .select-box {
     background: #fff;
@@ -453,12 +485,8 @@ export default {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-column-gap: 10px;
-    padding-bottom: calc(
-      constant(safe-area-inset-bottom) + 12px
-    ); /* 兼容 iOS<11.2 */
-    padding-bottom: calc(
-      env(safe-area-inset-bottom) + 12px
-    ); /* 兼容iOS>= 11.2 */
+    padding-bottom: calc(constant(safe-area-inset-bottom) + 12px); /* 兼容 iOS<11.2 */
+    padding-bottom: calc(env(safe-area-inset-bottom) + 12px); /* 兼容iOS>= 11.2 */
   }
   .popup-wrapper {
     .form-wrapper {
