@@ -7,17 +7,15 @@
       </view>
     </view>
     <view class="canvas-box" v-show="!emptyCanvas">
-      <exif-canvas :value="configListInfo" ref="exifCanvas" @EXIFConfigUpdata="EXIFConfigUpdata"></exif-canvas>
+      <exif-canvas :value="configListInfo" ref="exifCanvas"></exif-canvas>
     </view>
     <view class="downLoadBtn">
-      <u-button text="编辑" size="normal" type="info" @click="openPopup"></u-button>
+      <u-button text="高级" size="normal" type="info" @click="openPopup"></u-button>
       <u-button text="下载" size="normal" color="#D7C2F3" @click="saveImage"></u-button>
     </view>
     <view class="popup-wrapper">
       <u-popup mode="bottom" :closeable="true" :round="10" :show="showForm" @close="closePopup" :safeAreaInsetTop="true" :safeAreaInsetBottom="true">
-        <!-- <edit-form :value="configListInfo" :visible="showForm" :markLogo="markLogoList" @close="closePopup" @change="resetPhotoInfo"></edit-form> -->
-        <edit-form ref="editForm" :visible="showForm" :markLogo="markLogoList" @close="closePopup" @change="resetPhotoInfo"></edit-form>
-        <!-- <edit-form ref="editForm" :value="EXIFConfigList" :visible="showForm" :markLogo="markLogoList" @close="closePopup" @change="resetPhotoInfo"></edit-form> -->
+        <edit-form :value="configListInfo" :visible="showForm" :markLogo="markLogoList" @close="closePopup" @change="resetPhotoInfo"></edit-form>
       </u-popup>
     </view>
   </view>
@@ -31,6 +29,7 @@ import dataMap from "./config/dataMap";
 import setContentByInputType from "./js/inputConfigSetter";
 import editForm from "./components/editForm";
 import photoLogo from "@/static/common/json/database_photoLogo.json";
+import tools from "@/libs/tools";
 
 export default {
   components: {
@@ -39,15 +38,11 @@ export default {
   },
   data() {
     return {
-      emptyCanvas: true, // 是否是空canvas 页面
-      showForm: false, // 现在输入表单
-      userInfo: {}, // 获取用户信息
-      imageInfo: {}, // 上传的图片
-      markLogoList: [], // 加载的logo对应的码值列表
-
-      EXIFConfigList: [], // 生成返回EXIFConfig 列表 ，可直接提供用于渲染
-
-      // 渲染数据的页面结构的配置项
+      emptyCanvas: true,
+      showForm: false,
+      userInfo: {},
+      imageInfo: {},
+      markLogoList: [],
       configListInfo: [
         {
           id: "canvas",
@@ -186,19 +181,11 @@ export default {
   },
   mounted() {
     this.getPhotoConfigList();
-    setTimeout(() => {
-      this.openPopup();
-    }, 250);
-
     // let ctx = uni.createCanvasContext("canvas");
     // EXIFDrawJSON(ctx, this, this.demo);
   },
   //方法集合
   methods: {
-    EXIFConfigUpdata(value = []) {
-      this.EXIFConfigList = value;
-      this.$refs.editForm.setValue(value);
-    },
     // 获得配置信息
     getPhotoConfigList() {
       let that = this;
@@ -397,12 +384,12 @@ export default {
     // 初始化信息
     init() {
       let infoMap = new Map(dataMap);
-      // console.log("infoMap", infoMap);
+      console.log("infoMap", infoMap);
       // 更新配置信息
       this.configListInfo = this.reLoadConfigData(this.configListInfo, infoMap);
 
-      // console.log("this.configListInfo", this.configListInfo);
-      // console.log("this.configListInfo", JSON.stringify(this.configListInfo));
+      console.log("this.configListInfo", this.configListInfo);
+      console.log("this.configListInfo", JSON.stringify(this.configListInfo));
       // 绘制
       this.emptyCanvas = false;
       setTimeout(() => {
@@ -435,11 +422,8 @@ export default {
       return configList;
     },
 
-    resetPhotoInfo(value) {
-      console.log("resetPhotoInfo", value);
-      this.EXIFConfigList = value;
-      this.$refs.exifCanvas.EXIFInfoRedraw(value);
-      this.closePopup();
+    resetPhotoInfo(data) {
+      console.log("resetPhotoInfo", data.value);
     },
   },
 };
@@ -506,7 +490,13 @@ export default {
     padding-bottom: calc(constant(safe-area-inset-bottom) + 12px); /* 兼容 iOS<11.2 */
     padding-bottom: calc(env(safe-area-inset-bottom) + 12px); /* 兼容iOS>= 11.2 */
   }
-  // .popup-wrapper {
-  // }
+  .popup-wrapper {
+    .form-wrapper {
+      background-color: #fff;
+      max-height: 60vh;
+      height: 60vh;
+      overflow-y: auto;
+    }
+  }
 }
 </style>

@@ -16,8 +16,8 @@ function initExifCanvasInfo(info = {}) {
     time = time.replace(':', '-');
     time = time.replace(':', '-');
   }
-  let currentTime = tools.formatTime(new Date(), 'yyyy-MM-dd hh:mm:ss');
-  dataJson.DateTime = time || currentTime;
+  let timestamp = new Date(time).getTime();
+  dataJson.DateTime = timestamp || new Date().getTime();
   // 图片焦段 光圈 快门 iso信息
   // 结构: 28mm f/8 1/500 ISO100
   // 焦段

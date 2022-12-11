@@ -54,6 +54,7 @@ class EXIFINFO {
     this.margin = '0';
     this.border = '0px solid #000' // 支持 dotted solid double dashed
     this.round = 0;
+    this.background = '#ffffff00' // 默认无背景
 
     // 计算属性
     this.computedData = {
@@ -69,8 +70,8 @@ class EXIFINFO {
       x: 0,
       y: 0,
     }
-    this.xAxisOffset = 0; // x偏移
-    this.yAxisOffset = 0; // y偏移
+    this.xAxisOffset = 0; // x偏移 自选偏移
+    this.yAxisOffset = 0; // y偏移 自选偏移
     let cDataDictionary = [...customDataDictionary, ...dataDictionary]
     let cDataDictionaryNotNeed = [...customDataDictionaryNotNeed, ...dataDictionaryNotNeed]
     // 赋值默认信息

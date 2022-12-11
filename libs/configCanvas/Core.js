@@ -33,6 +33,7 @@ const initNodeListLevel = function (nodeList = [], level = 0) {
   return nodeList;
 };
 
+// 初始化为EXIFINFO对象数据
 const initConfig = function (ctx, configData = [], parentNode = {}) {
   let tempConfig = configData;
   let newConfigObject = [];
@@ -214,6 +215,7 @@ const treeConverList = function (tree = {}) {
   return list;
 };
 
+// 初始化位置计算的和核心计算代码
 const initPositionCore = function (tree = {}) {
   let currentPosition = {
     x: 0,

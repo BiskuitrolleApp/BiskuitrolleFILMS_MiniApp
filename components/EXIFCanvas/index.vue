@@ -1,27 +1,16 @@
 <template>
   <view class="exifCanvas">
-    <canvas
-      class="canvas"
-      id="exifCanvas"
-      canvas-id="exifCanvas"
-      :style="[canvasStyle]"
-    ></canvas>
+    <canvas class="canvas" id="exifCanvas" canvas-id="exifCanvas" :style="[canvasStyle]"></canvas>
     <!-- <view class="downloader" v-show="showGenerator"> -->
     <view class="downloader">
-      <canvas
-        class="downloaderCanvas"
-        id="downloaderCanvas"
-        canvas-id="downloaderCanvas"
-        :style="[downloaderCanvasStyle]"
-      ></canvas>
+      <canvas class="downloaderCanvas" id="downloaderCanvas" canvas-id="downloaderCanvas" :style="[downloaderCanvasStyle]"></canvas>
     </view>
   </view>
 </template>
 
 <script>
-import { EXIFDrawJSON, EXIFRedraw } from "@/libs/configCanvas";
+import { EXIFDrawJSON, EXIFRedraw, EXIFReload } from "@/libs/configCanvas";
 import { getScaling, getCoreVar } from "@/libs/configCanvas/var";
-import value from "../../uni_modules/uview-ui/components/u-text/value";
 export default {
   props: {
     value: {
@@ -70,14 +59,28 @@ export default {
   },
   //方法集合
   methods: {
+    async EXIFInfoRedraw(value = {}) {
+      console.log("EXIFInfoRedraw");
+      console.log("EXIFInfoRedraw before", value);
+      let newEXIFConfigList = _.cloneDeep(value);
+      value = await EXIFReload(this.canvas, this, newEXIFConfigList);
+      this.EXIFConfigList = newEXIFConfigList;
+      console.log("EXIFInfoRedraw value", newEXIFConfigList);
+      // 渲染列表操作
+      EXIFRedraw(this.canvas, this, newEXIFConfigList, {}, function () {
+        console.log("reset");
+      });
+    },
     draw() {
       console.log("value", JSON.stringify(this.value));
       EXIFDrawJSON(this.canvas, this, this.value, {}, function () {
         console.log("EXIFDrawJSON end cb 1");
       });
     },
-    setCanvasConfigList(list = []) {
+    setCanvasConfigList(configList = []) {
+      let list = _.cloneDeep(configList);
       this.EXIFConfigList = list;
+      this.$emit("EXIFConfigUpdata", list);
       if (list.length > 0) {
         let scaling = getScaling();
         // 设置 canvas 样式
@@ -246,5 +249,3 @@ export default {
   }
 }
 </style>
-
-
