@@ -147,8 +147,8 @@
 	.u-swipe-action-item {
 		position: relative;
 		overflow: hidden;
-		/* #ifndef APP-NVUE */
-		touch-action: none;
+		/* #ifndef APP-NVUE || MP-WEIXIN */
+		touch-action: pan-y;
 		/* #endif */
 
 		&__content {

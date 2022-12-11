@@ -14,6 +14,9 @@
                 </slot>
             </view>
             <view class="u-input__content__field-wrapper" @tap="clickHandler">
+				<!-- 根据uni-app的input组件文档，H5和APP中只要声明了password参数(无论true还是false)，type均失效，此时
+					为了防止type=number时，又存在password属性，type无效，此时需要设置password为undefined
+				 -->
             	<input
             	    class="u-input__content__field-wrapper__field"
             	    :style="[inputStyle]"
@@ -34,7 +37,8 @@
             	    :adjust-position="adjustPosition"
             	    :selection-end="selectionEnd"
             	    :selection-start="selectionStart"
-            	    :password="password || type === 'password'"
+            	    :password="password || type === 'password' || undefined"
+                    :ignoreCompositionEvent="ignoreCompositionEvent"
             	    @input="onInput"
             	    @blur="onBlur"
             	    @focus="onFocus"
@@ -111,7 +115,7 @@ import props from "./props.js";
  * @property {Boolean}			readonly				是否只读，与disabled不同之处在于disabled会置灰组件，而readonly则不会 （ 默认 false ）
  * @property {String}			shape					输入框形状，circle-圆形，square-方形 （ 默认 'square' ）
  * @property {Object}			customStyle				定义需要用到的外部样式
- *
+ * @property {Boolean}			ignoreCompositionEvent	是否忽略组件内对文本合成系统事件的处理。
  * @example <u-input v-model="value" :password="true" suffix-icon="lock-fill" />
  */
 export default {
@@ -133,10 +137,8 @@ export default {
     },
     watch: {
         value: {
-			deep:true,
             immediate: true,
             handler(newVal, oldVal) {
-				console.log('newVal',newVal, oldVal)
                 this.innerValue = newVal;
                 /* #ifdef H5 */
                 // 在H5中，外部value变化后，修改input中的值，不会触发@input事件，此时手动调用值变化方法
@@ -190,7 +192,7 @@ export default {
                 style.paddingLeft = "9px";
                 style.paddingRight = "9px";
             }
-            return uni.$u.deepMerge(style, this.$u.addStyle(this.customStyle));
+            return uni.$u.deepMerge(style, uni.$u.addStyle(this.customStyle));
         },
         // 输入框的样式
         inputStyle() {
