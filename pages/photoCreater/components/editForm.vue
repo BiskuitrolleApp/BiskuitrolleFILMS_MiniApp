@@ -2,7 +2,7 @@
   <view class="editForm">
     <u-form labelPosition="left" ref="editForm">
       <view class="highClass">
-        <u-tabs :list="tabsList" lineWidth="100" lineColor="#D7C2F3" @change="tabsChange" :current="currentTabs"></u-tabs>
+        <u-tabs :list="tabsList" lineWidth="50" itemStyle="width:100px;height:50px" lineColor="#D7C2F3" @change="tabsChange" :current="currentTabs"></u-tabs>
       </view>
       <view class="formWrapper">
         <view class="form-simple" v-show="currentTabs === 0">
@@ -14,9 +14,11 @@
                   :value="item.fieldData.content"
                   :placeholder="'请输入' + item.fieldData.cnName"
                   inputAlign="right"
+                  border="bottom"
+                  clearable="true"
                   @change="
                     (value) => {
-                      inputChange(value, item, index);
+                      inputDefaultChange(value, item, index, 'fieldData.content');
                     }
                   "
                   customStyle="padding-right:0px"
@@ -25,9 +27,9 @@
             </view>
             <view v-else-if="item.fieldData.type === 'timepicker'" class="fieldItem fieldItemPadding">
               <u-form-item :label="item.fieldData.cnName" labelWidth="80" :prop="item.key">
-                <view class="timePickShowerWrapper">
+                <view class="pickShowerDefaultWrapper">
                   <view class="timePicker" @click="openTimePicker(index)">{{ timestamp2Str(item.fieldData.content) }} </view>
-                  <u-icon name="arrow-right" color="#000000" width='18'></u-icon>
+                  <u-icon name="arrow-right" color="#000000" width="18"></u-icon>
                 </view>
                 <!-- <u-icon name="arrow-right"></u-icon> -->
               </u-form-item>
@@ -55,7 +57,7 @@
                   >
                     <view class="name">{{ item.componentData.photo_name }}({{ item.componentData.photo_name_en }})</view>
                     <image :src="item.componentData.photo_url" mode="heightFix"></image>
-                    <u-icon name="arrow-right" color="#000000" width='18'></u-icon>
+                    <!-- <u-icon name="arrow-right" color="#000000" width="18"></u-icon> -->
                   </view>
                 </hpy-form-select>
               </u-form-item>
@@ -75,9 +77,10 @@
                       border="bottom"
                       :placeholder="'请输入' + item.fieldData.cnName"
                       inputAlign="right"
+                      clearable="true"
                       @change="
                         (value) => {
-                          inputChange(value, item, index);
+                          inputDefaultChange(value, item, index, 'fieldData.content');
                         }
                       "
                       customStyle="padding-right:0px"
@@ -86,7 +89,10 @@
                 </view>
                 <view class="fieldItem fieldItemPadding" v-else-if="item.fieldData.type === 'timepicker'">
                   <u-form-item label="内容" labelWidth="80" :prop="item.key" customStyle="padding:0px">
-                    <view class="timePicker" @click="openTimePicker(index)">{{ timestamp2Str(item.fieldData.content) }}</view>
+                    <view class="pickShowerDefaultWrapper">
+                      <view class="timePicker" @click="openTimePicker(index)">{{ timestamp2Str(item.fieldData.content) }} </view>
+                      <u-icon name="arrow-right" color="#000000" width="18"></u-icon>
+                    </view>
                   </u-form-item>
                 </view>
                 <view class="fieldItem fieldItemPadding" v-else-if="item.fieldData.type === 'icon'">
@@ -112,6 +118,7 @@
                       >
                         <view class="name">{{ item.componentData.photo_name }}({{ item.componentData.photo_name_en }})</view>
                         <image :src="item.componentData.photo_url" mode="heightFix"></image>
+                        <!-- <u-icon name="arrow-right" color="#000000" width="18"></u-icon> -->
                       </view>
                     </hpy-form-select>
                   </u-form-item>
@@ -122,7 +129,8 @@
                   <u-form-item label="背景颜色" labelWidth="80" customStyle="padding:5px 0px">
                     <view class="colorBox-wrapper">
                       <view class="colorBox" @click="openColorPicker(item.baseData.background, index)" :style="{ color: oppositeColor(item.baseData.background, -1), background: item.baseData.background }">
-                        {{ item.baseData.background }}
+                        <!-- {{ item.baseData.background }} -->
+                        {{ background2Str(item.baseData.background) }}
                       </view>
                     </view>
                   </u-form-item>
@@ -131,7 +139,7 @@
                   <u-form-item label="x轴" labelWidth="80" customStyle="padding:5px 0px">
                     <view class="slider-wrapper">
                       <view class="tip-wrapper tip-left">-50</view>
-                      <view class="slider"><u-slider v-model="item.baseData.xAxisOffset" step="1" min="-50" max="50" activeColor="#67C23A"></u-slider></view>
+                      <view class="slider"><u-slider v-model="item.baseData.xAxisOffset" step="1" min="-50" max="50" activeColor="#D7C2F3"></u-slider></view>
                       <view class="tip-wrapper tip-right">50</view>
                       <view class="tip-wrapper tip-right"></view>
                       <view class="inputWrapper">{{ item.baseData.xAxisOffset }}</view>
@@ -142,7 +150,7 @@
                   <u-form-item label="y轴" labelWidth="80" customStyle="padding:5px 0px">
                     <view class="slider-wrapper">
                       <view class="tip-wrapper tip-left">-50</view>
-                      <view class="slider"><u-slider v-model="item.baseData.yAxisOffset" step="1" min="-50" max="50" activeColor="#67C23A"></u-slider></view>
+                      <view class="slider"><u-slider v-model="item.baseData.yAxisOffset" step="1" min="-50" max="50" activeColor="#D7C2F3"></u-slider></view>
                       <view class="tip-wrapper tip-right">50</view>
                       <view class="tip-wrapper tip-right"></view>
                       <view class="inputWrapper">{{ item.baseData.yAxisOffset }}</view>
@@ -153,23 +161,40 @@
                 <!-- 字体样式start -->
                 <view class="fieldItem fieldItemCollapse" v-if="item.baseData.font">
                   <u-collapse :border="false">
-                    <u-collapse-item title="字体" name="fontSettingWrapper">
+                    <u-collapse-item title="字体" name="fontSettingWrapper" value="展开">
                       <view class="fieldItem fieldItemPadding">
-                        <u-form-item label="字体颜色" labelWidth="80" customStyle="padding:0px">
+                        <u-form-item label="粗细" labelWidth="80" :prop="item.key" customStyle="padding:0px">
+                          <view class="switchBox-wrapper">
+                            <u-switch :value="item.baseData.font.bold" size="18" activeColor="#D7C2F3"></u-switch>
+                          </view>
+                        </u-form-item>
+                      </view>
+                      <view class="fieldItem fieldItemPadding">
+                        <u-form-item label="颜色" labelWidth="80" customStyle="padding:0px">
                           <view class="colorBox-wrapper">
                             <view class="colorBox" @click="openColorPicker(item.baseData.font.color, index)" :style="{ color: oppositeColor(item.baseData.font.color, -1), background: item.baseData.font.color }">
-                              {{ item.baseData.font.color }}
+                              {{ background2Str(item.baseData.font.color) }}
                             </view>
                           </view>
                         </u-form-item>
                       </view>
                       <view class="fieldItem fieldItemPadding">
-                        <u-form-item label="字体大小" labelWidth="80">
+                        <u-form-item label="字体" labelWidth="80" :prop="item.key" customStyle="padding:0px">
+                          <view class="pickShowerDefaultWrapper">
+                            <view @click="openDefaultPicker(index, fontPickerColumns, 'baseData.font.fontFamily')">{{ fontFamily2Str(item.baseData.font.fontFamily) }} </view>
+                            <u-icon name="arrow-right" color="#000000" width="18"></u-icon>
+                          </view>
+                        </u-form-item>
+                      </view>
+                      <view class="fieldItem fieldItemPadding">
+                        <u-form-item label="大小" labelWidth="80">
                           <u--input
                             :value="item.baseData.font.fontSize"
                             border="bottom"
                             placeholder="请输入字体大小"
                             inputAlign="right"
+                            clearable="true"
+                            type="number"
                             @change="
                               (value) => {
                                 inputDefaultChange(value, item, index, 'baseData.font.fontSize');
@@ -177,6 +202,23 @@
                             "
                             customStyle="padding-right:0px"
                           ></u--input>
+                        </u-form-item>
+                      </view>
+                      <view class="fieldItem fieldItemTextarea">
+                        <u-form-item label="样式代码" labelWidth="80" :prop="item.key" customStyle="padding:0px">
+                          <u--textarea
+                            :value="item.baseData.font.style"
+                            border="bottom"
+                            placeholder="请输入自定义样式代码"
+                            height="90"
+                            clearable="true"
+                            @input="
+                              (value) => {
+                                inputDefaultChange(value, item, index, 'baseData.font.style');
+                              }
+                            "
+                            customStyle="padding-right:0px"
+                          ></u--textarea>
                         </u-form-item>
                       </view>
                     </u-collapse-item>
@@ -190,21 +232,22 @@
       </view>
       <view class="button-wrapper">
         <view class="button-item"> <u-button @click="resetForm">重置</u-button></view>
-        <view class="button-item"><u-button @click="submit" color="#D7C2F3">确认</u-button></view>
+        <view class="button-item"><u-button :disabled="!isFormChange" @click="submit" color="#D7C2F3">确认</u-button></view>
       </view>
     </u-form>
     <!-- picker组件start -->
     <t-color-picker ref="colorPicker" @confirm="confirmColorPicker"></t-color-picker>
     <u-datetime-picker :show="timePicker.visible" v-model="timePicker.value" mode="datetime" closeOnClickOverlay @confirm="timePickerConfirm" @cancel="timePickerCancel"></u-datetime-picker>
+    <u-picker :show="defaultPicker.visible" ref="defaultPicker" :columns="defaultPicker.columns" @confirm="confirmDefaultPicker" keyName="label" @cancel="defaultPickerCancel"></u-picker>
     <!-- picker组件end -->
   </view>
 </template>
 
 <script>
 import tColorPicker from "@/components/t-color-picker/t-color-picker.vue";
-import tools from "@/libs/tools/index";
-import setContentByInputType from "../js/inputConfigSetter";
-import demo from "./demo";
+import tools from "@/libs/tools/index.js";
+import setContentByInputType from "../js/inputConfigSetter.js";
+import demo from "./demo.js";
 
 export default {
   components: {
@@ -235,6 +278,14 @@ export default {
           key: "complex",
         },
       ],
+      fontPickerColumns: [
+        [
+          {
+            label: "默认",
+            key: "normal",
+          },
+        ],
+      ],
       // ui end
       value: [],
       timePicker: {
@@ -251,8 +302,16 @@ export default {
         color: "",
         index: -1,
       },
+      defaultPicker: {
+        visible: false,
+        columns: [],
+        index: -1,
+        key: "",
+      },
       form: {},
       formList: [],
+
+      isFormChange: false,
     };
   },
   watch: {
@@ -274,6 +333,7 @@ export default {
       formList = this.getFormList(value);
       console.log("formList", value, formList);
       this.formList = formList;
+      this.isFormChange = false;
     },
     getFormList(list = []) {
       let formList = [];
@@ -336,6 +396,44 @@ export default {
         return "";
       }
     },
+    fontFamily2Str(value) {
+      let name = "未知";
+      for (let index = 0; index < this.fontPickerColumns[0].length; index++) {
+        const item = this.fontPickerColumns[0][index];
+        if (item.key == value) {
+          name = item.label;
+          break;
+        }
+      }
+      if (!value || value == "") {
+        name = "默认";
+      }
+      return name;
+    },
+    background2Str(value) {
+      let color = value.substring(0, 7);
+      let alpha = value.substring(7, 9);
+      function hex2int(hex) {
+        var len = hex.length,
+          a = new Array(len),
+          code;
+        for (var i = 0; i < len; i++) {
+          code = hex.charCodeAt(i);
+          if (48 <= code && code < 58) {
+            code -= 48;
+          } else {
+            code = (code & 0xdf) - 65 + 10;
+          }
+          a[i] = code;
+        }
+        return a.reduce(function (acc, c) {
+          acc = 16 * acc + c;
+          return acc;
+        }, 0);
+      }
+      let alpha10 = hex2int(alpha);
+      return "rgb:" + color + "，a:" + alpha10 + "/255";
+    },
     /**
      * 计算反色,
      * @param {*} a 色值
@@ -362,6 +460,7 @@ export default {
         if (c10 < 0) c10 = Math.abs(c10);
         b.push(c10.toString(16)); // to 16进制
       }
+      // console.log("oppositeColor", "#" + b.join("") + "ff");
       return "#" + b.join("");
     },
     /**
@@ -386,13 +485,23 @@ export default {
       let newItem = _.cloneDeep(item);
       newItem.fieldData.content = value;
       this.formList[index].fieldData = newItem.fieldData;
+      this.isFormChange = true;
       console.log("setting input:", this.formList[index]);
     },
     inputDefaultChange(value, item, index, key) {
       let newItem = _.cloneDeep(item);
       _.set(newItem, key, value);
       this.formList[index] = newItem;
+      this.isFormChange = true;
       console.log("setting input:", this.formList[index]);
+    },
+    openDefaultPicker(index, columns, setterKey) {
+      this.defaultPicker = {
+        index,
+        columns,
+        key: setterKey, // 设置器的指定的值
+        visible: true,
+      };
     },
     openTimePicker(index) {
       let item = this.formList[index];
@@ -438,6 +547,7 @@ export default {
         that.$nextTick(() => {
           that.formList[logoPicker.index].componentData.visible = true;
         });
+        this.isFormChange = true;
         this.logoPicker = {
           formItem: {},
           index: -1,
@@ -451,23 +561,31 @@ export default {
         let newValue = date.value;
         timePicker.editData.fieldData.content = newValue;
         this.formList[timePicker.index] = timePicker.editData;
+        console.log("setting time picker:", this.formList[this.timePicker.index]);
       }
-      this.timePicker = {
-        visible: false,
-        editData: {},
-        index: -1,
-        value: "",
-      };
+      this.isFormChange = true;
+      this.timePickerCancel();
     },
     confirmColorPicker(data) {
       // 获得当前颜色rgba值
       let hex = this.rgbaToHex(data.rgba);
-      console.log("hex", hex, data.rgba, data);
       this.formList[this.colorPicker.index].baseData.background = hex;
+      this.isFormChange = true;
+      console.log("setting color picker:", this.formList[this.colorPicker.index]);
       this.colorPicker = {
         color: "",
         index: -1,
       };
+    },
+    confirmDefaultPicker(data) {
+      let newValue = data.value[0].key;
+      let newItem = this.formList[this.defaultPicker.index];
+      _.set(newItem, this.defaultPicker.key, newValue);
+      this.formList[this.defaultPicker.index] = newItem;
+      this.isFormChange = true;
+      console.log("setting default picker:", this.formList[this.defaultPicker.index]);
+
+      this.defaultPickerCancel();
     },
     timePickerCancel() {
       this.timePicker = {
@@ -475,6 +593,14 @@ export default {
         editData: {},
         index: -1,
         value: "",
+      };
+    },
+    defaultPickerCancel() {
+      this.defaultPicker = {
+        visible: false,
+        columns: [],
+        index: -1,
+        key: "",
       };
     },
 
@@ -512,12 +638,13 @@ export default {
       height: 50px;
       display: grid;
       align-items: center;
-      .timePickShowerWrapper{
+      .pickShowerDefaultWrapper {
         display: flex;
         justify-content: flex-end;
       }
       // border: 1px solid #000;
     }
+    .fieldItemTextarea,
     .fieldItemCollapse {
       height: auto;
     }
@@ -541,7 +668,7 @@ export default {
     justify-content: flex-end;
     align-items: center;
     .name {
-      font-size: 14px;
+      font-size: 10px;
       line-height: 40px;
       margin: 0px 10px;
     }
@@ -562,7 +689,8 @@ export default {
     .colorBox {
       display: inline-block;
       height: 18px;
-      font-size: 14px;
+      line-height: 18px;
+      font-size: 12px;
       padding: 4px 8px;
       border-radius: 2px;
       border: 1px solid rgb(214, 215, 217);
@@ -588,6 +716,11 @@ export default {
       flex: 1;
       line-height: 38px;
     }
+  }
+  .switchBox-wrapper {
+    display: flex;
+    align-content: center;
+    justify-content: flex-end;
   }
 }
 </style>

@@ -26,10 +26,11 @@
 <script>
 // import { EXIFDrawJSON } from "@/libs/configCanvas";
 import exifCanvas from "@/components/EXIFCanvas";
-import { ImageInfo } from "./js/readImageInfo";
-import dataMap from "./config/dataMap";
-import setContentByInputType from "./js/inputConfigSetter";
-import editForm from "./components/editForm";
+import editForm from "./components/editForm.vue";
+
+import { ImageInfo } from "./js/readImageInfo.js";
+import dataMap from "./config/dataMap.js";
+import setContentByInputType from "./js/inputConfigSetter.js";
 import photoLogo from "@/static/common/json/database_photoLogo.json";
 
 export default {
