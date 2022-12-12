@@ -212,7 +212,7 @@ const roundRect = function (ctx, border, xAxis, yxAxis, width, height, round) {
 // 绘制字体
 const drawText = function (ctx, text, font, x, y, maxWidth = 999) {
   let scaling = getScaling()
-  let { bold, fontSize = 12, color = "#000000", fontFamily, textAlign, style } = font;
+  let { bold, fontSize = 12, color = "#000000ff", fontFamily, textAlign, style } = font;
   let currentFontSize = fontSize * scaling
   // let currentFontSize = 30
   if (bold) {

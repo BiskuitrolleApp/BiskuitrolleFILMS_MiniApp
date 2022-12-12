@@ -324,7 +324,7 @@ export class textEXIFINFO extends EXIFINFO {
     super(id, "text", parentNode, value.content, value, [], ['font']);
     this.font = {
       fontSize: 12,
-      color: '#000000',
+      color: '#000000ff',
       style: null,
       fontFamily: "normal",
       bold: false,

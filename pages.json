@@ -31,6 +31,13 @@
         "enablePullDownRefresh": false
       }
     },
+	{
+	  "path": "pages/demo/cascaderTest",
+	  "style": {
+	    "navigationBarTitleText": "demo",
+	    "enablePullDownRefresh": false
+	  }
+	},
     {
       "path": "pages/photoCreater/index",
       "style": {
