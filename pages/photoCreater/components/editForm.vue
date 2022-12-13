@@ -204,8 +204,8 @@
                           ></u--input>
                         </u-form-item>
                       </view>
-                      <view class="fieldItem fieldItemTextarea">
-                        <u-form-item label="样式代码" labelWidth="80" :prop="item.key" customStyle="padding:0px">
+                      <view class="fieldItem fieldItemPadding">
+                        <!-- <u-form-item label="样式代码" labelWidth="80" :prop="item.key" customStyle="padding:0px">
                           <u--textarea
                             :value="item.baseData.font.style"
                             border="bottom"
@@ -219,6 +219,12 @@
                             "
                             customStyle="padding-right:0px"
                           ></u--textarea>
+                        </u-form-item> -->
+                        <u-form-item label="样式" labelWidth="80" :prop="item.key" customStyle="padding:0px">
+                          <view class="pickShowerDefaultWrapper">
+                            <view @click="openCanvasFontPicker(index, item.baseData.font.style, 'baseData.font.style')">{{ item.baseData.font.style ? item.baseData.font.style : "请选择" }} </view>
+                            <u-icon name="arrow-right" color="#000000" width="18"></u-icon>
+                          </view>
                         </u-form-item>
                       </view>
                     </u-collapse-item>
@@ -239,7 +245,14 @@
     <t-color-picker ref="colorPicker" @confirm="confirmColorPicker"></t-color-picker>
     <u-datetime-picker :show="timePicker.visible" v-model="timePicker.value" mode="datetime" closeOnClickOverlay @confirm="timePickerConfirm" @cancel="timePickerCancel"></u-datetime-picker>
     <u-picker :show="defaultPicker.visible" ref="defaultPicker" :columns="defaultPicker.columns" @confirm="confirmDefaultPicker" keyName="label" @cancel="defaultPickerCancel"></u-picker>
+    <!-- picker组件 - 字体样式popup start -->
+    <u-popup ref="popup" mode="bottom" :show="canvasFontPicker.visible" :safeAreaInsetBottom="true">
+      <multi-select color="#D7C2F3" :list="canvasFontColumns" :defaultValue="canvasFontPicker.value" keyLabel="label" keyValue="key" @cancel="canvasFontPickerCancel" @change="canvasFontPickerConfirm"></multi-select>
+    </u-popup>
+    <!-- picker组件 - 字体样式popup end -->
     <!-- picker组件end -->
+
+    <u-toast ref="uToast"></u-toast>
   </view>
 </template>
 
@@ -248,10 +261,12 @@ import tColorPicker from "@/components/t-color-picker/t-color-picker.vue";
 import tools from "@/libs/tools/index.js";
 import setContentByInputType from "../js/inputConfigSetter.js";
 import demo from "./demo.js";
+import multiSelect from "@/components/multiSelect/index.vue";
 
 export default {
   components: {
     tColorPicker,
+    multiSelect,
   },
   props: {
     visible: {
@@ -268,6 +283,36 @@ export default {
       // ui start
       cellCustomStyle: "margin: 0px -15px",
       currentTabs: 1, // 切换开启高级选项
+      canvasFontColumns: [
+        {
+          label: "<span style='font-weight:600;'>normal</span>",
+          key: "normal",
+        },
+        {
+          label: "<span style='font-weight:600;'>italic</span> <span>(font-style)</span>",
+          key: "italic",
+        },
+        {
+          label: "<span style='font-weight:600;'>oblique</span> <span>(font-style)</span>",
+          key: "oblique",
+        },
+        {
+          label: "<span style='font-weight:600;'>small-caps</span> <span>(font-variant)</span>",
+          key: "small-caps",
+        },
+        {
+          label: "<span style='font-weight:600;'>bold</span> <span>(font-weight)</span>",
+          key: "bold",
+        },
+        {
+          label: "<span style='font-weight:600;'>bolder</span> <span>(font-weight)</span>",
+          key: "bolder",
+        },
+        {
+          label: "<span style='font-weight:600;'>lighter</span> <span>(font-weight)</span>",
+          key: "lighter",
+        },
+      ],
       tabsList: [
         {
           name: "简易",
@@ -306,6 +351,12 @@ export default {
         visible: false,
         columns: [],
         index: -1,
+        key: "",
+      },
+      canvasFontPicker: {
+        visible: false,
+        index: -1,
+        value: "",
         key: "",
       },
       form: {},
@@ -503,6 +554,38 @@ export default {
         visible: true,
       };
     },
+    openCanvasFontPicker(index, value, setterKey) {
+      let newPickerValue = [];
+      let isAllLegal = true;
+      if (value && value.length > 0) {
+        let list = value.split(" ");
+        for (let index = 0; index < list.length; index++) {
+          const item = list[index];
+          let isFind = false;
+          for (let cindex = 0; cindex < this.canvasFontColumns.length; cindex++) {
+            const citem = this.canvasFontColumns[cindex];
+            if (item === citem.key) {
+              newPickerValue.push(item);
+              isFind = true;
+              break;
+            }
+          }
+          if (!isFind && isAllLegal) {
+            isAllLegal = false;
+          }
+        }
+      }
+      if (!isAllLegal) {
+        this.showToast("非法fontStyle已删除");
+      }
+      this.canvasFontPicker = {
+        visible: true,
+        index,
+        value: newPickerValue,
+        key: setterKey,
+      };
+      console.log("newPickerValue", newPickerValue);
+    },
     openTimePicker(index) {
       let item = this.formList[index];
       this.timePicker = {
@@ -587,6 +670,22 @@ export default {
 
       this.defaultPickerCancel();
     },
+    canvasFontPickerConfirm(data) {
+      console.log("canvasFontPickerConfirm", data);
+      let newValue = "";
+      let fontList = [];
+      for (let index = 0; index < data.length; index++) {
+        const item = data[index];
+        fontList.push(item.key);
+      }
+      newValue = fontList.join(" ");
+      let newItem = this.formList[this.canvasFontPicker.index];
+      _.set(newItem, this.canvasFontPicker.key, newValue);
+      this.formList[this.canvasFontPicker.index] = newItem;
+      console.log("setting canvasfont picker:", this.formList[this.canvasFontPicker.index]);
+
+      this.canvasFontPickerCancel();
+    },
     timePickerCancel() {
       this.timePicker = {
         visible: false,
@@ -604,6 +703,14 @@ export default {
       };
     },
 
+    canvasFontPickerCancel() {
+      this.canvasFontPicker = {
+        visible: false,
+        index: -1,
+        value: "",
+        key: "",
+      };
+    },
     resetForm() {
       this.init(this.value);
     },
@@ -622,6 +729,18 @@ export default {
         settingBox.value[item.key] = item.baseData;
       }
       this.$emit("change", settingBox.value);
+    },
+    showToast(msg, callback) {
+      this.$refs.uToast.show({
+        type: "default",
+        title: "默认主题",
+        message: msg,
+        complete() {
+          if (callback && typeof callback == "function") {
+            callback();
+          }
+        },
+      });
     },
   },
 };

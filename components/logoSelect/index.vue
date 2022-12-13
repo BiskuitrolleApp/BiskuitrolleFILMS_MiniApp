@@ -137,7 +137,6 @@ export default {
     resetDefaultValueFun() {
       console.log("checkedList", this.checkedList);
       console.log("defaultValue", this.defaultValue);
-
       if (this.defaultValue.length) {
         this.defaultValue.map((arrParam) => {
           for (let i = this.checkedList.length - 1; i >= 0; i--) {

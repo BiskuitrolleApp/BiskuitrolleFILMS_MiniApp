@@ -7,7 +7,7 @@
       </view>
     </view>
     <u-popup ref="popup" mode="bottom" :show="showForm" :safeAreaInsetBottom="true">
-      <multi-select #left="{ itemString, keyValue, keyLabel }" color="#D7C2F3" :show="showForm" :isMultiple="isMultiple" :list="markLogoList" :defaultValue="logoImg" keyLabel="photo_name" keyValue="photo_keyword" @cancel="cancelFun" @change="memberChange"> </multi-select>
+      <multi-select color="#D7C2F3" :show="showForm" :isMultiple="isMultiple" :list="markLogoList" :defaultValue="logoImg" keyLabel="photo_name" keyValue="photo_keyword" @cancel="cancelFun" @change="memberChange"> </multi-select>
     </u-popup>
   </view>
 </template>

@@ -9,7 +9,8 @@
       <template v-if="checkedList.length">
         <block v-for="(item, index) in checkedList" :key="index">
           <view class="cu-form-group justify-between" @tap="changeCheck(item)">
-            <view class="my-items-title">{{ item[showParam] }}</view>
+            <view class="my-items-title" v-if="isHtml">{{ item[keyLabel] }}</view>
+            <view v-else v-html="item[keyLabel]"></view>
             <template v-if="item.isCheck">
               <!-- <view class="iconfont icon-duihao" :style="{color: themeColor}"></view> -->
               <u-icon name="checkmark" :color="themeColor" size="20"></u-icon>
@@ -45,7 +46,7 @@ Object.clone = (obj, func = false) => {
 /**********
  * @author fjj
  * @list 需要选择的列表数据，如果没有传空数组
- * @showParam 显示字段
+ * @keyLabel 显示字段
  * @defaultValue 默认选中数据，数据对象格式
  * @title 标题名称
  * @isMultiple 是否多选，默认多选
@@ -66,7 +67,12 @@ export default {
       type: Boolean,
       default: true,
     },
-    showParam: {
+    keyValue: {
+      require: true,
+      type: String,
+      default: "id",
+    },
+    keyLabel: {
       require: true,
       type: String,
       default: "name",
@@ -97,6 +103,11 @@ export default {
       type: String,
       default: uni.$u.props.modal.cancelColor,
     },
+    isHtml: {
+      require: false,
+      type: Boolean,
+      default: false,
+    },
   },
   watch: {
     list(arr) {
@@ -120,12 +131,21 @@ export default {
       if (this.defaultValue.length) {
         this.defaultValue.map((arrParam) => {
           for (let i = this.checkedList.length - 1; i >= 0; i--) {
-            if (arrParam === this.checkedList[i][this.showParam]) {
-              this.checkedList[i].isCheck = true;
-              return;
+            console.log("this.defaultValue", typeof arrParam == "object");
+            if (typeof arrParam == "object") {
+              if (arrParam[this.keyValue] === this.checkedList[i][this.keyValue]) {
+                this.checkedList[i].isCheck = true;
+                return;
+              }
+            } else {
+              if (arrParam === this.checkedList[i][this.keyValue]) {
+                this.checkedList[i].isCheck = true;
+                return;
+              }
             }
           }
         });
+        console.log("this.checkedList", this.checkedList);
       }
     },
     resetCheckedList() {
@@ -137,11 +157,16 @@ export default {
       this.$emit("cancel");
     },
     submit() {
-      this.$emit("change", {
-        selectedList: this.checkedList.filter((item) => {
-          return item.isCheck === true;
-        }),
-      });
+      let selectedList = [];
+      for (let index = 0; index < this.checkedList.length; index++) {
+        const item = this.checkedList[index];
+        if (item.isCheck) {
+          let newItem = Object.clone(item);
+          delete newItem.isCheck;
+          selectedList.push(newItem);
+        }
+      }
+      this.$emit("change", selectedList);
     },
     changeCheck(item) {
       if (!this.isMultiple) {
