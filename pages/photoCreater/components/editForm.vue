@@ -327,7 +327,6 @@
     </u-popup>
     <!-- picker组件 - logopopup end -->
     <!-- picker组件end -->
-
     <u-toast ref="uToast"></u-toast>
   </view>
 </template>
