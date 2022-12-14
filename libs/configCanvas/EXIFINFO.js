@@ -52,7 +52,7 @@ class EXIFINFO {
 
     this.padding = '0';
     this.margin = '0';
-    this.border = '0px solid #000' // 支持 dotted solid double dashed
+    this.border = '0px solid #ffffff00' // 支持 dotted solid double dashed
     this.round = 0;
     this.background = '#ffffff00' // 默认无背景
 

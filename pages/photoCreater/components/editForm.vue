@@ -10,7 +10,7 @@
           <view v-for="(item, index) in formList" class="formItem">
             <!-- 内容start -->
             <view v-if="item.fieldData.type === 'input'" class="fieldItem fieldItemPadding">
-              <u-form-item :label="item.fieldData.cnName" labelWidth="80" :prop="item.key">
+              <u-form-item :label="item.fieldData.cnName || `内容-${index + 1}`" labelWidth="80" :prop="item.key">
                 <u--input
                   :value="item.fieldData.content"
                   :placeholder="'请输入' + item.fieldData.cnName"
@@ -27,7 +27,7 @@
               </u-form-item>
             </view>
             <view v-else-if="item.fieldData.type === 'timepicker'" class="fieldItem fieldItemPadding">
-              <u-form-item :label="item.fieldData.cnName" labelWidth="80" :prop="item.key">
+              <u-form-item :label="item.fieldData.cnName || `内容-${index + 1}`" labelWidth="80" :prop="item.key">
                 <view class="pickShowerDefaultWrapper">
                   <view class="timePicker" @click="openTimePicker(index)">{{ timestamp2Str(item.fieldData.content) }} </view>
                   <u-icon name="arrow-right" color="#000000" width="18"></u-icon>
@@ -36,7 +36,7 @@
               </u-form-item>
             </view>
             <view v-else-if="item.fieldData.type === 'icon'" class="fieldItem fieldItemPadding fieldItemLogo">
-              <u-form-item :label="item.fieldData.cnName" labelWidth="80" customStyle="padding:5px 0px" :key="item.key">
+              <u-form-item :label="item.fieldData.cnName || `内容-${index + 1}`" labelWidth="80" customStyle="padding:5px 0px" :key="item.key">
                 <view
                   class="logo-wrapper"
                   @click="
@@ -53,8 +53,8 @@
           </view>
         </view>
         <view class="form-complex" v-show="currentTabs === 1">
-          <view v-for="(item, index) in formList" :title="item.fieldData.cnName" :key="index" class="formItem">
-            <view class="form-title">{{ item.fieldData.cnName }}</view>
+          <view v-for="(item, index) in formList" :key="index" class="formItem">
+            <view class="form-title">{{ item.fieldData.cnName || `内容-${index + 1}` }}</view>
             <!-- 内容start -->
             <view class="fieldItem fieldItemPadding" v-if="item.fieldData.type === 'input'">
               <u-form-item label="内容" labelWidth="80" :prop="item.key" customStyle="padding:0px">
@@ -129,81 +129,181 @@
                 </view>
               </u-form-item>
             </view>
+            <view class="fieldItem fieldItemPadding">
+              <u-form-item label="圆角半径" labelWidth="80">
+                <u--input
+                  :value="item.baseData.round"
+                  border="bottom"
+                  placeholder="请输入圆角半径"
+                  inputAlign="right"
+                  clearable="true"
+                  type="digit"
+                  @change="
+                    (value) => {
+                      inputDefaultChange(value, item, index, 'baseData.round');
+                    }
+                  "
+                  customStyle="padding-right:0px"
+                ></u--input>
+              </u-form-item>
+            </view>
             <!-- 内容块样式end -->
+            <!-- 边框start -->
+            <view class="fieldItem fieldItemCollapse" v-if="item.computedData.border">
+              <u-collapse :border="false">
+                <u-collapse-item title="边框" name="borderSettingWrapper" value="展开">
+                  <view class="u-collapse-item-wrapper">
+                    <view class="fieldItem fieldItemPadding" v-for="(bfItem, bfIndex) in borderFormLabel" :key="bfIndex">
+                      <u-form-item :label="bfItem.label" labelWidth="80">
+                        <u--input
+                          :value="getValue(item, bfItem.dataKey)"
+                          border="bottom"
+                          :placeholder="'请输入' + bfItem.label"
+                          inputAlign="right"
+                          clearable="true"
+                          type="digit"
+                          @change="
+                            (value) => {
+                              inputDefaultChange(value, item, index, bfItem.dataKey);
+                            }
+                          "
+                          customStyle="padding-right:0px"
+                        ></u--input>
+                      </u-form-item>
+                    </view>
+                    <view class="fieldItem fieldItemPadding">
+                      <u-form-item label="颜色" labelWidth="80" customStyle="padding:0px">
+                        <view class="colorBox-wrapper">
+                          <view class="colorBox" @click="openColorPicker(item.computedData.border.color, index)" :style="{ color: oppositeColor(item.computedData.border.color, -1), background: item.computedData.border.color }">
+                            {{ background2Str(item.computedData.border.color) }}
+                          </view>
+                        </view>
+                      </u-form-item>
+                    </view>
+                    <view class="fieldItem fieldItemPadding">
+                      <u-form-item label="样式" labelWidth="80" :prop="item.key" customStyle="padding:0px">
+                        <view class="pickShowerDefaultWrapper">
+                          <view @click="openDefaultPicker(index, borderTypePickerColumns, 'computedData.border.style')">
+                            <!-- {{ fontFamily2Str(item.baseData.font.fontFamily) }}  -->
+                            {{ defaultPikerItem2Str(borderTypePickerColumns, item.computedData.border.style) }}
+                          </view>
+                          <u-icon name="arrow-right" color="#000000" width="18"></u-icon>
+                        </view>
+                      </u-form-item>
+                    </view>
+                  </view>
+                </u-collapse-item>
+              </u-collapse>
+            </view>
+            <!-- 边框end -->
             <!-- 字体样式start -->
             <view class="fieldItem fieldItemCollapse" v-if="item.baseData.font">
               <u-collapse :border="false">
                 <u-collapse-item title="字体" name="fontSettingWrapper" value="展开">
-                  <view class="fieldItem fieldItemPadding">
-                    <u-form-item label="粗细" labelWidth="80" :prop="item.key" customStyle="padding:0px">
-                      <view class="switchBox-wrapper">
-                        <u-switch :value="item.baseData.font.bold" size="18" activeColor="#D7C2F3"></u-switch>
-                      </view>
-                    </u-form-item>
-                  </view>
-                  <view class="fieldItem fieldItemPadding">
-                    <u-form-item label="颜色" labelWidth="80" customStyle="padding:0px">
-                      <view class="colorBox-wrapper">
-                        <view class="colorBox" @click="openColorPicker(item.baseData.font.color, index)" :style="{ color: oppositeColor(item.baseData.font.color, -1), background: item.baseData.font.color }">
-                          {{ background2Str(item.baseData.font.color) }}
+                  <view class="u-collapse-item-wrapper">
+                    <view class="fieldItem fieldItemPadding">
+                      <u-form-item label="粗细" labelWidth="80" :prop="item.key" customStyle="padding:0px">
+                        <view class="switchBox-wrapper">
+                          <u-switch :value="item.baseData.font.bold" size="18" activeColor="#D7C2F3"></u-switch>
                         </view>
-                      </view>
-                    </u-form-item>
-                  </view>
-                  <view class="fieldItem fieldItemPadding">
-                    <u-form-item label="字体" labelWidth="80" :prop="item.key" customStyle="padding:0px">
-                      <view class="pickShowerDefaultWrapper">
-                        <view @click="openDefaultPicker(index, fontPickerColumns, 'baseData.font.fontFamily')">{{ fontFamily2Str(item.baseData.font.fontFamily) }} </view>
-                        <u-icon name="arrow-right" color="#000000" width="18"></u-icon>
-                      </view>
-                    </u-form-item>
-                  </view>
-                  <view class="fieldItem fieldItemPadding">
-                    <u-form-item label="大小" labelWidth="80">
-                      <u--input
-                        :value="item.baseData.font.fontSize"
-                        border="bottom"
-                        placeholder="请输入字体大小"
-                        inputAlign="right"
-                        clearable="true"
-                        type="number"
-                        @change="
-                          (value) => {
-                            inputDefaultChange(value, item, index, 'baseData.font.fontSize');
-                          }
-                        "
-                        customStyle="padding-right:0px"
-                      ></u--input>
-                    </u-form-item>
-                  </view>
-                  <view class="fieldItem fieldItemPadding">
-                    <!-- <u-form-item label="样式代码" labelWidth="80" :prop="item.key" customStyle="padding:0px">
-                          <u--textarea
-                            :value="item.baseData.font.style"
-                            border="bottom"
-                            placeholder="请输入自定义样式代码"
-                            height="90"
-                            clearable="true"
-                            @input="
-                              (value) => {
-                                inputDefaultChange(value, item, index, 'baseData.font.style');
-                              }
-                            "
-                            customStyle="padding-right:0px"
-                          ></u--textarea>
-                        </u-form-item> -->
-                    <u-form-item label="样式" labelWidth="80" :prop="item.key" customStyle="padding:0px">
-                      <view class="pickShowerDefaultWrapper">
-                        <view @click="openCanvasFontPicker(index, item.baseData.font.style, 'baseData.font.style')">{{ item.baseData.font.style ? item.baseData.font.style : "请选择" }} </view>
-                        <u-icon name="arrow-right" color="#000000" width="18"></u-icon>
-                      </view>
-                    </u-form-item>
+                      </u-form-item>
+                    </view>
+                    <view class="fieldItem fieldItemPadding">
+                      <u-form-item label="颜色" labelWidth="80" customStyle="padding:0px">
+                        <view class="colorBox-wrapper">
+                          <view class="colorBox" @click="openColorPicker(item.baseData.font.color, index)" :style="{ color: oppositeColor(item.baseData.font.color, -1), background: item.baseData.font.color }">
+                            {{ background2Str(item.baseData.font.color) }}
+                          </view>
+                        </view>
+                      </u-form-item>
+                    </view>
+                    <view class="fieldItem fieldItemPadding">
+                      <u-form-item label="线形" labelWidth="80" :prop="item.key" customStyle="padding:0px">
+                        <view class="pickShowerDefaultWrapper">
+                          <view @click="openDefaultPicker(index, fontPickerColumns, 'baseData.font.fontFamily')">
+                            {{ defaultPikerItem2Str(fontPickerColumns, item.baseData.font.fontFamily) }}
+                          </view>
+                          <u-icon name="arrow-right" color="#000000" width="18"></u-icon>
+                        </view>
+                      </u-form-item>
+                    </view>
+                    <view class="fieldItem fieldItemPadding">
+                      <u-form-item label="大小" labelWidth="80">
+                        <u--input
+                          :value="item.baseData.font.fontSize"
+                          border="bottom"
+                          placeholder="请输入字体大小"
+                          inputAlign="right"
+                          clearable="true"
+                          type="digit"
+                          @change="
+                            (value) => {
+                              inputDefaultChange(value, item, index, 'baseData.font.fontSize');
+                            }
+                          "
+                          customStyle="padding-right:0px"
+                        ></u--input>
+                      </u-form-item>
+                    </view>
+                    <view class="fieldItem fieldItemPadding">
+                      <!-- <u-form-item label="样式代码" labelWidth="80" :prop="item.key" customStyle="padding:0px">
+                            <u--textarea
+                              :value="item.baseData.font.style"
+                              border="bottom"
+                              placeholder="请输入自定义样式代码"
+                              height="90"
+                              clearable="true"
+                              @input="
+                                (value) => {
+                                  inputDefaultChange(value, item, index, 'baseData.font.style');
+                                }
+                              "
+                              customStyle="padding-right:0px"
+                            ></u--textarea>
+                          </u-form-item> -->
+                      <u-form-item label="样式" labelWidth="80" :prop="item.key" customStyle="padding:0px">
+                        <view class="pickShowerDefaultWrapper">
+                          <view @click="openCanvasFontPicker(index, item.baseData.font.style, 'baseData.font.style')">{{ item.baseData.font.style ? item.baseData.font.style : "请选择" }} </view>
+                          <u-icon name="arrow-right" color="#000000" width="18"></u-icon>
+                        </view>
+                      </u-form-item>
+                    </view>
                   </view>
                 </u-collapse-item>
               </u-collapse>
             </view>
             <!-- 字体样式end -->
-            <u-line v-if="index !== formList.length - 1"></u-line>
+            <!-- 内外边距start -->
+            <view v-for="(pmItem, pmIndex) in paddingMarginListFormLabel" :key="pmIndex">
+              <view class="fieldItem fieldItemCollapse">
+                <u-collapse :border="false">
+                  <u-collapse-item :title="pmItem.title" value="展开">
+                    <view class="u-collapse-item-wrapper">
+                      <view class="fieldItem fieldItemPadding" v-for="(pmlItem, pmlIndex) in pmItem.list" :key="pmlIndex">
+                        <u-form-item :label="pmlItem.label" labelWidth="80">
+                          <u--input
+                            :value="getValue(item, pmlItem.dataKey)"
+                            border="bottom"
+                            :placeholder="'请输入' + pmlItem.label"
+                            inputAlign="right"
+                            clearable="true"
+                            type="digit"
+                            @change="
+                              (value) => {
+                                inputDefaultChange(value, item, index, pmlItem.dataKey);
+                              }
+                            "
+                            customStyle="padding-right:0px"
+                          ></u--input>
+                        </u-form-item>
+                      </view>
+                    </view>
+                  </u-collapse-item>
+                </u-collapse>
+              </view>
+            </view>
+            <!-- 内外边距end -->
+            <u-line v-if="index !== formList.length - 1" margin="10px 0px"></u-line>
           </view>
         </view>
       </scroll-view>
@@ -313,6 +413,86 @@ export default {
           },
         ],
       ],
+      borderTypePickerColumns: [
+        [
+          {
+            label: "点线边框(dotted)",
+            key: "dotted",
+          },
+          {
+            label: "虚线边框(dashed)",
+            key: "dashed",
+          },
+          {
+            label: "实线边框(solid)",
+            key: "solid",
+          },
+        ],
+      ],
+      borderFormLabel: [
+        {
+          label: "上边框",
+          dataKey: "computedData.border.width.top",
+        },
+        {
+          label: "右边框",
+          dataKey: "computedData.border.width.right",
+        },
+        {
+          label: "下边框",
+          dataKey: "computedData.border.width.bottom",
+        },
+        {
+          label: "左边框",
+          dataKey: "computedData.border.width.left",
+        },
+      ],
+      paddingMarginListFormLabel: [
+        {
+          title: "内边距",
+          key: "computedData.padding",
+          list: [
+            {
+              label: "上内边距",
+              dataKey: "computedData.padding.top",
+            },
+            {
+              label: "右内边距",
+              dataKey: "computedData.padding.right",
+            },
+            {
+              label: "下内边距",
+              dataKey: "computedData.padding.bottom",
+            },
+            {
+              label: "左内边距",
+              dataKey: "computedData.padding.left",
+            },
+          ],
+        },
+        {
+          title: "外边距",
+          key: "computedData.margin",
+          list: [
+            {
+              label: "上外边距",
+              dataKey: "computedData.margin.top",
+            },
+            {
+              label: "右外边距",
+              dataKey: "computedData.margin.right",
+            },
+            {
+              label: "下外边距",
+              dataKey: "computedData.margin.bottom",
+            },
+            {
+              label: "左外边距",
+              dataKey: "computedData.margin.left",
+            },
+          ],
+        },
+      ],
       // ui end
       value: [],
       timePicker: {
@@ -358,6 +538,9 @@ export default {
     // }
   },
   methods: {
+    getValue(object, key, defaultData = "") {
+      return _.get(object, key, defaultData);
+    },
     // 滚动事件
     viewScroll(e) {
       if (this.tabsList[this.currentTabs].showLine && e.detail.scrollTop >= 50) {
@@ -392,13 +575,15 @@ export default {
         if (item.customOption.input && item.customOption.input.type) {
           let formItem = {
             key: index,
-            baseData: _.cloneDeep(item),
-            fieldData: _.cloneDeep(item.customOption.input),
+            baseData: _.cloneDeep(item), // 整体数据
+            fieldData: _.cloneDeep(item.customOption.input), // 输入内容
+            computedData: _.cloneDeep(item.computedData), // 计算属性
           };
           if (item.customOption.input.type === "icon") {
             let logoImg = this.computedLogoImage(formItem.fieldData.content);
             formItem.componentData = logoImg;
           }
+
           formList.push(formItem);
         }
       }
@@ -433,6 +618,7 @@ export default {
       }
       return logoImg;
     },
+    // 时间戳转换可视日期结构 YYYY-MM-DD hh:mm:ss
     timestamp2Str(value) {
       try {
         let cDate = new Date(value);
@@ -442,20 +628,22 @@ export default {
         return "";
       }
     },
-    fontFamily2Str(value) {
-      let name = "未知";
-      for (let index = 0; index < this.fontPickerColumns[0].length; index++) {
-        const item = this.fontPickerColumns[0][index];
-        if (item.key == value) {
+    // 默认选择器对应的显示label的方法
+    defaultPikerItem2Str(columns, value, findKey = "key", defaultName = "默认") {
+      let name = defaultName;
+      for (let index = 0; index < columns[0].length; index++) {
+        const item = columns[0][index];
+        if (item[findKey] == value) {
           name = item.label;
           break;
         }
       }
       if (!value || value == "") {
-        name = "默认";
+        name = defaultName;
       }
       return name;
     },
+    // 颜色#ffffff00 转换为可视化rgb:#ffffff,a:0/255
     background2Str(value) {
       let color = value.substring(0, 7);
       let alpha = value.substring(7, 9);
@@ -772,6 +960,9 @@ export default {
     .timePicker {
       text-align: right;
       padding: 6px 0px 6px 9px;
+    }
+    .u-collapse-item-wrapper {
+      background-color: rgb(247, 247, 249);
     }
   }
   /deep/.u-input {
