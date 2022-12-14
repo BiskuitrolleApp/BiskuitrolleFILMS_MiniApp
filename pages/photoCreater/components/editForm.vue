@@ -893,6 +893,12 @@ export default {
     resetForm() {
       this.init(this.value);
     },
+    // TODO
+    // TODO padding margin border计算
+    // TODO 字体计算
+    // TODO 保存当前配置
+    // TODO 自订个性化配置，则是吧当前EXIFObject 转换为config，
+    // TODO 新增分享config 逻辑
     submit() {
       let value = _.cloneDeep(this.value);
       let formList = _.cloneDeep(this.formList);
