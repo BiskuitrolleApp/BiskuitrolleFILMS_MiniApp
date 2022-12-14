@@ -1,9 +1,8 @@
 <template>
   <view class="content">
     <view class="text-area" @click="showPopup">
-      <view class="logo-wrapper" v-for="(logoItem, index) in logoImg" @>
-        <view class="name">{{ logoItem.photo_name }}({{ logoItem.photo_name_en }})</view>
-        <image :src="logoItem.photo_url" mode="heightFix"></image>
+      <view class="logo-wrapper" v-for="(logoItem, index) in logoImg">
+        <logoItem :value="logoItem"></logoItem>
       </view>
     </view>
     <u-popup ref="popup" mode="bottom" :show="showForm" :safeAreaInsetBottom="true">
@@ -13,6 +12,7 @@
 </template>
 <script>
 import multiSelect from "@/components/logoSelect/index.vue";
+import logoItem from "@/components/logoSelect/components/logoItem.vue";
 import photoLogo from "@/static/common/json/database_photoLogo.json";
 export default {
   data() {
@@ -35,6 +35,7 @@ export default {
   },
   components: {
     multiSelect,
+    logoItem,
   },
   onLoad() {
     //模拟数据加载

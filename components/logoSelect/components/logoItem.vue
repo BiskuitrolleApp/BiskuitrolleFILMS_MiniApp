@@ -1,7 +1,7 @@
 <template>
-  <view class="logo-wrapper">
+  <view class="logoItem-wrapper">
     <view class="name">{{ value.photo_name }}({{ value.photo_name_en }})</view>
-    <image :src="value.photo_url" mode="heightFix"></image>
+    <image :src="value.photo_url" mode="heightFix" v-show="value.photo_url"></image>
   </view>
 </template>
 
@@ -18,20 +18,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.logo-wrapper {
+.logoItem-wrapper {
   width: 100%;
-  height: 40px;
+  min-height: 40px;
   display: flex;
+  flex-wrap: wrap;
   align-content: center;
-  justify-content: flex-start;
   align-items: center;
   .name {
     font-size: 10px;
-    line-height: 40px;
+    line-height: 20px;
     margin: 0px 10px;
   }
   image {
     height: 16px;
+    width: auto;
   }
 }
 </style>

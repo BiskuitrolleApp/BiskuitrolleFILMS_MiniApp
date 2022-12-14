@@ -1,10 +1,11 @@
 <template>
   <view class="editForm">
     <u-form labelPosition="left" ref="editForm">
-      <view class="highClass">
+      <view class="tabWrapper">
         <u-tabs :list="tabsList" lineWidth="50" itemStyle="width:100px;height:50px" lineColor="#D7C2F3" @change="tabsChange" :current="currentTabs"></u-tabs>
       </view>
-      <view class="formWrapper">
+      <u-line :length="tabsList[currentTabs].showLine ? '100%' : '0%'"></u-line>
+      <scroll-view scroll-y="true" class="formWrapper" @scroll="viewScroll" @scrolltoupper="viewScrollToTop">
         <view class="form-simple" v-show="currentTabs === 0">
           <view v-for="(item, index) in formList" class="formItem">
             <!-- 内容start -->
@@ -34,178 +35,149 @@
                 <!-- <u-icon name="arrow-right"></u-icon> -->
               </u-form-item>
             </view>
-            <view v-else-if="item.fieldData.type === 'icon'" class="fieldItem fieldItemPadding">
-              <u-form-item
-                :label="item.fieldData.cnName"
-                labelWidth="80"
-                customStyle="padding:5px 0px"
-                @click="
-                  () => {
-                    openLogoPicker(args, item, index);
-                  }
-                "
-                :key="item.key"
-              >
-                <hpy-form-select v-if="item.componentData.visible" :dataList="markLogo" text="photo_name" name="photo_keyword" hideBorder="true" @change="logoPickerConfirm" islot="true">
-                  <view
-                    class="logo-wrapper"
-                    @click="
-                      () => {
-                        openLogoPicker(args, item, index);
-                      }
-                    "
-                  >
-                    <view class="name">{{ item.componentData.photo_name }}({{ item.componentData.photo_name_en }})</view>
-                    <image :src="item.componentData.photo_url" mode="heightFix"></image>
-                    <!-- <u-icon name="arrow-right" color="#000000" width="18"></u-icon> -->
-                  </view>
-                </hpy-form-select>
+            <view v-else-if="item.fieldData.type === 'icon'" class="fieldItem fieldItemPadding fieldItemLogo">
+              <u-form-item :label="item.fieldData.cnName" labelWidth="80" customStyle="padding:5px 0px" :key="item.key">
+                <view
+                  class="logo-wrapper"
+                  @click="
+                    () => {
+                      openLogoPicker(item, index);
+                    }
+                  "
+                >
+                  <logoItem :value="item.componentData"></logoItem>
+                </view>
               </u-form-item>
             </view>
             <!-- 内容end -->
           </view>
         </view>
         <view class="form-complex" v-show="currentTabs === 1">
-          <u-cell-group :border="false">
-            <u-cell v-for="(item, index) in formList" :title="item.fieldData.cnName" :key="index" :border="index !== formList.length - 1">
-              <view slot="label" class="formItem">
-                <!-- 内容start -->
-                <view class="fieldItem fieldItemPadding" v-if="item.fieldData.type === 'input'">
-                  <u-form-item label="内容" labelWidth="80" :prop="item.key" customStyle="padding:0px">
-                    <u--input
-                      :value="item.fieldData.content"
-                      border="bottom"
-                      :placeholder="'请输入' + item.fieldData.cnName"
-                      inputAlign="right"
-                      clearable="true"
-                      @change="
-                        (value) => {
-                          inputDefaultChange(value, item, index, 'fieldData.content');
-                        }
-                      "
-                      customStyle="padding-right:0px"
-                    ></u--input>
-                  </u-form-item>
+          <view v-for="(item, index) in formList" :title="item.fieldData.cnName" :key="index" class="formItem">
+            <view class="form-title">{{ item.fieldData.cnName }}</view>
+            <!-- 内容start -->
+            <view class="fieldItem fieldItemPadding" v-if="item.fieldData.type === 'input'">
+              <u-form-item label="内容" labelWidth="80" :prop="item.key" customStyle="padding:0px">
+                <u--input
+                  :value="item.fieldData.content"
+                  border="bottom"
+                  :placeholder="'请输入' + item.fieldData.cnName"
+                  inputAlign="right"
+                  clearable="true"
+                  @change="
+                    (value) => {
+                      inputDefaultChange(value, item, index, 'fieldData.content');
+                    }
+                  "
+                  customStyle="padding-right:0px"
+                ></u--input>
+              </u-form-item>
+            </view>
+            <view class="fieldItem fieldItemPadding" v-else-if="item.fieldData.type === 'timepicker'">
+              <u-form-item label="内容" labelWidth="80" :prop="item.key" customStyle="padding:0px">
+                <view class="pickShowerDefaultWrapper">
+                  <view class="timePicker" @click="openTimePicker(index)">{{ timestamp2Str(item.fieldData.content) }} </view>
+                  <u-icon name="arrow-right" color="#000000" width="18"></u-icon>
                 </view>
-                <view class="fieldItem fieldItemPadding" v-else-if="item.fieldData.type === 'timepicker'">
-                  <u-form-item label="内容" labelWidth="80" :prop="item.key" customStyle="padding:0px">
-                    <view class="pickShowerDefaultWrapper">
-                      <view class="timePicker" @click="openTimePicker(index)">{{ timestamp2Str(item.fieldData.content) }} </view>
-                      <u-icon name="arrow-right" color="#000000" width="18"></u-icon>
-                    </view>
-                  </u-form-item>
+              </u-form-item>
+            </view>
+            <view class="fieldItem fieldItemPadding fieldItemLogo" v-else-if="item.fieldData.type === 'icon'">
+              <u-form-item label="内容" labelWidth="80" customStyle="padding:0px">
+                <view
+                  class="logo-wrapper"
+                  @click="
+                    () => {
+                      openLogoPicker(item, index);
+                    }
+                  "
+                >
+                  <logoItem :value="item.componentData"></logoItem>
                 </view>
-                <view class="fieldItem fieldItemPadding" v-else-if="item.fieldData.type === 'icon'">
-                  <u-form-item
-                    label="内容"
-                    labelWidth="80"
-                    customStyle="padding:0px"
-                    @click="
-                      () => {
-                        openLogoPicker(args, item, index);
-                      }
-                    "
-                    :key="item.key"
-                  >
-                    <hpy-form-select v-if="item.componentData.visible" :dataList="markLogo" text="photo_name" name="photo_keyword" hideBorder="true" @change="logoPickerConfirm" islot="true">
-                      <view
-                        class="logo-wrapper"
-                        @click="
-                          () => {
-                            openLogoPicker(args, item, index);
+              </u-form-item>
+            </view>
+            <!-- 内容end -->
+            <!-- 内容块样式start -->
+            <view class="fieldItem fieldItemPadding">
+              <u-form-item label="背景颜色" labelWidth="80" customStyle="padding:5px 0px">
+                <view class="colorBox-wrapper">
+                  <view class="colorBox" @click="openColorPicker(item.baseData.background, index)" :style="{ color: oppositeColor(item.baseData.background, -1), background: item.baseData.background }">
+                    <!-- {{ item.baseData.background }} -->
+                    {{ background2Str(item.baseData.background) }}
+                  </view>
+                </view>
+              </u-form-item>
+            </view>
+            <view class="fieldItem fieldItemPadding">
+              <u-form-item label="x轴" labelWidth="80" customStyle="padding:5px 0px">
+                <view class="slider-wrapper">
+                  <view class="tip-wrapper tip-left">-50</view>
+                  <view class="slider"><u-slider v-model="item.baseData.xAxisOffset" step="1" min="-50" max="50" activeColor="#D7C2F3"></u-slider></view>
+                  <view class="tip-wrapper tip-right">50</view>
+                  <view class="tip-wrapper tip-right"></view>
+                  <view class="inputWrapper">{{ item.baseData.xAxisOffset }}</view>
+                </view>
+              </u-form-item>
+            </view>
+            <view class="fieldItem fieldItemPadding">
+              <u-form-item label="y轴" labelWidth="80" customStyle="padding:5px 0px">
+                <view class="slider-wrapper">
+                  <view class="tip-wrapper tip-left">-50</view>
+                  <view class="slider"><u-slider v-model="item.baseData.yAxisOffset" step="1" min="-50" max="50" activeColor="#D7C2F3"></u-slider></view>
+                  <view class="tip-wrapper tip-right">50</view>
+                  <view class="tip-wrapper tip-right"></view>
+                  <view class="inputWrapper">{{ item.baseData.yAxisOffset }}</view>
+                </view>
+              </u-form-item>
+            </view>
+            <!-- 内容块样式end -->
+            <!-- 字体样式start -->
+            <view class="fieldItem fieldItemCollapse" v-if="item.baseData.font">
+              <u-collapse :border="false">
+                <u-collapse-item title="字体" name="fontSettingWrapper" value="展开">
+                  <view class="fieldItem fieldItemPadding">
+                    <u-form-item label="粗细" labelWidth="80" :prop="item.key" customStyle="padding:0px">
+                      <view class="switchBox-wrapper">
+                        <u-switch :value="item.baseData.font.bold" size="18" activeColor="#D7C2F3"></u-switch>
+                      </view>
+                    </u-form-item>
+                  </view>
+                  <view class="fieldItem fieldItemPadding">
+                    <u-form-item label="颜色" labelWidth="80" customStyle="padding:0px">
+                      <view class="colorBox-wrapper">
+                        <view class="colorBox" @click="openColorPicker(item.baseData.font.color, index)" :style="{ color: oppositeColor(item.baseData.font.color, -1), background: item.baseData.font.color }">
+                          {{ background2Str(item.baseData.font.color) }}
+                        </view>
+                      </view>
+                    </u-form-item>
+                  </view>
+                  <view class="fieldItem fieldItemPadding">
+                    <u-form-item label="字体" labelWidth="80" :prop="item.key" customStyle="padding:0px">
+                      <view class="pickShowerDefaultWrapper">
+                        <view @click="openDefaultPicker(index, fontPickerColumns, 'baseData.font.fontFamily')">{{ fontFamily2Str(item.baseData.font.fontFamily) }} </view>
+                        <u-icon name="arrow-right" color="#000000" width="18"></u-icon>
+                      </view>
+                    </u-form-item>
+                  </view>
+                  <view class="fieldItem fieldItemPadding">
+                    <u-form-item label="大小" labelWidth="80">
+                      <u--input
+                        :value="item.baseData.font.fontSize"
+                        border="bottom"
+                        placeholder="请输入字体大小"
+                        inputAlign="right"
+                        clearable="true"
+                        type="number"
+                        @change="
+                          (value) => {
+                            inputDefaultChange(value, item, index, 'baseData.font.fontSize');
                           }
                         "
-                      >
-                        <view class="name">{{ item.componentData.photo_name }}({{ item.componentData.photo_name_en }})</view>
-                        <image :src="item.componentData.photo_url" mode="heightFix"></image>
-                        <!-- <u-icon name="arrow-right" color="#000000" width="18"></u-icon> -->
-                      </view>
-                    </hpy-form-select>
-                  </u-form-item>
-                </view>
-                <!-- 内容end -->
-                <!-- 内容块样式start -->
-                <view class="fieldItem fieldItemPadding">
-                  <u-form-item label="背景颜色" labelWidth="80" customStyle="padding:5px 0px">
-                    <view class="colorBox-wrapper">
-                      <view class="colorBox" @click="openColorPicker(item.baseData.background, index)" :style="{ color: oppositeColor(item.baseData.background, -1), background: item.baseData.background }">
-                        <!-- {{ item.baseData.background }} -->
-                        {{ background2Str(item.baseData.background) }}
-                      </view>
-                    </view>
-                  </u-form-item>
-                </view>
-                <view class="fieldItem fieldItemPadding">
-                  <u-form-item label="x轴" labelWidth="80" customStyle="padding:5px 0px">
-                    <view class="slider-wrapper">
-                      <view class="tip-wrapper tip-left">-50</view>
-                      <view class="slider"><u-slider v-model="item.baseData.xAxisOffset" step="1" min="-50" max="50" activeColor="#D7C2F3"></u-slider></view>
-                      <view class="tip-wrapper tip-right">50</view>
-                      <view class="tip-wrapper tip-right"></view>
-                      <view class="inputWrapper">{{ item.baseData.xAxisOffset }}</view>
-                    </view>
-                  </u-form-item>
-                </view>
-                <view class="fieldItem fieldItemPadding">
-                  <u-form-item label="y轴" labelWidth="80" customStyle="padding:5px 0px">
-                    <view class="slider-wrapper">
-                      <view class="tip-wrapper tip-left">-50</view>
-                      <view class="slider"><u-slider v-model="item.baseData.yAxisOffset" step="1" min="-50" max="50" activeColor="#D7C2F3"></u-slider></view>
-                      <view class="tip-wrapper tip-right">50</view>
-                      <view class="tip-wrapper tip-right"></view>
-                      <view class="inputWrapper">{{ item.baseData.yAxisOffset }}</view>
-                    </view>
-                  </u-form-item>
-                </view>
-                <!-- 内容块样式end -->
-                <!-- 字体样式start -->
-                <view class="fieldItem fieldItemCollapse" v-if="item.baseData.font">
-                  <u-collapse :border="false">
-                    <u-collapse-item title="字体" name="fontSettingWrapper" value="展开">
-                      <view class="fieldItem fieldItemPadding">
-                        <u-form-item label="粗细" labelWidth="80" :prop="item.key" customStyle="padding:0px">
-                          <view class="switchBox-wrapper">
-                            <u-switch :value="item.baseData.font.bold" size="18" activeColor="#D7C2F3"></u-switch>
-                          </view>
-                        </u-form-item>
-                      </view>
-                      <view class="fieldItem fieldItemPadding">
-                        <u-form-item label="颜色" labelWidth="80" customStyle="padding:0px">
-                          <view class="colorBox-wrapper">
-                            <view class="colorBox" @click="openColorPicker(item.baseData.font.color, index)" :style="{ color: oppositeColor(item.baseData.font.color, -1), background: item.baseData.font.color }">
-                              {{ background2Str(item.baseData.font.color) }}
-                            </view>
-                          </view>
-                        </u-form-item>
-                      </view>
-                      <view class="fieldItem fieldItemPadding">
-                        <u-form-item label="字体" labelWidth="80" :prop="item.key" customStyle="padding:0px">
-                          <view class="pickShowerDefaultWrapper">
-                            <view @click="openDefaultPicker(index, fontPickerColumns, 'baseData.font.fontFamily')">{{ fontFamily2Str(item.baseData.font.fontFamily) }} </view>
-                            <u-icon name="arrow-right" color="#000000" width="18"></u-icon>
-                          </view>
-                        </u-form-item>
-                      </view>
-                      <view class="fieldItem fieldItemPadding">
-                        <u-form-item label="大小" labelWidth="80">
-                          <u--input
-                            :value="item.baseData.font.fontSize"
-                            border="bottom"
-                            placeholder="请输入字体大小"
-                            inputAlign="right"
-                            clearable="true"
-                            type="number"
-                            @change="
-                              (value) => {
-                                inputDefaultChange(value, item, index, 'baseData.font.fontSize');
-                              }
-                            "
-                            customStyle="padding-right:0px"
-                          ></u--input>
-                        </u-form-item>
-                      </view>
-                      <view class="fieldItem fieldItemPadding">
-                        <!-- <u-form-item label="样式代码" labelWidth="80" :prop="item.key" customStyle="padding:0px">
+                        customStyle="padding-right:0px"
+                      ></u--input>
+                    </u-form-item>
+                  </view>
+                  <view class="fieldItem fieldItemPadding">
+                    <!-- <u-form-item label="样式代码" labelWidth="80" :prop="item.key" customStyle="padding:0px">
                           <u--textarea
                             :value="item.baseData.font.style"
                             border="bottom"
@@ -220,22 +192,21 @@
                             customStyle="padding-right:0px"
                           ></u--textarea>
                         </u-form-item> -->
-                        <u-form-item label="样式" labelWidth="80" :prop="item.key" customStyle="padding:0px">
-                          <view class="pickShowerDefaultWrapper">
-                            <view @click="openCanvasFontPicker(index, item.baseData.font.style, 'baseData.font.style')">{{ item.baseData.font.style ? item.baseData.font.style : "请选择" }} </view>
-                            <u-icon name="arrow-right" color="#000000" width="18"></u-icon>
-                          </view>
-                        </u-form-item>
+                    <u-form-item label="样式" labelWidth="80" :prop="item.key" customStyle="padding:0px">
+                      <view class="pickShowerDefaultWrapper">
+                        <view @click="openCanvasFontPicker(index, item.baseData.font.style, 'baseData.font.style')">{{ item.baseData.font.style ? item.baseData.font.style : "请选择" }} </view>
+                        <u-icon name="arrow-right" color="#000000" width="18"></u-icon>
                       </view>
-                    </u-collapse-item>
-                  </u-collapse>
-                </view>
-                <!-- 字体样式end -->
-              </view>
-            </u-cell>
-          </u-cell-group>
+                    </u-form-item>
+                  </view>
+                </u-collapse-item>
+              </u-collapse>
+            </view>
+            <!-- 字体样式end -->
+            <u-line v-if="index !== formList.length - 1"></u-line>
+          </view>
         </view>
-      </view>
+      </scroll-view>
       <view class="button-wrapper">
         <view class="button-item"> <u-button @click="resetForm">重置</u-button></view>
         <view class="button-item"><u-button :disabled="!isFormChange" @click="submit" color="#D7C2F3">确认</u-button></view>
@@ -250,6 +221,11 @@
       <multi-select color="#D7C2F3" :list="canvasFontColumns" :defaultValue="canvasFontPicker.value" keyLabel="label" keyValue="key" @cancel="canvasFontPickerCancel" @change="canvasFontPickerConfirm"></multi-select>
     </u-popup>
     <!-- picker组件 - 字体样式popup end -->
+    <!-- picker组件 - logopopup start -->
+    <u-popup ref="popup" mode="bottom" :show="logoPicker.visible" :safeAreaInsetBottom="true">
+      <logo-select color="#D7C2F3" :show="logoPicker.visible" :isMultiple="false" :list="markLogo" :defaultValue="logoPicker.value" keyLabel="photo_name" keyValue="photo_keyword" @cancel="logoPickerCancel" @change="logoPickerConfirm"> </logo-select>
+    </u-popup>
+    <!-- picker组件 - logopopup end -->
     <!-- picker组件end -->
 
     <u-toast ref="uToast"></u-toast>
@@ -262,11 +238,15 @@ import tools from "@/libs/tools/index.js";
 import setContentByInputType from "../js/inputConfigSetter.js";
 import demo from "./demo.js";
 import multiSelect from "@/components/multiSelect/index.vue";
+import logoSelect from "@/components/logoSelect/index.vue";
+import logoItem from "@/components/logoSelect/components/logoItem.vue";
 
 export default {
   components: {
     tColorPicker,
     multiSelect,
+    logoSelect,
+    logoItem,
   },
   props: {
     visible: {
@@ -317,10 +297,12 @@ export default {
         {
           name: "简易",
           key: "simple",
+          showLine: false,
         },
         {
           name: "高级",
           key: "complex",
+          showLine: false,
         },
       ],
       fontPickerColumns: [
@@ -340,8 +322,10 @@ export default {
         value: "",
       },
       logoPicker: {
+        visible: false,
         formItem: {},
         index: -1,
+        value: [],
       },
       colorPicker: {
         color: "",
@@ -361,7 +345,6 @@ export default {
       },
       form: {},
       formList: [],
-
       isFormChange: false,
     };
   },
@@ -375,6 +358,22 @@ export default {
     // }
   },
   methods: {
+    // 滚动事件
+    viewScroll(e) {
+      if (this.tabsList[this.currentTabs].showLine && e.detail.scrollTop >= 50) {
+        return;
+      }
+      if (e.detail.scrollTop >= 50) {
+        this.tabsList[this.currentTabs].showLine = true;
+      } else {
+        this.tabsList[this.currentTabs].showLine = false;
+      }
+    },
+    // 滚动到顶部事件
+    viewScrollToTop(e) {
+      this.tabsList[this.currentTabs].showLine = false;
+      console.log("到顶部", this.tabsList[this.currentTabs].showLine);
+    },
     setValue(list = []) {
       let newValue = _.cloneDeep(list);
       this.value = newValue;
@@ -397,12 +396,8 @@ export default {
             fieldData: _.cloneDeep(item.customOption.input),
           };
           if (item.customOption.input.type === "icon") {
-            let componentData = {
-              visible: true,
-            };
             let logoImg = this.computedLogoImage(formItem.fieldData.content);
-            componentData = Object.assign(componentData, logoImg);
-            formItem.componentData = componentData;
+            formItem.componentData = logoImg;
           }
           formList.push(formItem);
         }
@@ -595,12 +590,14 @@ export default {
         value: item.fieldData.content,
       };
     },
-    openLogoPicker(args, item, index) {
+    openLogoPicker(item, index) {
       this.logoPicker = {
+        visible: true,
         formItem: item,
         index,
+        value: [item.componentData],
       };
-      this.formList[index].componentData.visible = true;
+      // this.formList[index].componentData.visible = true;
     },
     openColorPicker(data, index) {
       this.colorPicker = {
@@ -611,32 +608,18 @@ export default {
       // 打开颜色选择器
       this.$refs.colorPicker.open(data);
     },
-    logoPickerConfirm(logoData = {}) {
+    logoPickerConfirm(logoList = {}) {
       let that = this;
+      let logoData = logoList[0];
       console.log("logoData", logoData);
-      if (logoData.value && typeof logoData.value == "string") {
-        let logoPicker = this.logoPicker;
-        let formItem = that.formList[logoPicker.index];
-        let newValue = logoData.value;
-        let componentData = {
-          visible: true,
-        };
-        componentData = Object.assign(componentData, logoData.data);
-        formItem.componentData = componentData;
-        formItem.fieldData.content = newValue;
-        that.formList[logoPicker.index] = formItem;
+      let newItem = this.formList[this.logoPicker.index];
+      newItem.componentData = logoData;
+      let newValue = logoData.photo_keyword;
+      newItem.fieldData.content = newValue;
+      that.formList[this.logoPicker.index] = newItem;
+      console.log("setting logo:", that.formList[this.logoPicker.index]);
 
-        that.formList[logoPicker.index].componentData.visible = false;
-        that.$nextTick(() => {
-          that.formList[logoPicker.index].componentData.visible = true;
-        });
-        this.isFormChange = true;
-        this.logoPicker = {
-          formItem: {},
-          index: -1,
-        };
-        console.log("setting logo:", that.formList[logoPicker.index]);
-      }
+      this.logoPickerCancel();
     },
     timePickerConfirm(date = {}) {
       if (date.value && typeof date.value == "number") {
@@ -685,6 +668,14 @@ export default {
       console.log("setting canvasfont picker:", this.formList[this.canvasFontPicker.index]);
 
       this.canvasFontPickerCancel();
+    },
+    logoPickerCancel() {
+      this.logoPicker = {
+        visible: false,
+        formItem: {},
+        index: -1,
+        value: [],
+      };
     },
     timePickerCancel() {
       this.timePicker = {
@@ -749,20 +740,31 @@ export default {
 <style lang="scss" scoped>
 .editForm {
   background-color: #fff;
+  .tabWrapper {
+    margin-top: -40px;
+  }
   .formItem {
+    /deep/.u-line,
     .fieldItemPadding {
       padding: 0px 15px;
+    }
+    .form-title {
+      font-size: 16px;
+      font-weight: bolder;
+      line-height: 40px;
     }
     .fieldItem {
       height: 50px;
       display: grid;
       align-items: center;
+
       .pickShowerDefaultWrapper {
         display: flex;
         justify-content: flex-end;
       }
       // border: 1px solid #000;
     }
+    .fieldItemLogo,
     .fieldItemTextarea,
     .fieldItemCollapse {
       height: auto;
@@ -777,23 +779,25 @@ export default {
   }
   .formWrapper {
     max-height: 60vh;
-    // height: 60vh;
-    overflow-y: auto;
+    // overflow-y: auto;
+    width: 100%;
+    .form-simple {
+      padding: 2px 15px;
+      .fieldItemPadding {
+        padding: 0px;
+      }
+    }
+    .form-complex {
+      padding: 0px 15px;
+    }
   }
   .logo-wrapper {
-    height: 40px;
+    // height: 40px;
+    min-height: 40px;
     display: flex;
     align-content: center;
     justify-content: flex-end;
     align-items: center;
-    .name {
-      font-size: 10px;
-      line-height: 40px;
-      margin: 0px 10px;
-    }
-    image {
-      height: 16px;
-    }
   }
   .button-wrapper {
     padding: 0px 15px;
