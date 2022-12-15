@@ -19,7 +19,7 @@
                   clearable="true"
                   @change="
                     (value) => {
-                      inputDefaultChange(value, item, index, 'fieldData.content');
+                      defaultChange(value, index, 'fieldData.content');
                     }
                   "
                   customStyle="padding-right:0px"
@@ -66,7 +66,7 @@
                   clearable="true"
                   @change="
                     (value) => {
-                      inputDefaultChange(value, item, index, 'fieldData.content');
+                      defaultChange(value, index, 'fieldData.content');
                     }
                   "
                   customStyle="padding-right:0px"
@@ -204,7 +204,16 @@
                     <view class="fieldItem fieldItemPadding">
                       <u-form-item label="粗细" labelWidth="80" :prop="item.key" customStyle="padding:0px">
                         <view class="switchBox-wrapper">
-                          <u-switch :value="item.baseData.font.bold" size="18" activeColor="#D7C2F3"></u-switch>
+                          <u-switch
+                            :value="item.baseData.font.bold"
+                            size="18"
+                            activeColor="#D7C2F3"
+                            @change="
+                              (value) => {
+                                defaultChange(value, index, 'baseData.font.bold');
+                              }
+                            "
+                          ></u-switch>
                         </view>
                       </u-form-item>
                     </view>
@@ -255,7 +264,7 @@
                               clearable="true"
                               @input="
                                 (value) => {
-                                  inputDefaultChange(value, item, index, 'baseData.font.style');
+                                  defaultChange(value, index, 'baseData.font.style');
                                 }
                               "
                               customStyle="padding-right:0px"
@@ -723,11 +732,11 @@ export default {
       if (!isNaN(Number(value))) {
         number = Number(value);
       }
-      this.inputDefaultChange(number, item, index, key);
+      this.defaultChange(number, index, key);
     },
     // 默认输入器设置
-    inputDefaultChange(value, item, index, key) {
-      let newItem = _.cloneDeep(item);
+    defaultChange(value, index, key) {
+      let newItem = this.formList[index];
       _.set(newItem, key, value);
       this.formList[index] = newItem;
       this.isFormChange = true;
@@ -920,8 +929,6 @@ export default {
       this.init(this.value);
     },
     // TODO
-    // TODO padding margin border计算
-    // TODO 字体计算
     // TODO 保存当前配置
     // TODO 自订个性化配置，则是吧当前EXIFObject 转换为config，
     // TODO 新增分享config 逻辑
