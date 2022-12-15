@@ -100,7 +100,7 @@
             <view class="fieldItem fieldItemPadding">
               <u-form-item label="背景颜色" labelWidth="80" customStyle="padding:5px 0px">
                 <view class="colorBox-wrapper">
-                  <view class="colorBox" @click="openColorPicker(item.baseData.background, index)" :style="{ color: oppositeColor(item.baseData.background, -1), background: item.baseData.background }">
+                  <view class="colorBox" @click="openColorPicker(item.baseData.background, 'baseData.background', index)" :style="{ color: oppositeColor(item.baseData.background, -1), background: item.baseData.background }">
                     <!-- {{ item.baseData.background }} -->
                     {{ background2Str(item.baseData.background) }}
                   </view>
@@ -140,7 +140,7 @@
                   type="digit"
                   @change="
                     (value) => {
-                      inputDefaultChange(value, item, index, 'baseData.round');
+                      inputNumberDefaultChange(value, item, index, 'baseData.round');
                     }
                   "
                   customStyle="padding-right:0px"
@@ -164,7 +164,7 @@
                           type="digit"
                           @change="
                             (value) => {
-                              inputDefaultChange(value, item, index, bfItem.dataKey);
+                              inputNumberDefaultChange(value, item, index, bfItem.dataKey);
                             }
                           "
                           customStyle="padding-right:0px"
@@ -174,7 +174,7 @@
                     <view class="fieldItem fieldItemPadding">
                       <u-form-item label="颜色" labelWidth="80" customStyle="padding:0px">
                         <view class="colorBox-wrapper">
-                          <view class="colorBox" @click="openColorPicker(item.computedData.border.color, index)" :style="{ color: oppositeColor(item.computedData.border.color, -1), background: item.computedData.border.color }">
+                          <view class="colorBox" @click="openColorPicker(item.computedData.border.color, 'computedData.border.color', index)" :style="{ color: oppositeColor(item.computedData.border.color, -1), background: item.computedData.border.color }">
                             {{ background2Str(item.computedData.border.color) }}
                           </view>
                         </view>
@@ -211,14 +211,14 @@
                     <view class="fieldItem fieldItemPadding">
                       <u-form-item label="颜色" labelWidth="80" customStyle="padding:0px">
                         <view class="colorBox-wrapper">
-                          <view class="colorBox" @click="openColorPicker(item.baseData.font.color, index)" :style="{ color: oppositeColor(item.baseData.font.color, -1), background: item.baseData.font.color }">
+                          <view class="colorBox" @click="openColorPicker(item.baseData.font.color, 'baseData.font.color', index)" :style="{ color: oppositeColor(item.baseData.font.color, -1), background: item.baseData.font.color }">
                             {{ background2Str(item.baseData.font.color) }}
                           </view>
                         </view>
                       </u-form-item>
                     </view>
                     <view class="fieldItem fieldItemPadding">
-                      <u-form-item label="线形" labelWidth="80" :prop="item.key" customStyle="padding:0px">
+                      <u-form-item label="字体" labelWidth="80" :prop="item.key" customStyle="padding:0px">
                         <view class="pickShowerDefaultWrapper">
                           <view @click="openDefaultPicker(index, fontPickerColumns, 'baseData.font.fontFamily')">
                             {{ defaultPikerItem2Str(fontPickerColumns, item.baseData.font.fontFamily) }}
@@ -238,7 +238,7 @@
                           type="digit"
                           @change="
                             (value) => {
-                              inputDefaultChange(value, item, index, 'baseData.font.fontSize');
+                              inputNumberDefaultChange(value, item, index, 'baseData.font.fontSize');
                             }
                           "
                           customStyle="padding-right:0px"
@@ -290,7 +290,7 @@
                             type="digit"
                             @change="
                               (value) => {
-                                inputDefaultChange(value, item, index, pmlItem.dataKey);
+                                inputNumberDefaultChange(value, item, index, pmlItem.dataKey);
                               }
                             "
                             customStyle="padding-right:0px"
@@ -509,6 +509,7 @@ export default {
       colorPicker: {
         color: "",
         index: -1,
+        key: "",
       },
       defaultPicker: {
         visible: false,
@@ -537,6 +538,7 @@ export default {
     // }
   },
   methods: {
+    // 封装给页面使用lodash get方法
     getValue(object, key, defaultData = "") {
       return _.get(object, key, defaultData);
     },
@@ -556,10 +558,7 @@ export default {
       this.tabsList[this.currentTabs].showLine = false;
       console.log("到顶部", this.tabsList[this.currentTabs].showLine);
     },
-    setValue(list = []) {
-      let newValue = _.cloneDeep(list);
-      this.value = newValue;
-    },
+    // 初始化表单页面
     init(value = {}) {
       let formList = [];
       formList = this.getFormList(value);
@@ -567,6 +566,7 @@ export default {
       this.formList = formList;
       this.isFormChange = false;
     },
+    // 初始化表单列表 formList
     getFormList(list = []) {
       let formList = [];
       for (let index = 0; index < list.length; index++) {
@@ -588,6 +588,7 @@ export default {
       }
       return formList;
     },
+    // 将logo的key 对应的logo的json信息
     computedLogoImage(val) {
       let markLogoList = this.markLogo;
       let that = this;
@@ -710,17 +711,21 @@ export default {
       });
       return "#" + hex.join("");
     },
+    // TODO 切换tab需要保存 比如说弹出对话框保存
+    // tabs切换事件
     tabsChange(item) {
       this.currentTabs = item.index;
       // console.log("tabsChange", item);
     },
-    inputChange(value, item, index) {
-      let newItem = _.cloneDeep(item);
-      newItem.fieldData.content = value;
-      this.formList[index].fieldData = newItem.fieldData;
-      this.isFormChange = true;
-      console.log("setting input:", this.formList[index]);
+    // 默认输入器设置 - 输入的是数字
+    inputNumberDefaultChange(value, item, index, key) {
+      let number = value;
+      if (!isNaN(Number(value))) {
+        number = Number(value);
+      }
+      this.inputDefaultChange(number, item, index, key);
     },
+    // 默认输入器设置
     inputDefaultChange(value, item, index, key) {
       let newItem = _.cloneDeep(item);
       _.set(newItem, key, value);
@@ -728,6 +733,7 @@ export default {
       this.isFormChange = true;
       console.log("setting input:", this.formList[index]);
     },
+    // 开启默认选择器
     openDefaultPicker(index, columns, setterKey) {
       this.defaultPicker = {
         index,
@@ -736,6 +742,7 @@ export default {
         visible: true,
       };
     },
+    // 开启字体选择器
     openCanvasFontPicker(index, value, setterKey) {
       let newPickerValue = [];
       let isAllLegal = true;
@@ -768,6 +775,7 @@ export default {
       };
       console.log("newPickerValue", newPickerValue);
     },
+    // 开启时间选择器
     openTimePicker(index) {
       let item = this.formList[index];
       this.timePicker = {
@@ -777,6 +785,7 @@ export default {
         value: item.fieldData.content,
       };
     },
+    // 开启logo选择器
     openLogoPicker(item, index) {
       this.logoPicker = {
         visible: true,
@@ -786,12 +795,14 @@ export default {
       };
       // this.formList[index].componentData.visible = true;
     },
-    openColorPicker(data, index) {
+    // 开启颜色选择器
+    openColorPicker(data, key, index) {
       this.colorPicker = {
         color: data,
         index,
+        key,
       };
-      console.log("openColorPicker", data, index);
+      console.log("openColorPicker", data, key, index);
       // 打开颜色选择器
       this.$refs.colorPicker.open(data);
     },
@@ -822,12 +833,15 @@ export default {
     confirmColorPicker(data) {
       // 获得当前颜色rgba值
       let hex = this.rgbaToHex(data.rgba);
-      this.formList[this.colorPicker.index].baseData.background = hex;
+      let newItem = this.formList[this.colorPicker.index];
+      _.set(newItem, this.colorPicker.key, hex);
+      this.formList[this.colorPicker.index] = newItem;
       this.isFormChange = true;
       console.log("setting color picker:", this.formList[this.colorPicker.index]);
       this.colorPicker = {
         color: "",
         index: -1,
+        key: "",
       };
     },
     confirmDefaultPicker(data) {
@@ -880,7 +894,6 @@ export default {
         key: "",
       };
     },
-
     canvasFontPickerCancel() {
       this.canvasFontPicker = {
         visible: false,
@@ -889,6 +902,20 @@ export default {
         key: "",
       };
     },
+    // 获得盒子模型原始数据信息
+    getBoxModelOriginData(boxObject = {}) {
+      let box = "0";
+      let list = [boxObject.top || 0, boxObject.right || 0, boxObject.bottom || 0, boxObject.left || 0];
+      box = list.join(" ");
+      return box;
+    },
+    // 获得盒子模型的border的原始数据信息
+    getBorderOriginData(borderObject = {}) {
+      let boxData = this.getBoxModelOriginData(borderObject.width);
+      let boxlist = [boxData || "0", borderObject.color || "#ffffff00", borderObject.style || "solid"];
+      return boxlist.join(" ");
+    },
+    // 重置表单
     resetForm() {
       this.init(this.value);
     },
@@ -905,6 +932,12 @@ export default {
       settingBox.value = value;
       for (let index = 0; index < formList.length; index++) {
         const item = formList[index];
+        // 设置盒子模型信息
+        item.baseData.padding = this.getBoxModelOriginData(item.computedData.padding);
+        item.baseData.margin = this.getBoxModelOriginData(item.computedData.margin);
+        item.baseData.border = this.getBorderOriginData(item.computedData.border);
+        // 设置自动
+
         // 设置input属性
         item.baseData.input = item.fieldData;
         // 设置content内容
