@@ -1,7 +1,7 @@
 import { orderBy } from "./utils/selfLodash";
 import core from './Core'
 import { canvasDrawMain } from "./canvas";
-import { getScaling } from "./var";
+import { getScaling, dataDictionary } from "./var";
 
 // TODO 实现redraw方法 只重新渲染页面图片 无视页面间隔和排序
 // TODO 实现reLoad方法，重新按照该页面数据进行重新计算间隔
@@ -65,3 +65,58 @@ export const EXIFDrawJSON = async function (ctx, domcomentVue, nodeList = [], op
   // 渲染列表操作
   EXIFRedraw(ctx, domcomentVue, canvasConfig, option = {}, callback);
 };
+
+// 获得基础信息
+const getConfigBaseInfo = function (baseInfo = {}) {
+  let basicInformation = {
+    content: '',
+  };
+  // 批量设置数据，去掉配置项不需要的
+  let notNeet = ['customOption'];
+  let cDataDictionary = dataDictionary.filter((item) => notNeet.indexOf(item) < 0)
+  // 赋值默认信息
+  for (const key in baseInfo) {
+    if (Object.hasOwnProperty.call(baseInfo, key)) {
+      const ObjValue = baseInfo[key];
+      if (cDataDictionary.indexOf(key) >= 0) {
+        basicInformation[key] = ObjValue
+      }
+    }
+  }
+  // 设置配置自定义的数据
+  basicInformation = Object.assign(basicInformation, baseInfo.customOption);
+
+  console.log('basicInformation', basicInformation)
+  return basicInformation
+}
+
+// 加工每一个配置成为一项config
+const getConfigList = function (baseInfo = {}, childList = []) {
+  let itemConfig = {};
+  let info = getConfigBaseInfo(baseInfo);
+  // 获得基础信息
+  itemConfig = { ...itemConfig, ...info }
+  if (childList.length > 0) {
+    let currentList = [];
+    for (let index = 0; index < childList.length; index++) {
+      const item = childList[index];
+      let configItem = getConfigList(item.root, item.child);
+      currentList.push(configItem);
+    }
+    if (currentList.length > 0)
+      itemConfig.child = currentList;
+  }
+  return itemConfig;
+}
+
+
+// TODO 逆向生成config
+// 使用EXIFINFO 逆向生成config
+export const generateConfiguration = function (EXIFINFO = []) {
+  let configuration = [];
+  let nodeListTreeList = core.listConvertTree({}, EXIFINFO).root;
+  let generatelist = getConfigList({}, nodeListTreeList.child)
+  configuration = generatelist.child;
+  console.log('configuration', configuration)
+  return configuration
+}

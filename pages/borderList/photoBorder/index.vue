@@ -689,7 +689,6 @@ export default {
 					}
 				});
 			} catch (e) {
-				//TODO handle the exception
 				console.log('error', e);
 			}
 		},
@@ -849,7 +848,6 @@ export default {
 									}
 								});
 							} catch (e) {
-								//TODO handle the exception
 								console.log('urlTobase64', e);
 								that.showGenerator = false;
 							}

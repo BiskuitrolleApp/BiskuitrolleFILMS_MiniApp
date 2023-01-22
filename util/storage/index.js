@@ -63,7 +63,6 @@ const getStorageFunction = function(storageKey, sync = false) {
 					})
 				}
 			} catch (e) {
-				//TODO handle the exception
 				console.error('getStorageSync', e)
 				rej({
 					msg: '错误'

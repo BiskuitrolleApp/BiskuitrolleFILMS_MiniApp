@@ -26,7 +26,7 @@ export default {
           id: "canvas",
           child: [
             {
-              type: "imageMain",
+              type: "image",
               maxWidth: 320, // 只能设置宽度
               content: "http://127.0.0.1/image/test.JPG",
               // content: "http://127.0.0.1/image/test2.JPG",

@@ -344,7 +344,6 @@
 import tColorPicker from "@/components/t-color-picker/t-color-picker.vue";
 import tools from "@/libs/tools/index.js";
 import setContentByInputType from "../js/inputConfigSetter.js";
-import demo from "./demo.js";
 import multiSelect from "@/components/multiSelect/index.vue";
 import logoSelect from "@/components/logoSelect/index.vue";
 import logoItem from "@/components/logoSelect/components/logoItem.vue";
@@ -361,6 +360,11 @@ export default {
       default: false,
       type: Boolean,
     },
+    // prop 透传结构错误，使用setValue
+    // value: {
+    //   default: [],
+    //   type: Array,
+    // },
     markLogo: {
       default: [],
       type: Array,
@@ -370,7 +374,7 @@ export default {
     return {
       // ui start
       cellCustomStyle: "margin: 0px -15px",
-      currentTabs: 1, // 切换开启高级选项
+      currentTabs: 0, // 切换开启高级选项
       canvasFontColumns: [
         {
           label: "<span style='font-weight:600;'>normal</span>",
@@ -502,7 +506,6 @@ export default {
         },
       ],
       // ui end
-      value: [],
       timePicker: {
         visible: false,
         editData: {},
@@ -532,6 +535,7 @@ export default {
         value: "",
         key: "",
       },
+      value: [],
       form: {},
       formList: [],
       isFormChange: false,
@@ -539,7 +543,6 @@ export default {
   },
   watch: {
     visible(newval) {
-      this.value = demo;
       if (newval) this.init(this.value);
     },
     // markLogoList(val) {
@@ -547,6 +550,12 @@ export default {
     // }
   },
   methods: {
+    // props透传导致EXIFList 的结构错误
+
+    setValue(list = []) {
+      let newValue = _.cloneDeep(list);
+      this.value = newValue;
+    },
     // 封装给页面使用lodash get方法
     getValue(object, key, defaultData = "") {
       return _.get(object, key, defaultData);
@@ -720,7 +729,6 @@ export default {
       });
       return "#" + hex.join("");
     },
-    // TODO 切换tab需要保存 比如说弹出对话框保存
     // tabs切换事件
     tabsChange(item) {
       this.currentTabs = item.index;
@@ -928,10 +936,6 @@ export default {
     resetForm() {
       this.init(this.value);
     },
-    // TODO
-    // TODO 保存当前配置
-    // TODO 自订个性化配置，则是吧当前EXIFObject 转换为config，
-    // TODO 新增分享config 逻辑
     submit() {
       let value = _.cloneDeep(this.value);
       let formList = _.cloneDeep(this.formList);
@@ -943,8 +947,6 @@ export default {
         item.baseData.padding = this.getBoxModelOriginData(item.computedData.padding);
         item.baseData.margin = this.getBoxModelOriginData(item.computedData.margin);
         item.baseData.border = this.getBorderOriginData(item.computedData.border);
-        // 设置自动
-
         // 设置input属性
         item.baseData.input = item.fieldData;
         // 设置content内容

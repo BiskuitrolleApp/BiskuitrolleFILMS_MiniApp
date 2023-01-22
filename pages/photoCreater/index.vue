@@ -7,17 +7,20 @@
       </view>
     </view>
     <view class="canvas-box" v-show="!emptyCanvas">
-      <exif-canvas :value="configListInfo" ref="exifCanvas" @EXIFConfigUpdata="EXIFConfigUpdata"></exif-canvas>
+      <exif-canvas :value="configListInfo" ref="exifCanvas" @EXIFConfigUpdata="EXIFConfigUpdata" @click="onUpdatedFile"></exif-canvas>
     </view>
     <view class="downLoadBtn">
-      <u-button text="编辑" size="normal" type="info" @click="openPopup"></u-button>
+      <!-- <u-button text="编辑" size="normal" type="info" @click="openSetting"></u-button> -->
+      <view class="toolWrapper">
+        <u-icon name="setting" label="设置" labelSize="10" labelPos="bottom" color="#D7C2F3" size="28" @click="openSetting" customStyle="margin:0px 10px"></u-icon>
+        <u-icon name="share-square" label="分享" labelSize="10" labelPos="bottom" color="#D7C2F3" size="28" @click="openShare" customStyle="margin:0px 10px"></u-icon>
+        <u-icon name="plus-circle" label="保存" labelSize="10" labelPos="bottom" color="#D7C2F3" size="28" @click="saveConfig" customStyle="margin:0px 10px"></u-icon>
+      </view>
       <u-button text="下载" size="normal" color="#D7C2F3" @click="saveImage"></u-button>
     </view>
     <view class="popup-wrapper">
       <u-popup mode="bottom" :closeable="true" :round="10" :show="showForm" @close="closePopup" :safeAreaInsetTop="true" :safeAreaInsetBottom="true">
-        <!-- <edit-form :value="configListInfo" :visible="showForm" :markLogo="markLogoList" @close="closePopup" @change="resetPhotoInfo"></edit-form> -->
         <edit-form ref="editForm" :visible="showForm" :markLogo="markLogoList" @close="closePopup" @change="resetPhotoInfo"></edit-form>
-        <!-- <edit-form ref="editForm" :value="EXIFConfigList" :visible="showForm" :markLogo="markLogoList" @close="closePopup" @change="resetPhotoInfo"></edit-form> -->
       </u-popup>
     </view>
   </view>
@@ -28,10 +31,11 @@
 import exifCanvas from "@/components/EXIFCanvas";
 import editForm from "./components/editForm.vue";
 
+import { generateConfiguration } from "@/libs/configCanvas";
 import { ImageInfo } from "./js/readImageInfo.js";
 import dataMap from "./config/dataMap.js";
-import setContentByInputType from "./js/inputConfigSetter.js";
-import photoLogo from "@/static/common/json/database_photoLogo.json";
+import { setContentByInputType, getPhotoConfigList } from "./js/inputConfigSetter.js";
+// import demo from "./components/demo.js";
 
 export default {
   components: {
@@ -54,9 +58,10 @@ export default {
           id: "canvas",
           child: [
             {
-              type: "imageMain",
+              type: "image",
               maxWidth: 320, // 只能设置宽度
-              content: "http://127.0.0.1/image/test.JPG",
+              // content: "http://127.0.0.1/image/test.JPG",
+              content: "",
               // content: "http://127.0.0.1/image/test2.JPG",
               // border: "20 solid #ccc",
               // margin:'20',
@@ -73,11 +78,14 @@ export default {
               display: "flex",
               horizontal: "space-between",
               vertical: "center",
-              width: 320,
+              maxWidth: 320,
+              // round: 10,
+              background: "#ffffff00",
               child: [
                 {
                   content: "",
-                  width: 100,
+                  maxWidth: 120,
+                  // border: "1 solid #ff0000ff",
                   child: [
                     {
                       type: "text",
@@ -111,23 +119,25 @@ export default {
                   ],
                 },
                 {
-                  width: 180,
+                  maxWidth: 200,
                   horizontal: "right",
                   vertical: "center",
                   display: "flex",
                   // border: "1 solid #000",
-                  content: "66",
-                  margin: "0 10 0 0",
+                  content: "",
+                  padding: "0 10 20 0",
+                  // border: "1 solid #0000ffff",
                   child: [
                     {
                       type: "image",
                       // height: 20, // 只能设置宽度
                       maxHeight: 20,
                       maxWidth: 60,
-                      content: "",
-                      // content: "http://127.0.0.1/image/leica.png",
+                      // content: "",
+                      content: "http://127.0.0.1/image/leica.png",
                       // marign: "0 5 0 0",
                       margin: "0 5 0 0",
+                      // border: "1 solid #0000ffff",
                       input: {
                         cnName: "品牌",
                         content: "fujifilm",
@@ -138,8 +148,9 @@ export default {
                     {
                       type: "block",
                       border: "0 0 0 0.7 solid #000",
-                      margin: "0 5 0 0",
+                      padding: "0 5 0 0",
                       // border: "1 solid #000",
+                      // border: "1 solid #0000ffff",
                       child: [
                         {
                           type: "text",
@@ -185,93 +196,71 @@ export default {
       ],
     };
   },
-  mounted() {
-    this.getPhotoConfigList();
+  async mounted() {
+    let markLogoList = await getPhotoConfigList();
     setTimeout(() => {
-      this.openPopup();
+      // uni.downloadFile({
+      //   url: "http://127.0.0.1/image/test.JPG",
+      //   success: (res) => {
+      //     this.drawUrl(res.tempFilePath);
+      //   },
+      // });
+      // this.openSetting();
     }, 250);
-
-    // let ctx = uni.createCanvasContext("canvas");
-    // EXIFDrawJSON(ctx, this, this.demo);
   },
   //方法集合
   methods: {
+    openSetting2() {
+      console.log("openSetting");
+      wx.openSetting({
+        success(res) {
+          console.log("openSetting", res.authSetting);
+          // res.authSetting = {
+          //   "scope.userInfo": true,
+          //   "scope.userLocation": true
+          // }
+        },
+      });
+    },
     EXIFConfigUpdata(value = []) {
+      console.log("EXIFConfigUpdata", value);
       this.EXIFConfigList = value;
       this.$refs.editForm.setValue(value);
-    },
-    // 获得配置信息
-    getPhotoConfigList() {
-      let that = this;
-      uni.getStorage({
-        key: "photoConfigData",
-        success: function ({ data }) {
-          let time = new Date().getTime();
-          if (data.expirationTime && time < data.expirationTime) {
-            that.photoConfigData = data.data;
-          } else {
-            that.getPhotoConfigListByDB();
-          }
-        },
-        fail: () => {
-          that.getPhotoConfigListByDB();
-        },
-      });
-    },
-    // 获得配置信息，从数据库中请求
-    getPhotoConfigListByDB() {
-      let that = this;
-      let tempPhotoLogo = photoLogo;
-      tempPhotoLogo = _.sortBy(tempPhotoLogo, function (o) {
-        return o.sort_key;
-      });
-      // console.log("photoLogo", photoLogo, tempPhotoLogo);
-      that.markLogoList = tempPhotoLogo;
-      // console.log("photoLogo", photoLogo);
-      // const db = uniCloud.database();
-      // console.log("数据库中获取");
-      // db.collection("photo_broder_logo_list")
-      //   .get()
-      //   .then(({ result }) => {
-      //     // res 为数据库查询结果
-      //     console.log("配置加载完成");
-      //     let list = result.data;
-      //     list = _.sortBy(list, function (o) {
-      //       return o.sort_key;
-      //     });
-      //     that.photoConfigData = list;
-      //     uni.setStorageSync("photoConfigData", {
-      //       data: list,
-      //       expirationTime: new Date().getTime() + 24 * 60 * 60 * 1000, // 过期时间为24小时
-      //     });
-      //   })
-      //   .catch((e) => {
-      //     that.photoConfigData = [];
-      //     uni.showToast({
-      //       icon: "error",
-      //       duration: 1000,
-      //       title: "配置加载失败",
-      //     });
-      //   });
     },
     closePopup() {
       this.showForm = false;
     },
-    openPopup() {
+    openSetting() {
       let that = this;
-      // if (!that.imageInfo.url || that.imageInfo.url == "") {
-      //   uni.showModal({
-      //     title: "提示",
-      //     content: "需要先上传图片",
-      //     success: function (res) {
-      //       if (res.confirm) {
-      //         that.onUpdatedFile();
-      //       }
-      //     },
-      //   });
-      // } else {
-      that.showForm = true;
-      // }
+      if (!that.imageInfo.url || that.imageInfo.url == "") {
+        uni.showModal({
+          title: "提示",
+          content: "需要先上传图片",
+          success: function (res) {
+            if (res.confirm) {
+              that.onUpdatedFile();
+            }
+          },
+        });
+      } else {
+        that.showForm = true;
+      }
+    },
+    // TODO
+    // TODO 自订个性化配置，则是吧当前EXIFObject 转换为config，
+    // TODO 新增分享config 逻辑
+    openShare() {
+      let config = this.getCurrentConfiguration();
+      console.log("config", config);
+      console.log("分享给好友");
+    },
+    // TODO 保存当前配置
+    saveConfig() {
+      console.log("保存config");
+    },
+    getCurrentConfiguration() {
+      let config = generateConfiguration(this.EXIFConfigList);
+      return config;
     },
     saveImage() {
       this.$refs.exifCanvas.downLoader();
@@ -377,13 +366,14 @@ export default {
             this.loading = false;
           }, 10000);
           let src = e.tempFilePaths[0];
-          console.log("src tempFilePaths", src);
-          let imageObject = new ImageInfo(src);
-          imageObject.computerImageInfo().then((res) => {
-            that.imageInfo = imageObject.getImageInfo();
-            that.imageInfo.url = src;
-            that.init();
-          });
+          this.drawUrl(src);
+          // console.log("src tempFilePaths", src);
+          // let imageObject = new ImageInfo(src);
+          // imageObject.computerImageInfo().then((res) => {
+          //   that.imageInfo = imageObject.getImageInfo();
+          //   that.imageInfo.url = src;
+          //   that.init();
+          // });
           uni.hideLoading();
           that.loading = false;
         },
@@ -396,38 +386,79 @@ export default {
       });
     },
     // 初始化信息
+    drawUrl(src = "") {
+      let that = this;
+      if (src === "") {
+        uni.showToast({
+          title: "非法图片地址",
+          icon: "none",
+        });
+        return;
+      }
+
+      let imageObject = new ImageInfo(src);
+      imageObject.computerImageInfo().then((res) => {
+        that.imageInfo = imageObject.getImageInfo();
+        that.imageInfo.url = src;
+        this.init();
+      });
+      // infoMap.get(userKey) || infoMap.get("Default");
+    },
+    // 初始化信息
     init() {
-      let infoMap = new Map(dataMap);
+      // let infoMap = new Map(dataMap);
+      let infoMap = dataMap;
       // console.log("infoMap", infoMap);
       // 更新配置信息
       this.configListInfo = this.reLoadConfigData(this.configListInfo, infoMap);
-
-      // console.log("this.configListInfo", this.configListInfo);
-      // console.log("this.configListInfo", JSON.stringify(this.configListInfo));
       // 绘制
       this.emptyCanvas = false;
       setTimeout(() => {
         this.$refs.exifCanvas.draw();
       }, 250);
-
       // infoMap.get(userKey) || infoMap.get("Default");
     },
     // 重新配置config信息
     // 将dataMap对应的信息input里面的content数据填入外部的content中
     // 外部content数据可以用于最终渲染页面
+    // reLoadConfigData(configList, map) {
+    //   let that = this;
+    //   for (let index = 0; index < configList.length; index++) {
+    //     const item = configList[index];
+    //     // console.log("input.id", item.input);
+    //     if (item.input && item.input.id) {
+    //       let newContent = map.get(item.input.id) || item.content || map.get("Default");
+    //       if (map.has(item.input.id)) {
+    //         configList[index].input.content = _.get(that, newContent, item.input.content || "");
+    //       } else {
+    //         configList[index].input.content = newContent;
+    //       }
+    //       configList[index].content = setContentByInputType(configList[index].input) || item.content;
+    //     }
+    //     if (item.child && item.child.length > 0) {
+    //       configList[index].child = this.reLoadConfigData(item.child, map);
+    //     }
+    //   }
+    //   return configList;
+    // },
     reLoadConfigData(configList, map) {
       let that = this;
       for (let index = 0; index < configList.length; index++) {
         const item = configList[index];
         // console.log("input.id", item.input);
-        if (item.input && item.input.id) {
-          let newContent = map.get(item.input.id) || item.content || map.get("Default");
-          if (map.has(item.input.id)) {
-            configList[index].input.content = _.get(that, newContent, item.input.content || "");
+        if (item.input && item.input.id && map[item.input.id]) {
+          console.log("id==>", map[item.input.id], item);
+          // let key = map.get(item.input.id) || item.content || map.get("Default");
+          let key = map[item.input.id].queryKey || item.content || map.Default.queryKey;
+
+          if (map[item.input.id].queryKey) {
+            configList[index].input.content = _.get(that, key, item.input.content || "");
           } else {
-            configList[index].input.content = newContent;
+            configList[index].input.content = item.content;
           }
-          configList[index].content = setContentByInputType(configList[index].input) || item.content;
+          let content = setContentByInputType(configList[index].input, map[item.input.id].additional) || item.content;
+          console.log("content", content);
+          configList[index].content = content;
         }
         if (item.child && item.child.length > 0) {
           configList[index].child = this.reLoadConfigData(item.child, map);
@@ -435,7 +466,6 @@ export default {
       }
       return configList;
     },
-
     resetPhotoInfo(value) {
       console.log("resetPhotoInfo", value);
       this.EXIFConfigList = value;
@@ -502,10 +532,15 @@ export default {
     background-color: #fff;
     border-top: 1px #ebedf0 solid;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: auto 1fr;
     grid-column-gap: 10px;
     padding-bottom: calc(constant(safe-area-inset-bottom) + 12px); /* 兼容 iOS<11.2 */
     padding-bottom: calc(env(safe-area-inset-bottom) + 12px); /* 兼容iOS>= 11.2 */
+    .toolWrapper {
+      display: inline-flex;
+      justify-content: flex-start;
+      align-items: center;
+    }
   }
   // .popup-wrapper {
   // }

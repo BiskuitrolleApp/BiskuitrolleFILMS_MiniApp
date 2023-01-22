@@ -1,26 +1,8 @@
 import tools from "@/libs/tools/index";
 import photoLogo from "@/static/common/json/database_photoLogo.json";
 
-let photoLogoDatabase = [] // 图片列表
+let photoLogoDatabase = []; // 图片列表
 
-// 获得配置信息
-function getPhotoConfigList() {
-  let that = this;
-  uni.getStorage({
-    key: "photoConfigData",
-    success: function ({ data }) {
-      let time = new Date().getTime();
-      if (data.expirationTime && time < data.expirationTime) {
-        that.photoConfigData = data.data;
-      } else {
-        photoLogoDatabase = that.getPhotoConfigListByDB();
-      }
-    },
-    fail: () => {
-      photoLogoDatabase = that.getPhotoConfigListByDB();
-    },
-  });
-}
 // 获得配置信息，从数据库中请求
 function getPhotoConfigListByDB() {
   let tempPhotoLogo = photoLogo;
@@ -58,6 +40,33 @@ function getPhotoConfigListByDB() {
   return tempPhotoLogo;
 }
 
+// 获得配置信息
+export const getPhotoConfigList = function () {
+  return new Promise((resolve, reject) => {
+    if (photoLogoDatabase.length > 0) {
+      resolve(photoLogoDatabase);
+    }
+    uni.getStorage({
+      key: "photoConfigData",
+      success: function ({ data }) {
+        let photoConfigData = [];
+        let time = new Date().getTime();
+        if (data.expirationTime && time < data.expirationTime) {
+          photoConfigData = data.data;
+        } else {
+          photoConfigData = getPhotoConfigListByDB();
+        }
+        photoLogoDatabase = photoConfigData;
+        resolve(photoConfigData);
+      },
+      fail: () => {
+        photoLogoDatabase = getPhotoConfigListByDB();
+        reject(photoLogoDatabase);
+      },
+    });
+  });
+};
+
 // 时间戳转为string类型时间
 function timestamp2Str(value) {
   try {
@@ -72,6 +81,7 @@ function timestamp2Str(value) {
 // 获得配置为icon的内容信息
 function getIconContent(val) {
   let markLogoList = photoLogoDatabase;
+  console.log("markLogoList", markLogoList);
   let logoImg = {};
   let listImgDefault = {};
   for (let i = 0; i < markLogoList.length; i++) {
@@ -96,35 +106,35 @@ function getIconContent(val) {
       photo_original_name: "卷蛋糕.png",
     };
   }
-  console.log('logoImg.photo_url', logoImg.photo_url)
+  console.log("logoImg.photo_url", logoImg.photo_url);
   return logoImg.photo_url;
 }
 
-// 获得配置为timepicker的内容信息 
+// 获得配置为timepicker的内容信息
 function getTimePickerContent(value) {
-  return timestamp2Str(value)
+  return timestamp2Str(value);
 }
 
 // 根据配置输入信息 更新配置信息到内容
-function setContentByInputType(inputTypeConfigData = {}) {
-  let content = ''
+export const setContentByInputType = function (inputTypeConfigData = {}, additional = {}) {
+  let beforeValue = additional.before || "";
+  let afterValue = additional.after || "";
+  let content = "";
   switch (inputTypeConfigData.type) {
-    case 'input':
-      content = inputTypeConfigData.content
+    case "input":
+      content = beforeValue + inputTypeConfigData.content + afterValue;
       break;
-    case 'timepicker':
-      content = getTimePickerContent(inputTypeConfigData.content)
+    case "timepicker":
+      content = beforeValue + getTimePickerContent(inputTypeConfigData.content) + afterValue;
       break;
-    case 'imageMain':
-      content = inputTypeConfigData.content
+    case "imageMain":
+      content = inputTypeConfigData.content;
       break;
-    case 'icon':
-      content = getIconContent(inputTypeConfigData.content)
+    case "icon":
+      content = getIconContent(inputTypeConfigData.content);
       break;
     default:
       break;
   }
   return content;
-}
-
-export default setContentByInputType
+};

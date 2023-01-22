@@ -42,12 +42,17 @@ const initConfig = function (ctx, configData = [], parentNode = {}) {
     const configItem = tempConfig[index];
     let exifObj = {};
     if (configItem.type == "image") {
+      if (configItem.input.type === "imageMain") {
+        configItem.mainImage = true;
+      }
       // 初始化图片信息
       exifObj = initTypeImageObject(ctx, configItem, parentNode);
-    } else if (configItem.type == "imageMain") {
-      configItem.mainImage = true
-      exifObj = initTypeImageObject(ctx, configItem, parentNode);
-    } else if (configItem.type == "text") {
+    }
+    //  else if (configItem.type == "imageMain") {
+    //   configItem.mainImage = true
+    //   exifObj = initTypeImageObject(ctx, configItem, parentNode);
+    // }
+    else if (configItem.type == "text") {
       // 初始化文字信息
       exifObj = initTypeTextObject(ctx, configItem, parentNode, configItem.font);
     } else {
@@ -73,6 +78,7 @@ const initTypeImageObject = function (ctx, value = {}, parentNode = {}) {
   let id = initUUID(value, parentNode);
   // setting id type and conntent
   let exifObj = new imgEXIFINFO(id, value, parentNode);
+  console.log("exifObj", exifObj);
   return exifObj;
 };
 
@@ -129,10 +135,7 @@ const initEXIFSize = async function (ctx, domcomentVue, nodeList = []) {
     } else {
       specifications = await item.getSize(item.content, ctx, domcomentVue);
     }
-    if (specifications.width === "auto" ||
-      specifications.height === "auto" ||
-      specifications.contentWidth === "auto" ||
-      specifications.contentHeight === "auto") {
+    if (specifications.width === "auto" || specifications.height === "auto" || specifications.contentWidth === "auto" || specifications.contentHeight === "auto") {
       hasAuto = true;
     }
     item.width = specifications.width || 0;
@@ -148,9 +151,12 @@ const initEXIFSize = async function (ctx, domcomentVue, nodeList = []) {
   } else if (initLooptCount > 5) {
     throw "Init the size loop amomum 5 times";
   }
+  console.log('--------');
+  console.log("new nodeList");
+  console.log(nodeList);
+  console.log('--------');
   return nodeList;
 };
-
 
 // 计算各个信息的size大小
 const initSize = async function (ctx, domcomentVue, canvasConfig) {
@@ -159,8 +165,8 @@ const initSize = async function (ctx, domcomentVue, canvasConfig) {
   let config = await initEXIFSize(ctx, domcomentVue, canvasConfig);
   // 校对组件处于的位置信息 position 顺level进行 ，对元素占位和居中等定位进行计算
   initLooptCount = 0; // 嵌套初始化次数
-  return config
-}
+  return config;
+};
 
 // 将node 列表转换为树
 const listConvertTree = function (data = {}, nodeList = []) {
@@ -312,7 +318,7 @@ const initPositionCore = function (tree = {}) {
     for (let index = 0; index < gap.length; index++) {
       const item = gap[index];
       if (item <= 0) {
-        gap[index] = 0
+        gap[index] = 0;
       }
     }
     // 利用间隔填充布局
@@ -381,26 +387,14 @@ const initPositionCore = function (tree = {}) {
         }
 
         // text exif textalign is right
-        if (has(tree.child[index], 'root.type') &&
-          has(tree.child[index], 'root.font.textAlign') &&
-          tree.child[index].root.type === 'text' &&
-          tree.child[index].root.font.textAlign == 'right') {
-          tree.child[index].root.axisInfo.x =
-            tree.root.axisInfo.x + tree.root.contentWidth -
-            tree.child[index].root.width +
-            tree.child[index].root.computedData.padding.left + tree.child[index].root.computedData.margin.left
+        if (has(tree.child[index], "root.type") && has(tree.child[index], "root.font.textAlign") && tree.child[index].root.type === "text" && tree.child[index].root.font.textAlign == "right") {
+          tree.child[index].root.axisInfo.x = tree.root.axisInfo.x + tree.root.contentWidth - tree.child[index].root.width + tree.child[index].root.computedData.padding.left + tree.child[index].root.computedData.margin.left;
         }
       }
 
       // 加上padding和margin
-      tree.child[index].root.axisInfo.x +=
-        tree.child[index].root.computedData.padding.left +
-        tree.child[index].root.computedData.margin.left +
-        tree.child[index].root.computedData.border.width.left;
-      tree.child[index].root.axisInfo.y +=
-        tree.child[index].root.computedData.padding.top +
-        tree.child[index].root.computedData.margin.top +
-        tree.child[index].root.computedData.border.width.top;
+      tree.child[index].root.axisInfo.x += tree.child[index].root.computedData.padding.left + tree.child[index].root.computedData.margin.left + tree.child[index].root.computedData.border.width.left;
+      tree.child[index].root.axisInfo.y += tree.child[index].root.computedData.padding.top + tree.child[index].root.computedData.margin.top + tree.child[index].root.computedData.border.width.top;
 
       if (tree.child[index].child && tree.child[index].child.length > 0) {
         tree.child[index] = initPositionCore(tree.child[index]);
@@ -430,17 +424,16 @@ const initPosition = function (nodeList = []) {
 // 初始化页面需要设置的option
 const setOptions = function (options = {}) {
   if (options.downloader) {
-    setCoreValue('downloader', true) // 设置当前渲染是下载器渲染 
+    setCoreValue("downloader", true); // 设置当前渲染是下载器渲染
   }
-}
+};
 
 // 渲染canvas时候需要设置的option
 const setOptionsBeforeDraw = function (options = {}) {
   // if (options.downloader) {
-  //   setCoreValue('downloader', true) // 设置当前渲染是下载器渲染 
+  //   setCoreValue('downloader', true) // 设置当前渲染是下载器渲染
   // }
-}
-
+};
 
 export default {
   setOptionsBeforeDraw,
@@ -449,5 +442,6 @@ export default {
   initSize,
   initEXIFSize,
   initConfig,
-  initNodeListLevel
-}
+  initNodeListLevel,
+  listConvertTree,
+};

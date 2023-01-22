@@ -1,5 +1,5 @@
 <template>
-  <view class="exifCanvas">
+  <view class="exifCanvas" @click="clickCanvas">
     <canvas class="canvas" id="exifCanvas" canvas-id="exifCanvas" :style="[canvasStyle]"></canvas>
     <!-- <view class="downloader" v-show="showGenerator"> -->
     <view class="downloader">
@@ -59,6 +59,9 @@ export default {
   },
   //方法集合
   methods: {
+    clickCanvas(){
+      this.$emit('click')
+    },
     async EXIFInfoRedraw(value = {}) {
       console.log("EXIFInfoRedraw");
       console.log("EXIFInfoRedraw before", value);
@@ -151,7 +154,6 @@ export default {
                       },
                     });
                   } catch (e) {
-                    //TODO handle the exception
                     console.log("urlTobase64", e);
                     that.showGenerator = false;
                   }
