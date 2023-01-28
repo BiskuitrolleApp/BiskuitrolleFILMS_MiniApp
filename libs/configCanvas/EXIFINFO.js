@@ -87,6 +87,16 @@ function getFontHeight() {
  * exif information object
  */
 class EXIFINFO {
+  /**
+   * exif Object构造器
+   * @param {*} id exif id
+   * @param {*} type exif type
+   * @param {*} parentNode exif 父节点
+   * @param {*} content exif 内容
+   * @param {*} value exif 新建时候所有带过来的传值
+   * @param {*} customDataDictionary 自定义字段
+   * @param {*} customDataDictionaryNotNeed 自定义字段排除的字段
+   */
   constructor(id, type, parentNode, content, value, customDataDictionary = [], customDataDictionaryNotNeed = []) {
     this.level = 0; // 层级
     this.parentNode = parentNode; // 父元素
@@ -128,14 +138,23 @@ class EXIFINFO {
     this.background = "#ffffff00"; // 默认无背景
 
     this.customOption = {}; // 自定义信息
+    // 源规则数据 start
     let originItem = ["width", "height", "maxWidth", "maxHeight"];
     this.originSpecification = {};
-    for (const key in originItem) {
-      if (Object.hasOwnProperty.call(value, key)) {
-        const ObjValue = value[key];
-        this.originSpecification[key] = ObjValue;
+    for (let index = 0; index < originItem.length; index++) {
+      const keyItem = originItem[index];
+      if (Object.hasOwnProperty.call(value, keyItem)) {
+        const ObjValue = value[keyItem];
+        this.originSpecification[keyItem] = ObjValue;
       }
     }
+    // for (const key in originItem) {
+    //   if (Object.hasOwnProperty.call(value, key)) {
+    //     const ObjValue = value[key];
+    //     this.originSpecification[key] = ObjValue;
+    //   }
+    // }
+    // 源规则数据 end
     // 实际位置x轴和y轴分布
     this.axisInfo = {
       x: 0,
@@ -184,6 +203,13 @@ class EXIFINFO {
     // 当前设置的
     this.maxWidth = calculationWidth;
     this.maxHeight = calculationHeight;
+
+    // if (!value.width || value.width == "" || value.width == "auto") {
+    //   this.width = value.width || 0;
+    // }
+    // if (!value.height || value.height == "" || value.height == "auto") {
+    //   this.height = value.height || 0;
+    // }
   }
   /**
    * 获得border具体样式包括：style，color，width；
@@ -421,6 +447,7 @@ export class textEXIFINFO extends EXIFINFO {
       height = (fontSize * 7) / 5; // 默认是行高为7/5的fontsize
       // height = getFontHeight()
     }
+
     result.width = width + boxHAndV.horizontal;
     result.height = height + boxHAndV.vertical;
     result.contentWidth = width;
