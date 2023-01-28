@@ -324,7 +324,8 @@ const drawText = function (ctx, text, font, x, y, maxWidth = 999) {
   // } else {
   //   ctx.textAlign = "left";
   // }
-  ctx.textBaseline = "middle";
+  // ctx.textBaseline = "middle";
+  ctx.textBaseline = "Top";
   ctx.setFontSize(currentFontSize);
 
   let textColor = color.substring(0, 7)

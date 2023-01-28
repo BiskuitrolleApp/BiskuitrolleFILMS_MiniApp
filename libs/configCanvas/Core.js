@@ -151,10 +151,9 @@ const initEXIFSize = async function (ctx, domcomentVue, nodeList = []) {
   } else if (initLooptCount > 5) {
     throw "Init the size loop amomum 5 times";
   }
-  console.log('--------');
   console.log("new nodeList");
   console.log(nodeList);
-  console.log('--------');
+  console.log("--------");
   return nodeList;
 };
 

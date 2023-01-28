@@ -10,7 +10,8 @@ function initExifCanvasInfo(info = {}) {
     console.error('识别失败')
   }
   dataJson.Make = info.Make || 'default';
-  dataJson.Model = info.Model || 'machine name';
+  // dataJson.Model = info.Model || 'machine name';
+  dataJson.Model = info.Model || '';
   let time = info.DateTimeOriginal;
   if (time && time.indexOf(':') >= 4) {
     time = time.replace(':', '-');

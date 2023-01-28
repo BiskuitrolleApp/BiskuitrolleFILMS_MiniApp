@@ -60,7 +60,7 @@ export default {
             {
               type: "image",
               maxWidth: 320, // 只能设置宽度
-              // content: "http://127.0.0.1/image/test.JPG",
+              // content: "http://127.0.0.1/image/xk.jpeg",
               content: "",
               // content: "http://127.0.0.1/image/test2.JPG",
               // border: "20 solid #ccc",
@@ -76,6 +76,7 @@ export default {
             {
               content: "",
               display: "flex",
+              // horizontal: "space-between",
               horizontal: "space-between",
               vertical: "center",
               maxWidth: 320,
@@ -85,19 +86,21 @@ export default {
                 {
                   content: "",
                   maxWidth: 120,
-                  // border: "1 solid #ff0000ff",
+                  border: "1 solid #ff0000ff",
+                  padding: "10",
                   child: [
                     {
                       type: "text",
                       content: "",
-                      padding: "10 10 1 10",
+                      // padding: "5 10 1 10",
+                      border: "1 solid #0000ffff",
                       font: {
                         fontSize: 8,
                         bold: true,
                       },
                       input: {
                         cnName: "型号",
-                        content: "XSXS",
+                        content: "The Starry Night",
                         type: "input",
                         id: "Model",
                       },
@@ -105,13 +108,13 @@ export default {
                     {
                       type: "text",
                       content: "",
-                      padding: "1 10 10 10",
+                      padding: "1 0 0 0",
                       font: {
                         fontSize: 8,
                       },
                       input: {
                         cnName: "作者",
-                        content: "PHOTO BY @User",
+                        content: "PHOTO BY @Vincent Willem van Gogh",
                         type: "input",
                         id: "Author",
                       },
@@ -121,12 +124,13 @@ export default {
                 {
                   maxWidth: 200,
                   horizontal: "right",
-                  vertical: "center",
+                  // vertical: "center",
                   display: "flex",
                   // border: "1 solid #000",
                   content: "",
-                  padding: "0 10 20 0",
-                  // border: "1 solid #0000ffff",
+                  // padding: "0 10 20 0",
+                  padding: "10",
+                  border: "1 solid #0000ffff",
                   child: [
                     {
                       type: "image",
@@ -136,8 +140,8 @@ export default {
                       // content: "",
                       content: "http://127.0.0.1/image/leica.png",
                       // marign: "0 5 0 0",
-                      margin: "0 5 0 0",
-                      // border: "1 solid #0000ffff",
+                      // margin: "0 5 0 0",
+                      border: "1 solid #0000ffff",
                       input: {
                         cnName: "品牌",
                         content: "fujifilm",
@@ -148,15 +152,15 @@ export default {
                     {
                       type: "block",
                       border: "0 0 0 0.7 solid #000",
-                      padding: "0 5 0 0",
+                      // padding: "0 5 0 0",
                       // border: "1 solid #000",
-                      // border: "1 solid #0000ffff",
+                      border: "1 solid #0000ffff",
                       child: [
                         {
                           type: "text",
                           content: "XSXS",
-                          padding: "0 0 1 5",
-                          // border: "1 solid #000",
+                          // padding: "0 0 1 5",
+                          border: "1 solid #0000ffff",
                           font: {
                             fontSize: 8,
                             textAlign: "right",
@@ -164,7 +168,7 @@ export default {
                           },
                           input: {
                             cnName: "拍摄信息",
-                            content: "56mm f/2.2 1/1600 ISO600",
+                            content: "The Starry Night",
                             type: "input",
                             id: "ShotInfo",
                           },
@@ -199,12 +203,13 @@ export default {
   async mounted() {
     let markLogoList = await getPhotoConfigList();
     setTimeout(() => {
-      // uni.downloadFile({
-      //   url: "http://127.0.0.1/image/test.JPG",
-      //   success: (res) => {
-      //     this.drawUrl(res.tempFilePath);
-      //   },
-      // });
+      uni.downloadFile({
+        // url: "http://127.0.0.1/image/test.JPG",
+        url: "http://127.0.0.1/image/xk.jpeg",
+        success: (res) => {
+          this.drawUrl(res.tempFilePath);
+        },
+      });
       // this.openSetting();
     }, 250);
   },
@@ -448,17 +453,16 @@ export default {
         // console.log("input.id", item.input);
         if (item.input && item.input.id && map[item.input.id]) {
           console.log("id==>", map[item.input.id], item);
+          // 默认使用的是content 和input content 中的内容
+          let defaultContent = item.content || item.input.content || "";
           // let key = map.get(item.input.id) || item.content || map.get("Default");
-          let key = map[item.input.id].queryKey || item.content || map.Default.queryKey;
-
+          let key = map[item.input.id].queryKey || defaultContent || map.Default.queryKey;
           if (map[item.input.id].queryKey) {
-            configList[index].input.content = _.get(that, key, item.input.content || "");
-          } else {
-            configList[index].input.content = item.content;
+            configList[index].input.content = _.get(that, key, defaultContent);
           }
-          let content = setContentByInputType(configList[index].input, map[item.input.id].additional) || item.content;
-          console.log("content", content);
-          configList[index].content = content;
+          let content = setContentByInputType(configList[index].input, map[item.input.id].additional);
+          console.log("content", content, item);
+          configList[index].content = content || defaultContent;
         }
         if (item.child && item.child.length > 0) {
           configList[index].child = this.reLoadConfigData(item.child, map);

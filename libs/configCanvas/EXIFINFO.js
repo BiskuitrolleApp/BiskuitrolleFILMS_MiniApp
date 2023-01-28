@@ -68,6 +68,20 @@ function getComputedDataVerticalAndHorizontal(computedData = {}) {
   return boxData;
 }
 
+function getFontHeight() {
+  let query = uni.createSelectorQuery();
+  // 获取富文本高度。bug：iOS无法获取
+  query
+    .select(".needToQueryHeight")
+    .boundingClientRect((rect) => {
+      // 元素高度 >=30px * 5行 ，则显示
+      let height = rect.height >= 50 ? true : false;
+      console.log("超过5行", height, rect.height);
+      return height;
+    })
+    .exec();
+}
+
 /**
  * exif 信息对象
  * exif information object
@@ -405,6 +419,7 @@ export class textEXIFINFO extends EXIFINFO {
       }
       width = ctx.measureText(text).width;
       height = (fontSize * 7) / 5; // 默认是行高为7/5的fontsize
+      // height = getFontHeight()
     }
     result.width = width + boxHAndV.horizontal;
     result.height = height + boxHAndV.vertical;
@@ -447,13 +462,6 @@ export class blockEXIFLIST extends EXIFINFO {
     };
     let calculationHeight = 0;
     let calculationWidth = 0;
-
-    if (this.maxWidth !== "auto") {
-      calculationWidth = this.maxWidth;
-    }
-    if (this.maxHeight !== "auto") {
-      calculationHeight = this.maxHeight;
-    }
     if (this.maxWidth == "auto" || this.maxHeight == "auto") {
       // 打断
       // if (calculationHeight == "auto" && calculationWidth == "auto") {
@@ -470,11 +478,11 @@ export class blockEXIFLIST extends EXIFINFO {
           // 设置 width 宽度是所有子元素宽度累
           if (item.width === "auto") {
             calculationWidth = "auto";
-          } else if (calculationWidth != "auto" && this.maxWidth === "auto") {
+          } else if (calculationWidth != "auto") {
             calculationWidth += item.width * 1;
           }
           // 设置 heihgt 高度由子元素最高决定
-          if (item.height > calculationHeight && calculationHeight != "auto" && this.maxHeight === "auto") {
+          if (item.height > calculationHeight && calculationHeight != "auto") {
             if (item.height === "auto") {
               calculationHeight = "auto";
               break;
@@ -490,32 +498,39 @@ export class blockEXIFLIST extends EXIFINFO {
           if (calculationHeight == "auto" && calculationWidth == "auto") {
             break;
           }
-          if (item.level > 1110) console.log("child height", item.level, item.height, item.width, calculationWidth, calculationHeight);
           // 设置 height
           if (item.height == "auto") {
             calculationHeight = "auto";
-          } else if (calculationHeight != "auto" && this.maxHeight === "auto") {
+          } else if (calculationHeight != "auto") {
             calculationHeight += item.height * 1;
           }
           // 设置 width
-          if (item.width > calculationWidth && calculationWidth != "auto" && this.maxHeight === "auto") {
+          if (item.width > calculationWidth && calculationWidth != "auto") {
             if (item.width === "auto") {
               calculationWidth = "auto";
               break;
             }
             calculationWidth = item.width * 1;
           }
-          if (item.level > 1110) console.log("child height2", item.level, item.height, item.width, calculationWidth, calculationHeight);
         }
       }
     }
-    let rsWidth = this.maxWidth !== "auto" ? this.maxWidth : calculationWidth;
-    let rsHeight = this.maxHeight !== "auto" ? this.maxHeight : calculationHeight;
-    // 设置内容高度
-    result.width = rsWidth == "auto" ? "auto" : rsWidth;
-    result.height = rsHeight == "auto" ? "auto" : rsHeight;
-    result.contentWidth = calculationWidth - boxHAndV.horizontal;
-    result.contentHeight = calculationHeight - boxHAndV.vertical;
+    if (this.maxWidth !== "auto" && calculationWidth >= this.maxWidth) {
+      calculationWidth = this.maxWidth;
+    }
+    if (this.maxHeight !== "auto" && calculationHeight >= this.maxHeight) {
+      calculationHeight = this.maxHeight;
+    }
+
+    // let rsWidth = this.maxWidth !== "auto" ? this.maxWidth : calculationWidth + boxHAndV.horizontal;
+    // let rsHeight = this.maxHeight !== "auto" ? this.maxHeight : calculationHeight + boxHAndV.vertical;
+    // // 设置内容高度
+    // result.width = rsWidth == "auto" ? "auto" : rsWidth;
+    // result.height = rsHeight == "auto" ? "auto" : rsHeight;
+    result.width = calculationWidth == "auto" ? "auto" : calculationWidth + boxHAndV.horizontal;
+    result.height = calculationHeight == "auto" ? "auto" : calculationHeight + boxHAndV.vertical;
+    result.contentWidth = calculationWidth;
+    result.contentHeight = calculationHeight;
     // console.log("block result");
     // console.log(result);
     return result;
