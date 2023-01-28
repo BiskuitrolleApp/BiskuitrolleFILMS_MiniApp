@@ -324,7 +324,7 @@ const drawText = function (ctx, text, font, x, y, maxWidth = 999) {
   // }
   // let canvasFont = `${bold ? "bold" : "normal"} ${style}`;
   ctx.font = "normal 400 15px Arial, sans-serif"; // 重置
-  let canvasFont = `normal ${bold ? "bold" : "normal"} ${currentFontSize}px ${fontFamily ? fontFamily : "sans-serif"} ${style}`;
+  let canvasFont = `normal ${bold ? "bold" : "normal"} ${currentFontSize}px ${fontFamily ? fontFamily : "Arial, sans-serif"} ${style}`;
   ctx.font = canvasFont.replace(/(^\s*)|(\s*$)/g, "");
   console.log("ctx font:", ctx.font);
   // if (textAlign) {
