@@ -1,7 +1,6 @@
 import tools from "../tools/index";
 // import { setScaling } from './Core'
 import { setCoreValue, getCoreVar, dataDictionary, dataDictionaryNotNeed } from "./var";
-
 import { clearNoNum } from "./utils/number/index";
 
 // 常用固定数值
@@ -68,23 +67,29 @@ function getComputedDataVerticalAndHorizontal(computedData = {}) {
   return boxData;
 }
 
-function getFontHeight() {
-  let query = uni.createSelectorQuery();
-  // 获取富文本高度。bug：iOS无法获取
-  query
-    .select(".needToQueryHeight")
-    .boundingClientRect((rect) => {
-      // 元素高度 >=30px * 5行 ，则显示
-      let height = rect.height >= 50 ? true : false;
-      console.log("超过5行", height, rect.height);
-      return height;
-    })
-    .exec();
-}
+// function getFontHeight() {
+//   let query = uni.createSelectorQuery();
+//   // 获取富文本高度。bug：iOS无法获取
+//   query
+//     .select(".needToQueryHeight")
+//     .boundingClientRect((rect) => {
+//       // 元素高度 >=30px * 5行 ，则显示
+//       let height = rect.height >= 50 ? true : false;
+//       console.log("超过5行", height, rect.height);
+//       return height;
+//     })
+//     .exec();
+// }
+// 配置项
+const configurationItems = [];
+// 计算项
+const computationalItem = ["level", "parentNode", "root"];
 
 /**
  * exif 信息对象
  * exif information object
+ * --配置项：直接配置的配置项需以$开头，前端配置信息无需要配置$可以直接配置配置项，同时也支持$直接配置配置项。
+ * --计算项：需要计算才配置的配置项无需要$开头，计算项无法设置，需要以计算逻辑进行计算。
  */
 class EXIFINFO {
   /**
@@ -100,13 +105,14 @@ class EXIFINFO {
   constructor(id, type, parentNode, content, value, customDataDictionary = [], customDataDictionaryNotNeed = []) {
     this.level = 0; // 层级
     this.parentNode = parentNode; // 父元素
-    if (parentNode.id) {
+    if (this.parentNode.id) {
       this.root = false;
     } else {
       this.root = true;
     }
     // 位置信息
-    this.display = "block"; // 显示类型 支持flex和block布局
+    // 显示类型 支持flex和block布局
+    this.display = "block";
     // 水平位置
     // left（默认值）：左对齐
     // rigth：右对齐
@@ -447,6 +453,12 @@ export class textEXIFINFO extends EXIFINFO {
       height = (fontSize * 7) / 5; // 默认是行高为7/5的fontsize
       // height = getFontHeight()
     }
+    if (this.originSpecification.width && tools.isNumber(this.originSpecification.width * 1)) {
+      width = this.originSpecification.width * 1 - boxHAndV.horizontal;
+    }
+    if (this.originSpecification.height && tools.isNumber(this.originSpecification.height * 1)) {
+      height = this.originSpecification.height * 1 - boxHAndV.vertical;
+    }
 
     result.width = width + boxHAndV.horizontal;
     result.height = height + boxHAndV.vertical;
@@ -547,6 +559,13 @@ export class blockEXIFLIST extends EXIFINFO {
     }
     if (this.maxHeight !== "auto" && calculationHeight >= this.maxHeight) {
       calculationHeight = this.maxHeight;
+    }
+
+    if (this.originSpecification.width && tools.isNumber(this.originSpecification.width * 1)) {
+      calculationWidth = this.originSpecification.width * 1 - boxHAndV.horizontal;
+    }
+    if (this.originSpecification.height && tools.isNumber(this.originSpecification.height * 1)) {
+      calculationHeight = this.originSpecification.height * 1 - boxHAndV.vertical;
     }
 
     // let rsWidth = this.maxWidth !== "auto" ? this.maxWidth : calculationWidth + boxHAndV.horizontal;

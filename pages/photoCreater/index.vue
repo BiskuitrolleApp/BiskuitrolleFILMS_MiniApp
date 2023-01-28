@@ -79,21 +79,22 @@ export default {
               // horizontal: "space-between",
               horizontal: "space-between",
               vertical: "center",
-              maxWidth: 320,
+              // maxWidth: 320,
+              width: 320,
               // round: 10,
               background: "#ffffff00",
               child: [
                 {
                   content: "",
                   maxWidth: 120,
-                  border: "1 solid #ff0000ff",
+                  // border: "1 solid #ff0000ff",
                   padding: "10",
                   child: [
                     {
                       type: "text",
                       content: "",
                       // padding: "5 10 1 10",
-                      border: "1 solid #0000ffff",
+                      // border: "1 solid #0000ffff",
                       font: {
                         fontSize: 8,
                         bold: true,
@@ -123,6 +124,7 @@ export default {
                 },
                 {
                   maxWidth: 200,
+                  // width: 200,
                   horizontal: "right",
                   // vertical: "center",
                   display: "flex",
@@ -130,7 +132,7 @@ export default {
                   content: "",
                   // padding: "0 10 20 0",
                   padding: "10",
-                  border: "1 solid #0000ffff",
+                  // border: "1 solid #0000ffff",
                   child: [
                     {
                       type: "image",
@@ -138,10 +140,10 @@ export default {
                       maxHeight: 20,
                       maxWidth: 60,
                       // content: "",
-                      content: "http://127.0.0.1/image/leica.png",
+                      content: "",
                       // marign: "0 5 0 0",
-                      // margin: "0 5 0 0",
-                      border: "1 solid #0000ffff",
+                      margin: "0 5 0 0",
+                      // border: "1 solid #0000ffff",
                       input: {
                         cnName: "品牌",
                         content: "fujifilm",
@@ -154,13 +156,13 @@ export default {
                       border: "0 0 0 0.7 solid #000",
                       // padding: "0 5 0 0",
                       // border: "1 solid #000",
-                      border: "1 solid #0000ffff",
+                      // border: "1 solid #0000ffff",
                       child: [
                         {
                           type: "text",
-                          content: "XSXS",
+                          content: "",
                           // padding: "0 0 1 5",
-                          border: "1 solid #0000ffff",
+                          // border: "1 solid #0000ffff",
                           font: {
                             fontSize: 8,
                             textAlign: "right",
