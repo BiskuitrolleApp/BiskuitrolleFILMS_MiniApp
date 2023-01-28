@@ -96,7 +96,7 @@ export default {
                       // padding: "5 10 1 10",
                       // border: "1 solid #0000ffff",
                       font: {
-                        fontSize: 8,
+                        fontSize: 10,
                         bold: true,
                       },
                       input: {
@@ -154,7 +154,7 @@ export default {
                     {
                       type: "block",
                       border: "0 0 0 0.7 solid #000",
-                      // padding: "0 5 0 0",
+                      padding: "0 0 0 5",
                       // border: "1 solid #000",
                       // border: "1 solid #0000ffff",
                       child: [
@@ -164,7 +164,7 @@ export default {
                           // padding: "0 0 1 5",
                           // border: "1 solid #0000ffff",
                           font: {
-                            fontSize: 8,
+                            fontSize: 10,
                             textAlign: "right",
                             bold: true,
                           },
@@ -178,7 +178,7 @@ export default {
                         {
                           type: "text",
                           content: "",
-                          padding: "1 0 0 5",
+                          // padding: "1 0 0 5",
                           // border: "1 solid #000",
                           font: {
                             fontSize: 8,

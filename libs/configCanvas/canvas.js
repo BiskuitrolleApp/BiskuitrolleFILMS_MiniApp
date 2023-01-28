@@ -1,4 +1,5 @@
 import { getScaling } from "./var";
+import tools from "../tools/index";
 /**
  * 绘制圆角矩形
  * @param {*} ctx canvas object
@@ -12,25 +13,25 @@ import { getScaling } from "./var";
  */
 
 // 设置透明度
-const getAlpha = function (color = '#000000ff') {
-  let alpha = 'ff';
-  alpha = color.substring(7, 9) || 'ff'
-  if (alpha == 'ff') {
-    return '1'
+const getAlpha = function (color = "#000000ff") {
+  let alpha = "ff";
+  alpha = color.substring(7, 9) || "ff";
+  if (alpha == "ff") {
+    return "1";
   }
-  let alpha10 = parseInt(alpha, 16)
-  let number = alpha10 / 255
+  let alpha10 = parseInt(alpha, 16);
+  let number = alpha10 / 255;
   var result = parseFloat(number);
   if (isNaN(result)) {
-    console.error('透明度错误，color，alpha', color, number);
-    return '1'
+    console.error("透明度错误，color，alpha", color, number);
+    return "1";
   }
   result = Math.round(number * 100) / 100;
   return result;
-}
+};
 
 const roundRect = function (ctx, border, xAxis, yxAxis, width, height, round, background) {
-  let scaling = getScaling()
+  let scaling = getScaling();
   let r = Number(round) || 0;
   let w = Number(width) || 0;
   let h = Number(height) || 0;
@@ -45,8 +46,8 @@ const roundRect = function (ctx, border, xAxis, yxAxis, width, height, round, ba
   // ctx.moveTo(x + r, y);
   // ctx.lineWidth = border.style;
   // TODO 线的类型，点或者实线
-  let lineColor = border.color.substring(0, 7)
-  let lineAlpha = getAlpha(border.color)
+  let lineColor = border.color.substring(0, 7);
+  let lineAlpha = getAlpha(border.color);
 
   ctx.setGlobalAlpha(lineAlpha); // 透明度
   ctx.strokeStyle = lineColor;
@@ -150,63 +151,62 @@ const roundRect = function (ctx, border, xAxis, yxAxis, width, height, round, ba
   if (border.width) {
     if (border.width.top && border.width.top > 0) {
       // 上
-      borderInfoList[0].lineWidth = borderInfoList[0].lineWidth > border.width.top ? borderInfoList[0].lineWidth : border.width.top
-      borderInfoList[1].lineWidth = borderInfoList[1].lineWidth > border.width.top ? borderInfoList[1].lineWidth : border.width.top
-      borderInfoList[2].lineWidth = borderInfoList[2].lineWidth > border.width.top ? borderInfoList[2].lineWidth : border.width.top
+      borderInfoList[0].lineWidth = borderInfoList[0].lineWidth > border.width.top ? borderInfoList[0].lineWidth : border.width.top;
+      borderInfoList[1].lineWidth = borderInfoList[1].lineWidth > border.width.top ? borderInfoList[1].lineWidth : border.width.top;
+      borderInfoList[2].lineWidth = borderInfoList[2].lineWidth > border.width.top ? borderInfoList[2].lineWidth : border.width.top;
       if (borderInfoList[0].r === 0) {
         let borderWidth = border.width.left || 0;
-        borderInfoList[1].moveX -= borderWidth / 2
+        borderInfoList[1].moveX -= borderWidth / 2;
       }
       if (borderInfoList[2].r === 0) {
         let borderWidth = border.width.right || 0;
-        borderInfoList[1].endX += borderWidth / 2
+        borderInfoList[1].endX += borderWidth / 2;
       }
     }
     if (border.width.right && border.width.right > 0) {
       // 右
-      borderInfoList[2].lineWidth = borderInfoList[2].lineWidth > border.width.right ? borderInfoList[0].lineWidth : border.width.right
-      borderInfoList[3].lineWidth = borderInfoList[3].lineWidth > border.width.right ? borderInfoList[1].lineWidth : border.width.right
-      borderInfoList[4].lineWidth = borderInfoList[4].lineWidth > border.width.right ? borderInfoList[2].lineWidth : border.width.right
+      borderInfoList[2].lineWidth = borderInfoList[2].lineWidth > border.width.right ? borderInfoList[0].lineWidth : border.width.right;
+      borderInfoList[3].lineWidth = borderInfoList[3].lineWidth > border.width.right ? borderInfoList[1].lineWidth : border.width.right;
+      borderInfoList[4].lineWidth = borderInfoList[4].lineWidth > border.width.right ? borderInfoList[2].lineWidth : border.width.right;
 
       if (borderInfoList[2].r === 0) {
         let borderWidth = border.width.top || 0;
-        borderInfoList[3].moveY -= borderWidth / 2
+        borderInfoList[3].moveY -= borderWidth / 2;
       }
       if (borderInfoList[4].r === 0) {
         let borderWidth = border.width.bottom || 0;
-        borderInfoList[3].endY += borderWidth / 2
+        borderInfoList[3].endY += borderWidth / 2;
       }
     }
     if (border.width.bottom && border.width.bottom > 0) {
       // 下
-      borderInfoList[4].lineWidth = borderInfoList[4].lineWidth > border.width.bottom ? borderInfoList[4].lineWidth : border.width.bottom
-      borderInfoList[5].lineWidth = borderInfoList[5].lineWidth > border.width.bottom ? borderInfoList[5].lineWidth : border.width.bottom
-      borderInfoList[6].lineWidth = borderInfoList[6].lineWidth > border.width.bottom ? borderInfoList[6].lineWidth : border.width.bottom
+      borderInfoList[4].lineWidth = borderInfoList[4].lineWidth > border.width.bottom ? borderInfoList[4].lineWidth : border.width.bottom;
+      borderInfoList[5].lineWidth = borderInfoList[5].lineWidth > border.width.bottom ? borderInfoList[5].lineWidth : border.width.bottom;
+      borderInfoList[6].lineWidth = borderInfoList[6].lineWidth > border.width.bottom ? borderInfoList[6].lineWidth : border.width.bottom;
 
       if (borderInfoList[4].r === 0) {
         let borderWidth = border.width.right || 0;
-        borderInfoList[5].moveX += borderWidth / 2
+        borderInfoList[5].moveX += borderWidth / 2;
       }
       if (borderInfoList[6].r === 0) {
         let borderWidth = border.width.left || 0;
-        borderInfoList[5].endX -= borderWidth / 2
+        borderInfoList[5].endX -= borderWidth / 2;
       }
     }
     if (border.width.left && border.width.left > 0) {
       // 左
-      borderInfoList[6].lineWidth = borderInfoList[6].lineWidth > border.width.left ? borderInfoList[6].lineWidth : border.width.left
-      borderInfoList[7].lineWidth = borderInfoList[7].lineWidth > border.width.left ? borderInfoList[7].lineWidth : border.width.left
-      borderInfoList[0].lineWidth = borderInfoList[0].lineWidth > border.width.left ? borderInfoList[0].lineWidth : border.width.left
+      borderInfoList[6].lineWidth = borderInfoList[6].lineWidth > border.width.left ? borderInfoList[6].lineWidth : border.width.left;
+      borderInfoList[7].lineWidth = borderInfoList[7].lineWidth > border.width.left ? borderInfoList[7].lineWidth : border.width.left;
+      borderInfoList[0].lineWidth = borderInfoList[0].lineWidth > border.width.left ? borderInfoList[0].lineWidth : border.width.left;
 
       if (borderInfoList[6].r === 0) {
         let borderWidth = border.width.bottom || 0;
-        borderInfoList[7].moveY += borderWidth / 2
+        borderInfoList[7].moveY += borderWidth / 2;
       }
       if (borderInfoList[0].r === 0) {
         let borderWidth = border.width.top || 0;
-        borderInfoList[7].endY -= borderWidth / 2
+        borderInfoList[7].endY -= borderWidth / 2;
       }
-
     }
     // console.log('borderList', borderInfoList)
     for (let index = 0; index < borderInfoList.length; index++) {
@@ -230,79 +230,81 @@ const roundRect = function (ctx, border, xAxis, yxAxis, width, height, round, ba
       }
     }
   }
-  ctx.setGlobalAlpha('1'); // 透明度恢复
+  ctx.setGlobalAlpha("1"); // 透明度恢复
   return this;
 };
 
-
 function drawRoundRectPath(ctx, width, height, radius) {
   ctx.beginPath(0);
-  //从右下角顺时针绘制，弧度从0到1/2PI  
+  //从右下角顺时针绘制，弧度从0到1/2PI
   ctx.arc(width - radius, height - radius, radius, 0, Math.PI / 2);
-  //矩形下边线  
+  //矩形下边线
   ctx.lineTo(radius, height);
-  //左下角圆弧，弧度从1/2PI到PI  
+  //左下角圆弧，弧度从1/2PI到PI
   ctx.arc(radius, height - radius, radius, Math.PI / 2, Math.PI);
-  //矩形左边线  
+  //矩形左边线
   ctx.lineTo(0, radius);
-  //左上角圆弧，弧度从PI到3/2PI  
-  ctx.arc(radius, radius, radius, Math.PI, Math.PI * 3 / 2);
-  //上边线  
+  //左上角圆弧，弧度从PI到3/2PI
+  ctx.arc(radius, radius, radius, Math.PI, (Math.PI * 3) / 2);
+  //上边线
   ctx.lineTo(width - radius, 0);
-  //右上角圆弧  
-  ctx.arc(width - radius, radius, radius, Math.PI * 3 / 2, Math.PI * 2);
-  //右边线  
+  //右上角圆弧
+  ctx.arc(width - radius, radius, radius, (Math.PI * 3) / 2, Math.PI * 2);
+  //右边线
   ctx.lineTo(width, height - radius);
   ctx.closePath();
 }
 
-/**该方法用来绘制一个有填充色的圆角矩形 
-    *@param ctx:canvas的上下文环境 
-    *@param x:左上角x轴坐标 
-    *@param y:左上角y轴坐标 
-    *@param width 矩形的宽度 
-    *@param height:矩形的高度 
-    *@param radius:圆的半径 
-    *@param fillColor:填充颜色 
-    **/
+/**该方法用来绘制一个有填充色的圆角矩形
+ *@param ctx:canvas的上下文环境
+ *@param x:左上角x轴坐标
+ *@param y:左上角y轴坐标
+ *@param width 矩形的宽度
+ *@param height:矩形的高度
+ *@param radius:圆的半径
+ *@param fillColor:填充颜色
+ **/
 function fillRoundRect(ctx, x, y, width, height, radius, /*optional*/ fillColor) {
-  //圆的直径必然要小于矩形的宽高          
-  if (2 * radius > width || 2 * radius > height) { return false; }
+  //圆的直径必然要小于矩形的宽高
+  if (2 * radius > width || 2 * radius > height) {
+    return false;
+  }
 
   ctx.save();
   ctx.translate(x, y);
-  //绘制圆角矩形的各个边  
+  //绘制圆角矩形的各个边
   drawRoundRectPath(ctx, width, height, radius);
 
-  let fColor = fillColor.substring(0, 7)
-  let fAlpha = getAlpha(fillColor)
+  let fColor = fillColor.substring(0, 7);
+  let fAlpha = getAlpha(fillColor);
 
   ctx.setGlobalAlpha(fAlpha); // 透明度
-  ctx.fillStyle = fColor || "#ffffff"; //若是给定了值就用给定的值否则给予默认值  
+  ctx.fillStyle = fColor || "#ffffff"; //若是给定了值就用给定的值否则给予默认值
   ctx.fill();
   ctx.restore();
-  ctx.setGlobalAlpha('1'); // 透明度恢复
+  ctx.setGlobalAlpha("1"); // 透明度恢复
 }
 
-
-/**该方法用来绘制圆角矩形 
- *@param ctx:canvas的上下文环境 
- *@param x:左上角x轴坐标 
- *@param y:左上角y轴坐标 
- *@param width 矩形的宽度 
- *@param height:矩形的高度 
- *@param radius:圆的半径 
- *@param lineWidth:线条粗细 
- *@param strokeColor:线条颜色 
+/**该方法用来绘制圆角矩形
+ *@param ctx:canvas的上下文环境
+ *@param x:左上角x轴坐标
+ *@param y:左上角y轴坐标
+ *@param width 矩形的宽度
+ *@param height:矩形的高度
+ *@param radius:圆的半径
+ *@param lineWidth:线条粗细
+ *@param strokeColor:线条颜色
  **/
 function strokeRoundRect(ctx, x, y, width, height, radius, /*optional*/ lineWidth, /*optional*/ strokeColor) {
-  //圆的直径必然要小于矩形的宽高          
-  if (2 * radius > width || 2 * radius > height) { return false; }
+  //圆的直径必然要小于矩形的宽高
+  if (2 * radius > width || 2 * radius > height) {
+    return false;
+  }
   ctx.save();
   ctx.translate(x, y);
-  //绘制圆角矩形的各个边  
+  //绘制圆角矩形的各个边
   drawRoundRectPath(ctx, width, height, radius);
-  ctx.lineWidth = lineWidth || 2; //若是给定了值就用给定的值否则给予默认值2  
+  ctx.lineWidth = lineWidth || 2; //若是给定了值就用给定的值否则给予默认值2
   ctx.strokeStyle = strokeColor || "#000";
   ctx.stroke();
   ctx.restore();
@@ -310,15 +312,21 @@ function strokeRoundRect(ctx, x, y, width, height, radius, /*optional*/ lineWidt
 
 // 绘制字体
 const drawText = function (ctx, text, font, x, y, maxWidth = 999) {
-  let scaling = getScaling()
+  let scaling = getScaling();
   let { bold, fontSize = 12, color = "#000000ff", fontFamily, textAlign, style } = font;
-  let currentFontSize = fontSize * scaling
+  let currentFontSize = tools.times(fontSize, scaling, 0);
   // let currentFontSize = 30
-  if (bold) {
-    ctx.font = `bold ${currentFontSize}px ${fontFamily ? fontFamily : "sans-serif"} ${style}`;
-  } else {
-    ctx.font = `normal ${currentFontSize}px ${fontFamily ? fontFamily : "sans-serif"}  ${style}`;
-  }
+  // if (bold) {
+  //   let font = `bold ${currentFontSize}px ${fontFamily ? fontFamily : "sans-serif"} ${style}`
+  //   ctx.font = font.replace(/(^\s*)|(\s*$)/g,"");
+  // } else {
+  //   ctx.font = `normal ${currentFontSize}px ${fontFamily ? fontFamily : "sans-serif"}  ${style}`;
+  // }
+  // let canvasFont = `${bold ? "bold" : "normal"} ${style}`;
+  ctx.font = "normal 400 15px Arial, sans-serif"; // 重置
+  let canvasFont = `normal ${bold ? "bold" : "normal"} ${currentFontSize}px ${fontFamily ? fontFamily : "sans-serif"} ${style}`;
+  ctx.font = canvasFont.replace(/(^\s*)|(\s*$)/g, "");
+  console.log("ctx font:", ctx.font);
   // if (textAlign) {
   //   ctx.textAlign = textAlign;
   // } else {
@@ -328,8 +336,8 @@ const drawText = function (ctx, text, font, x, y, maxWidth = 999) {
   ctx.textBaseline = "Top";
   ctx.setFontSize(currentFontSize);
 
-  let textColor = color.substring(0, 7)
-  let textAlpha = getAlpha(color)
+  let textColor = color.substring(0, 7);
+  let textAlpha = getAlpha(color);
 
   ctx.setFillStyle(textColor);
   ctx.setGlobalAlpha(textAlpha); // 透明度
@@ -340,11 +348,11 @@ const drawText = function (ctx, text, font, x, y, maxWidth = 999) {
     while (ctx.measureText(text.slice(0, text.length - count)).width > maxWidth * scaling) {
       count++;
     }
-    ctx.fillText(text.slice(0, text.length - (count + 1)) + "...", x, (Number(y) + Number(fontSize)));
+    ctx.fillText(text.slice(0, text.length - (count + 1)) + "...", x, Number(y) + Number(fontSize));
   } else {
-    ctx.fillText(text, x, (Number(y) + Number(currentFontSize)));
+    ctx.fillText(text, x, Number(y) + Number(currentFontSize));
   }
-  ctx.setGlobalAlpha('1'); // 透明度恢复
+  ctx.setGlobalAlpha("1"); // 透明度恢复
 };
 /**
  * 绘制EXIFINFO对应的border
@@ -363,13 +371,12 @@ const drawBorder = function (ctx, EXIFINFO) {
   // let w = EXIFINFO.width * 1 - margin[1] - margin[3];
   // let h = EXIFINFO.height * 1 - margin[0] - margin[2];
   roundRect(ctx, border, x, y, w, h, EXIFINFO.round, EXIFINFO.background);
-  fillRoundRect(ctx, x, y, w, h, EXIFINFO.round, EXIFINFO.background)
+  fillRoundRect(ctx, x, y, w, h, EXIFINFO.round, EXIFINFO.background);
 };
-
 
 // canvas image draw方法
 const canvasDrawImage = function (ctx, domcomentVue, imgEXIFINFO) {
-  let scaling = getScaling()
+  let scaling = getScaling();
   drawBorder(ctx, imgEXIFINFO); // 绘制border
   // ctx.drawImage(img, 0, 0, width, height, 0, 0, canvasWidth, canvasHeight)
   // if (!imgEXIFINFO.mainImage)
@@ -378,16 +385,16 @@ const canvasDrawImage = function (ctx, domcomentVue, imgEXIFINFO) {
 
 // canvas text draw方法
 const canvasDrawText = function (ctx, textEXIFINFO) {
-  let scaling = getScaling()
+  let scaling = getScaling();
   drawBorder(ctx, textEXIFINFO); // 绘制border
   // 绘制文字
-  drawText(ctx, textEXIFINFO.content, textEXIFINFO.font, textEXIFINFO.axisInfo.x * scaling, textEXIFINFO.axisInfo.y * scaling, 320);
+  drawText(ctx, textEXIFINFO.content, textEXIFINFO.font, textEXIFINFO.axisInfo.x * scaling, textEXIFINFO.axisInfo.y * scaling, textEXIFINFO.maxWidth || 320);
 };
 
 // canvas block draw方法
 const canvasDrawBlock = function (ctx, blockEXIFINFO) {
   drawBorder(ctx, blockEXIFINFO); // 绘制border
-}
+};
 
 export const canvasDrawMain = function (ctx, domcomentVue, EXIFINFO) {
   if (EXIFINFO.type == "image") {

@@ -382,7 +382,7 @@ export class textEXIFINFO extends EXIFINFO {
       fontSize: 12,
       color: "#000000ff",
       style: "",
-      fontFamily: "normal",
+      fontFamily: "",
       bold: false,
       textAlign: "left",
     };
