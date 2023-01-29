@@ -297,7 +297,6 @@ const initPositionCore = function (tree = {}) {
           entireContentHeight += item.height * 1;
         }
       }
-
       // 垂直对齐
       if (rootConfig.vertical === "center") {
         gap[0] = (rootConfig.contentHeight * 1 - entireContentHeight) / 2;
@@ -344,9 +343,9 @@ const initPositionCore = function (tree = {}) {
         // }
         // 垂直对齐
         if (rootConfig.vertical === "center") {
-          tree.child[index].root.axisInfo.y = (rootConfig.height * 1 - tree.child[index].root.height * 1) / 2 + currentPosition.y;
+          tree.child[index].root.axisInfo.y = (rootConfig.contentHeight * 1 - tree.child[index].root.height * 1) / 2 + currentPosition.y;
         } else if (rootConfig.vertical === "bottom") {
-          tree.child[index].root.axisInfo.y = rootConfig.height * 1 - tree.child[index].root.height * 1 + currentPosition.y;
+          tree.child[index].root.axisInfo.y = rootConfig.contentHeight * 1 - tree.child[index].root.height * 1 + currentPosition.y;
         } else {
           tree.child[index].root.axisInfo.y = currentPosition.y;
         }
@@ -361,9 +360,9 @@ const initPositionCore = function (tree = {}) {
         // 布局 - 普通布局
         // 水平对齐
         if (rootConfig.horizontal === "center") {
-          tree.child[index].root.axisInfo.x = (rootConfig.width * 1 - tree.child[index].root.width * 1) / 2 + currentPosition.x;
+          tree.child[index].root.axisInfo.x = (rootConfig.contentWidth * 1 - tree.child[index].root.width * 1) / 2 + currentPosition.x;
         } else if (rootConfig.vertical === "right") {
-          tree.child[index].root.axisInfo.x = rootConfig.width * 1 - tree.child[index].root.width * 1 + currentPosition.x;
+          tree.child[index].root.axisInfo.x = rootConfig.contentWidth * 1 - tree.child[index].root.width * 1 + currentPosition.x;
         } else {
           tree.child[index].root.axisInfo.x = currentPosition.x;
         }

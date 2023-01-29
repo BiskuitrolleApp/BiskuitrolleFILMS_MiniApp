@@ -126,7 +126,7 @@ export default {
                   maxWidth: 200,
                   // width: 200,
                   horizontal: "right",
-                  // vertical: "center",
+                  vertical: "center",
                   display: "flex",
                   // border: "1 solid #000",
                   content: "",
