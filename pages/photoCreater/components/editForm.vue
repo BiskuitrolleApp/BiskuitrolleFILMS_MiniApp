@@ -26,6 +26,24 @@
                 ></u--input>
               </u-form-item>
             </view>
+            <view v-else-if="item.fieldData.type === 'nickname'" class="fieldItem fieldItemPadding">
+              <u-form-item :label="item.fieldData.cnName || `内容-${index + 1}`" labelWidth="80" :prop="item.key">
+                <u--input
+                  type='nickname'
+                  :value="item.fieldData.content"
+                  :placeholder="'请输入' + item.fieldData.cnName"
+                  inputAlign="right"
+                  border="bottom"
+                  clearable="true"
+                  @change="
+                    (value) => {
+                      defaultChange(value, index, 'fieldData.content');
+                    }
+                  "
+                  customStyle="padding-right:0px"
+                ></u--input>
+              </u-form-item>
+            </view>
             <view v-else-if="item.fieldData.type === 'timepicker'" class="fieldItem fieldItemPadding">
               <u-form-item :label="item.fieldData.cnName || `内容-${index + 1}`" labelWidth="80" :prop="item.key">
                 <view class="pickShowerDefaultWrapper">

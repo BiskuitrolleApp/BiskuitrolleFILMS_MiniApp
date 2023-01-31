@@ -36,7 +36,7 @@ export default {
               // round: 10,
               input: {
                 type: "imagePick",
-                id: "imageMain",
+                id: "ImageMain",
               },
             },
             {

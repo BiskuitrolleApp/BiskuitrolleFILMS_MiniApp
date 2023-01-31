@@ -16,7 +16,7 @@ const pageEntrance = [{
       id: "canvas",
       child: [
         {
-          type: "imageMain",
+          type: "ImageMain",
           maxWidth: 320, // 只能设置宽度
           content: "http://127.0.0.1/image/test.JPG",
           // content: "http://127.0.0.1/image/test2.JPG",
@@ -26,7 +26,7 @@ const pageEntrance = [{
           // round: 10,
           input: {
             type: "imagePick",
-            id: "imageMain",
+            id: "ImageMain",
           },
         },
         {

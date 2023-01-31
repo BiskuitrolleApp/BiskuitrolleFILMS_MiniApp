@@ -86,7 +86,7 @@ function getIconContent(val) {
   let listImgDefault = {};
   for (let i = 0; i < markLogoList.length; i++) {
     if (markLogoList[i].photo_keyword == "default") {
-      listImgDefault = markLogoList;
+      listImgDefault = markLogoList[i];
     }
     if (val && (val.toLowerCase().indexOf(markLogoList[i].photo_keyword.toLowerCase()) >= 0 || markLogoList[i].photo_keyword.toLowerCase().indexOf(val.toLowerCase()) >= 0)) {
       logoImg = markLogoList[i];
@@ -106,7 +106,7 @@ function getIconContent(val) {
       photo_original_name: "卷蛋糕.png",
     };
   }
-  console.log("logoImg.photo_url", logoImg.photo_url);
+  console.log("logoImg.photo_url", logoImg);
   return logoImg.photo_url;
 }
 
@@ -124,16 +124,20 @@ export const setContentByInputType = function (inputTypeConfigData = {}, additio
     case "input":
       content = beforeValue + inputTypeConfigData.content + afterValue;
       break;
+    case "nickname":
+      content = beforeValue + inputTypeConfigData.content + afterValue;
+      break;
     case "timepicker":
       content = beforeValue + getTimePickerContent(inputTypeConfigData.content) + afterValue;
       break;
-    case "imageMain":
+    case "ImageMain":
       content = inputTypeConfigData.content;
       break;
     case "icon":
       content = getIconContent(inputTypeConfigData.content);
       break;
     default:
+      content = beforeValue + inputTypeConfigData.content + afterValue;
       break;
   }
   return content;

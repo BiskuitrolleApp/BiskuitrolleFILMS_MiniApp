@@ -42,13 +42,13 @@ const initConfig = function (ctx, configData = [], parentNode = {}) {
     const configItem = tempConfig[index];
     let exifObj = {};
     if (configItem.type == "image") {
-      if (configItem.input.type === "imageMain") {
+      if (configItem.input.type === "ImageMain") {
         configItem.mainImage = true;
       }
       // 初始化图片信息
       exifObj = initTypeImageObject(ctx, configItem, parentNode);
     }
-    //  else if (configItem.type == "imageMain") {
+    //  else if (configItem.type == "ImageMain") {
     //   configItem.mainImage = true
     //   exifObj = initTypeImageObject(ctx, configItem, parentNode);
     // }
