@@ -1,6 +1,13 @@
 <template>
   <view class="exifCanvas" @click="clickCanvas">
-    <canvas class="canvas" id="exifCanvas" canvas-id="exifCanvas" :style="[canvasStyle]"></canvas>
+    <view class="viewer">
+      <view>
+        <image class="showImgageWrapper" :src="tempViewImage" mode="widthFix" :style="{ width: '320px', height: 'auto' }" v-show="tempViewImage" />
+      </view>
+      <view v-show="!tempViewImage">
+        <canvas class="canvas" id="exifCanvas" canvas-id="exifCanvas" :style="[canvasStyle]"></canvas>
+      </view>
+    </view>
     <!-- <view class="downloader" v-show="showGenerator"> -->
     <view class="downloader">
       <canvas class="downloaderCanvas" id="downloaderCanvas" canvas-id="downloaderCanvas" :style="[downloaderCanvasStyle]"></canvas>
@@ -31,7 +38,8 @@ export default {
       downloaderCanvasStyle: {},
       showGenerator: true,
 
-      tempImage: "",
+      tempViewImage: "",
+      tempDownloadImage: "",
       tempImageBase64: "",
     };
   },
@@ -59,27 +67,45 @@ export default {
   },
   //方法集合
   methods: {
-    clickCanvas(){
-      this.$emit('click')
+    clickCanvas() {
+      this.$emit("click");
     },
-    async EXIFInfoRedraw(value = {}) {
-      console.log("EXIFInfoRedraw");
-      console.log("EXIFInfoRedraw before", value);
-      let newEXIFConfigList = _.cloneDeep(value);
-      value = await EXIFReload(this.canvas, this, newEXIFConfigList);
-      this.EXIFConfigList = newEXIFConfigList;
-      console.log("EXIFInfoRedraw value", newEXIFConfigList);
-      // 渲染列表操作
-      EXIFRedraw(this.canvas, this, newEXIFConfigList, {}, function () {
-        console.log("reset");
-      });
+    // 使用显示图片替换canvas
+    showCanvasImage() {
+      let that = this;
+      let scaling = 1;
+      let photoDrawInfo = {};
+      for (let index = 0; index < that.EXIFConfigList.length; index++) {
+        const item = that.EXIFConfigList[index];
+        if (item.root) {
+          photoDrawInfo = item;
+        }
+      }
+      uni.canvasToTempFilePath(
+        {
+          //将canvas生成图片
+          x: 0,
+          y: 0,
+          width: photoDrawInfo.width * scaling,
+          height: photoDrawInfo.height * scaling,
+          canvasId: "exifCanvas",
+          // canvas: that.canvas,
+          fileType: "jpg",
+          success: (res) => {
+            // that.tempDownloadImage = res.tempFilePath;
+            that.tempViewImage = res.tempFilePath;
+          },
+          fail: (err) => {
+            console.log(err);
+            that.loading = false;
+            uni.hideLoading();
+            that.showGenerator = false;
+          },
+        },
+        that
+      );
     },
-    draw() {
-      console.log("value", JSON.stringify(this.value));
-      EXIFDrawJSON(this.canvas, this, this.value, {}, function () {
-        console.log("EXIFDrawJSON end cb 1");
-      });
-    },
+
     setCanvasConfigList(configList = []) {
       let list = _.cloneDeep(configList);
       this.EXIFConfigList = list;
@@ -107,6 +133,80 @@ export default {
         console.log("style", style);
       }
     },
+    //点击保存到相册
+    downloadImage() {
+      var that = this;
+      // let { photoDrawInfo } = this;
+      // let compressTime = tools.formatNumber(
+      //   tools.formatDecimal(photoDrawInfo.compress / 100, 2)
+      // );
+      // if (
+      //   photoDrawInfo.width * compressTime > 3000 ||
+      //   photoDrawInfo.height * compressTime > 3000
+      // ) {
+      //   uni.showLoading({
+      //     title: "文件较大，下载中...",
+      //     duration: 60000,
+      //     mask: true,
+      //   });
+      // } else {
+      //   uni.showLoading({
+      //     title: "下载中...",
+      //     duration: 15000,
+      //     mask: true,
+      //   });
+      // }
+      uni.saveImageToPhotosAlbum({
+        filePath: that.tempDownloadImage,
+        success() {
+          uni.hideLoading();
+          uni.showToast({
+            title: "图片已保存图片到相册",
+            icon: "none",
+            duration: 2000,
+          });
+        },
+        fail(error) {
+          console.log("error", error);
+          uni.hideLoading();
+          if (error.errMsg.indexOf("cancel") >= 0) {
+            uni.showToast({
+              title: "取消保存",
+              icon: "none",
+            });
+          } else {
+            uni.showToast({
+              title: "保存失败，请检查权限功能重试",
+              icon: "none",
+            });
+          }
+        },
+      });
+      that.loading = false;
+      uni.hideLoading();
+    },
+
+    // 重新绘制逻辑
+    async EXIFInfoRedraw(value = {}) {
+      let newEXIFConfigList = _.cloneDeep(value);
+      value = await EXIFReload(this.canvas, this, newEXIFConfigList);
+      this.EXIFConfigList = newEXIFConfigList;
+      this.tempViewImage = "";
+      // 渲染列表操作
+      EXIFRedraw(this.canvas, this, newEXIFConfigList, {}, () => {
+        console.log("reset");
+        this.showCanvasImage();
+      });
+    },
+    // 绘制逻辑
+    draw() {
+      this.tempViewImage = "";
+      EXIFDrawJSON(this.canvas, this, this.value, {}, () => {
+        console.log("EXIFDrawJSON end cb 1");
+        this.showCanvasImage();
+      });
+    },
+    // 下载器
     downLoader() {
       let that = this;
       console.log("down");
@@ -141,7 +241,7 @@ export default {
                 // canvas: that.canvas,
                 fileType: "jpg",
                 success: (res) => {
-                  that.tempImage = res.tempFilePath;
+                  that.tempDownloadImage = res.tempFilePath;
                   try {
                     uni.getFileSystemManager().readFile({
                       filePath: res.tempFilePath,
@@ -172,57 +272,23 @@ export default {
       }, 500);
     },
 
-    //点击保存到相册
-    downloadImage() {
-      var that = this;
-      // let { photoDrawInfo } = this;
-      // let compressTime = tools.formatNumber(
-      //   tools.formatDecimal(photoDrawInfo.compress / 100, 2)
-      // );
-      // if (
-      //   photoDrawInfo.width * compressTime > 3000 ||
-      //   photoDrawInfo.height * compressTime > 3000
-      // ) {
-      //   uni.showLoading({
-      //     title: "文件较大，下载中...",
-      //     duration: 60000,
-      //     mask: true,
-      //   });
-      // } else {
-      //   uni.showLoading({
-      //     title: "下载中...",
-      //     duration: 15000,
-      //     mask: true,
-      //   });
-      // }
-      uni.saveImageToPhotosAlbum({
-        filePath: that.tempImage,
-        success() {
-          uni.hideLoading();
-          uni.showToast({
-            title: "图片已保存图片到相册",
-            icon: "none",
-            duration: 2000,
-          });
-        },
-        fail(error) {
-          console.log("error", error);
-          uni.hideLoading();
-          if (error.errMsg.indexOf("cancel") >= 0) {
-            uni.showToast({
-              title: "取消保存",
-              icon: "none",
-            });
-          } else {
-            uni.showToast({
-              title: "保存失败，请检查权限功能重试",
-              icon: "none",
-            });
-          }
-        },
-      });
-      that.loading = false;
-      uni.hideLoading();
+    /**
+     * 重绘方法，ref 可以直接调用
+     */
+    $redraw(value) {
+      this.EXIFInfoRedraw(value);
+    },
+    /**
+     * 绘制方法，ref 可以直接调用
+     */
+    $draw() {
+      this.draw();
+    },
+    /**
+     * 下载方法，ref 可以直接调用
+     */
+    $downLoad() {
+      this.downLoader();
     },
   },
 };
@@ -234,12 +300,17 @@ export default {
   justify-content: center;
   // overflow: hidden;
   position: relative;
+
   .canvas {
     // border: 1px rgb(229, 222, 255) solid;
     // margin: 10px;
     min-width: 320px;
     height: 320px;
     // background: rgb(229, 222, 255);
+    border: 1px dashed #ccc;
+  }
+  .showImgageWrapper {
+    border: 1px dashed #ccc;
   }
   .downloaderCanvas {
     // visibility: hidden;

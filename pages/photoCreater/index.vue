@@ -108,7 +108,7 @@ export default {
                       // padding: "5 10 1 10",
                       // border: "1 solid #0000ffff",
                       font: {
-                        fontSize: 8,
+                        fontSize: 10,
                         bold: true,
                       },
                       input: {
@@ -177,7 +177,7 @@ export default {
                           // padding: "0 0 1 5",
                           // border: "1 solid #0000ffff",
                           font: {
-                            fontSize: 8,
+                            fontSize: 10,
                             textAlign: "right",
                             bold: true,
                           },
@@ -277,7 +277,7 @@ export default {
 
     // 点击下载逻辑
     saveImage() {
-      this.$refs.exifCanvas.downLoader();
+      this.$refs.exifCanvas.$downLoad();
     },
     // 点击重新上传图片
     async onUpdatedFile() {
@@ -300,6 +300,7 @@ export default {
       if (that.userInfo && that.userInfo.nickName) {
         if (callback && typeof callback == "function") {
           callback();
+          return;
         }
       }
       uni.showLoading({
@@ -451,23 +452,15 @@ export default {
       imageObject.computerImageInfo().then((res) => {
         that.imageInfo = imageObject.getImageInfo();
         that.imageInfo.url = src;
-        console.log("that.imageInfo", that.imageInfo);
-        this.init();
+        let infoMap = dataMap;
+        // 更新配置信息
+        this.configListInfo = this.reLoadConfigData(this.configListInfo, infoMap);
+        // 绘制
+        this.emptyCanvas = false;
+        setTimeout(() => {
+          this.$refs.exifCanvas.$draw();
+        }, 250);
       });
-      // infoMap.get(userKey) || infoMap.get("Default");
-    },
-    // 初始化信息
-    init() {
-      let infoMap = dataMap;
-      console.log("configListInfo2", JSON.stringify(this.configListInfo));
-      // 更新配置信息
-      this.configListInfo = this.reLoadConfigData(this.configListInfo, infoMap);
-      console.log("configListInfo", this.configListInfo);
-      // 绘制
-      this.emptyCanvas = false;
-      setTimeout(() => {
-        this.$refs.exifCanvas.draw();
-      }, 250);
     },
     // 重新配置config信息
     // 将dataMap对应的信息input里面的content数据填入外部的content中
@@ -478,17 +471,19 @@ export default {
         const item = configList[index];
         // console.log("input.id", item.input);
         if (item.input && item.input.id && map[item.input.id]) {
-          console.log("id==>", map[item.input.id], item);
+          // console.log("id==>", map[item.input.id], item);
           // 默认使用的是content 和input content 中的内容
           let defaultContent = item.content || item.input.content || "";
           let key = map[item.input.id].queryKey || defaultContent || map.Default.queryKey;
           if (map[item.input.id].queryKey) {
-            console.log("key", _.get(that, key, defaultContent), "<<1>>", key, "<<2>>", defaultContent);
+            // console.log("key", _.get(that, key, defaultContent), "<<1>>", key, "<<2>>", defaultContent);
+
             configList[index].input.content = _.get(that, key, defaultContent) || defaultContent;
           }
           let content = setContentByInputType(configList[index].input, map[item.input.id].additional);
-          console.log("content", content);
+          // console.log("content", content);
           configList[index].content = content || defaultContent;
+          console.log("<<1>>key:", key, "，<<2>>content", content || defaultContent);
         }
         if (item.child && item.child.length > 0) {
           configList[index].child = this.reLoadConfigData(item.child, map);
@@ -499,7 +494,7 @@ export default {
     resetPhotoInfo(value) {
       console.log("resetPhotoInfo", value);
       this.EXIFConfigList = value;
-      this.$refs.exifCanvas.EXIFInfoRedraw(value);
+      this.$refs.exifCanvas.$redraw(value);
       this.closeSetiingPopup();
     },
   },
@@ -547,11 +542,11 @@ export default {
   }
   .canvas-box {
     /deep/.exifCanvas {
-      border: 1px dashed #ccc;
-      background: #fff;
+      // border: 1px dashed #ccc;
+      // background: #fff;
       width: 320px;
+      height: auto;
       margin: 0 auto;
-      // background: rgb(229, 222, 255);
     }
   }
   .downLoadBtn {
