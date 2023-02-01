@@ -242,7 +242,7 @@ export default {
           title: "提示",
           content: "需要先上传图片",
           success: function (res) {
-            if (res.confirm) {
+            if (res.confirm) { 
               that.onUpdatedFile();
             }
           },

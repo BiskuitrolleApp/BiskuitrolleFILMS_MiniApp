@@ -5,28 +5,12 @@
         <u-icon :name="rightIcon" size="20" @click="layoutChange"></u-icon>
       </view>
     </u-navbar> -->
-    <u-navbar
-      title="主页"
-      :autoBack="false"
-      :leftIcon="rightIcon"
-      @leftClick="layoutChange"
-    >
-    </u-navbar>
+    <u-navbar title="主页" :autoBack="false" :leftIcon="rightIcon" @leftClick="layoutChange"> </u-navbar>
     <view class="list-wrap" v-if="rightIcon == 'grid'">
-      <cardItem
-        class="cardList-item"
-        :value="item"
-        v-for="(item, index) in list"
-      >
-      </cardItem>
+      <cardItem class="cardList-item" :value="item" v-for="(item, index) in list"> </cardItem>
     </view>
     <view class="list-wrap" v-if="rightIcon == 'list'">
-      <listItem
-        class="cellList-item"
-        :value="item"
-        v-for="(item, index) in list"
-      >
-      </listItem>
+      <listItem class="cellList-item" :value="item" v-for="(item, index) in list"> </listItem>
     </view>
   </view>
 </template>
@@ -49,6 +33,7 @@ export default {
     };
   },
   async mounted() {
+    // this.init();
     // try {
     //   let menu = uni.getMenuButtonBoundingClientRect();
     //   let navRight = menu.width + 5 || 0;
@@ -56,7 +41,6 @@ export default {
     // } catch (error) {
     //   console.error("getMenuButtonBoundingClientRect error", error);
     // }
-
     try {
       let config = await queryStorage("home:config");
       console.log("config", config);
@@ -67,10 +51,20 @@ export default {
     }
   },
   methods: {
+    init() {
+      console.log("requeset init");
+      uni.request({
+        url: "https://gitee.com/KevinJZheng/itools-oss/raw/master/index.json",
+        success: (res) => {
+          console.log("request", res);
+        },
+        fail: (err) => {
+          console.log("request err", err);
+        },
+      });
+    },
     layoutChange() {
-      this.rightIcon == "grid"
-        ? (this.rightIcon = "list")
-        : (this.rightIcon = "grid");
+      this.rightIcon == "grid" ? (this.rightIcon = "list") : (this.rightIcon = "grid");
       saveStorage("home:config", {
         toggleBtnConfig: this.rightIcon,
       });
@@ -144,10 +138,8 @@ export default {
   //     rgba(248, 192, 147, 1),
   //     rgba(248, 192, 147, 0)
   //   );
-  background-size: 130vmax 130vmax, 80vmax 80vmax, 90vmax 90vmax,
-    110vmax 110vmax, 90vmax 90vmax;
-  background-position: -80vmax -80vmax, 60vmax -30vmax, 10vmax 10vmax,
-    -30vmax -10vmax, 50vmax 50vmax;
+  background-size: 130vmax 130vmax, 80vmax 80vmax, 90vmax 90vmax, 110vmax 110vmax, 90vmax 90vmax;
+  background-position: -80vmax -80vmax, 60vmax -30vmax, 10vmax 10vmax, -30vmax -10vmax, 50vmax 50vmax;
   background-repeat: no-repeat;
   animation: 10s movement linear infinite;
 }
@@ -168,28 +160,20 @@ export default {
 @keyframes movement {
   0%,
   100% {
-    background-size: 130vmax 130vmax, 80vmax 80vmax, 90vmax 90vmax,
-      110vmax 110vmax, 90vmax 90vmax;
-    background-position: -80vmax -80vmax, 60vmax -30vmax, 10vmax 10vmax,
-      -30vmax -10vmax, 50vmax 50vmax;
+    background-size: 130vmax 130vmax, 80vmax 80vmax, 90vmax 90vmax, 110vmax 110vmax, 90vmax 90vmax;
+    background-position: -80vmax -80vmax, 60vmax -30vmax, 10vmax 10vmax, -30vmax -10vmax, 50vmax 50vmax;
   }
   25% {
-    background-size: 100vmax 100vmax, 90vmax 90vmax, 100vmax 100vmax,
-      90vmax 90vmax, 60vmax 60vmax;
-    background-position: -60vmax -90vmax, 50vmax -40vmax, 0vmax -20vmax,
-      -40vmax -20vmax, 40vmax 60vmax;
+    background-size: 100vmax 100vmax, 90vmax 90vmax, 100vmax 100vmax, 90vmax 90vmax, 60vmax 60vmax;
+    background-position: -60vmax -90vmax, 50vmax -40vmax, 0vmax -20vmax, -40vmax -20vmax, 40vmax 60vmax;
   }
   50% {
-    background-size: 80vmax 80vmax, 110vmax 110vmax, 80vmax 80vmax,
-      60vmax 60vmax, 80vmax 80vmax;
-    background-position: -50vmax -70vmax, 40vmax -30vmax, 10vmax 0vmax,
-      20vmax 10vmax, 30vmax 70vmax;
+    background-size: 80vmax 80vmax, 110vmax 110vmax, 80vmax 80vmax, 60vmax 60vmax, 80vmax 80vmax;
+    background-position: -50vmax -70vmax, 40vmax -30vmax, 10vmax 0vmax, 20vmax 10vmax, 30vmax 70vmax;
   }
   75% {
-    background-size: 90vmax 90vmax, 90vmax 90vmax, 100vmax 100vmax,
-      90vmax 90vmax, 70vmax 70vmax;
-    background-position: -50vmax -40vmax, 50vmax -30vmax, 20vmax 0vmax,
-      -10vmax 10vmax, 40vmax 60vmax;
+    background-size: 90vmax 90vmax, 90vmax 90vmax, 100vmax 100vmax, 90vmax 90vmax, 70vmax 70vmax;
+    background-position: -50vmax -40vmax, 50vmax -30vmax, 20vmax 0vmax, -10vmax 10vmax, 40vmax 60vmax;
   }
 }
 </style>

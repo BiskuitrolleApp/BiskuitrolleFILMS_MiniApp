@@ -1,8 +1,9 @@
 <template>
   <view class="exifCanvas" @click="clickCanvas">
     <view class="viewer">
-      <view>
-        <image class="showImgageWrapper" :src="tempViewImage" mode="widthFix" :style="{ width: '320px', height: 'auto' }" v-show="tempViewImage" />
+      <view v-if="tempViewImage" class="showImgageWrapper">
+        <u--image showMenuByLongpress="true" :showLoading="true" :src="tempViewImage" :width="canvasStyle.width" :height="canvasStyle.height" mode="aspectFit"></u--image>
+        <!-- <image class="showImgageWrapper" show-menu-by-longpress="true" :src="tempViewImage" mode="aspectFit" :style="[canvasStyle]" /> -->
       </view>
       <view v-show="!tempViewImage">
         <canvas class="canvas" id="exifCanvas" canvas-id="exifCanvas" :style="[canvasStyle]"></canvas>
@@ -18,6 +19,7 @@
 <script>
 import { EXIFDrawJSON, EXIFRedraw, EXIFReload } from "@/libs/configCanvas";
 import { getScaling, getCoreVar } from "@/libs/configCanvas/var";
+import tools from "@/libs/tools/index.js";
 export default {
   props: {
     value: {
@@ -35,6 +37,7 @@ export default {
       EXIFConfigList: [],
       canvas: null,
       canvasStyle: {},
+      test: "",
       downloaderCanvasStyle: {},
       showGenerator: true,
 
@@ -81,29 +84,41 @@ export default {
           photoDrawInfo = item;
         }
       }
-      uni.canvasToTempFilePath(
-        {
-          //将canvas生成图片
-          x: 0,
-          y: 0,
-          width: photoDrawInfo.width * scaling,
-          height: photoDrawInfo.height * scaling,
-          canvasId: "exifCanvas",
-          // canvas: that.canvas,
-          fileType: "jpg",
-          success: (res) => {
-            // that.tempDownloadImage = res.tempFilePath;
-            that.tempViewImage = res.tempFilePath;
+
+      let width = tools.times(photoDrawInfo.width, scaling, 1);
+      let height = tools.times(photoDrawInfo.height, scaling, 1);
+      uni.showLoading({
+        title: "生成中...",
+        duration: 60000,
+        mask: true,
+      });
+      setTimeout(() => {
+        uni.hideLoading();
+        uni.canvasToTempFilePath(
+          {
+            //将canvas生成图片
+            x: 0,
+            y: 0,
+            width: width,
+            height: height,
+            canvasId: "exifCanvas",
+            // canvas: this.canvas,
+            // quality: "1", // 图片质量
+            fileType: "jpg",
+            success: (res) => {
+              // that.tempDownloadImage = res.tempFilePath;
+              that.tempViewImage = res.tempFilePath;
+            },
+            fail: (err) => {
+              console.log(err);
+              that.loading = false;
+              uni.hideLoading();
+              that.showGenerator = false;
+            },
           },
-          fail: (err) => {
-            console.log(err);
-            that.loading = false;
-            uni.hideLoading();
-            that.showGenerator = false;
-          },
-        },
-        that
-      );
+          that
+        );
+      }, 2000);
     },
 
     setCanvasConfigList(configList = []) {
@@ -117,8 +132,9 @@ export default {
         for (let index = 0; index < list.length; index++) {
           const item = list[index];
           if (item.root) {
-            style.width = item.width * scaling + "px";
-            style.height = item.height * scaling + "px";
+            console.log("this.", this);
+            style.width = tools.times(item.width, scaling, 1) + "px";
+            style.height = tools.times(item.height, scaling, 1) + "px";
             // style.width = item.width + "px";
             // style.height = item.height + "px";
             break;
@@ -127,6 +143,7 @@ export default {
         let isDownloader = getCoreVar("downloader");
         if (!isDownloader) {
           this.canvasStyle = style;
+          this.test = JSON.stringify(style);
         } else {
           this.downloaderCanvasStyle = style;
         }
@@ -305,9 +322,10 @@ export default {
     // border: 1px rgb(229, 222, 255) solid;
     // margin: 10px;
     min-width: 320px;
-    height: 320px;
+    // min-height: 320px;
     // background: rgb(229, 222, 255);
     border: 1px dashed #ccc;
+    opacity: 0;
   }
   .showImgageWrapper {
     border: 1px dashed #ccc;
