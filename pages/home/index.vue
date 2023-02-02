@@ -5,63 +5,78 @@
         <u-icon :name="rightIcon" size="20" @click="layoutChange"></u-icon>
       </view>
     </u-navbar> -->
-    <u-navbar title="主页" :autoBack="false" :leftIcon="rightIcon" @leftClick="layoutChange"> </u-navbar>
+    <u-navbar title="主页" :autoBack="false" :leftIcon="rightIcon" @leftClick="show_business_change = true" placeholder="true"> </u-navbar>
+    <view class="dropdown-wrap">
+      <dropdown v-show="show_business_change" :list="business_list" @select="selectBusiness" @close="show_business_change = false"></dropdown>
+    </view>
     <view class="list-wrap" v-if="rightIcon == 'grid'">
-      <cardItem class="cardList-item" :value="item" v-for="(item, index) in list"> </cardItem>
+      <cardItem class="cardList-item" :value="item" v-for="(item, index) in pagesConfigList"> </cardItem>
     </view>
     <view class="list-wrap" v-if="rightIcon == 'list'">
-      <listItem class="cellList-item" :value="item" v-for="(item, index) in list"> </listItem>
+      <listItem class="cellList-item" :value="item" v-for="(item, index) in pagesConfigList"> </listItem>
     </view>
   </view>
 </template>
 
 <script>
-import config from "./config/listConfig.js";
+import config from "./config.js";
 import cardItem from "./components/cardItem.vue";
 import listItem from "./components/listItem.vue";
 import { saveStorage, queryStorage } from "@/util/storage/index.js";
+import dropdown from "@/uni_modules/dropdown";
+import { initConfiguration } from "@/libs/initConfiguration/index.js";
 export default {
   components: {
     cardItem,
     listItem,
+    dropdown,
   },
   data() {
     return {
       navStyle: 0,
       rightIcon: "grid",
       list: config.pageEntrance,
+
+      show_business_change: false,
+      business_list: [
+        { value: 0, name: "切换排列", icon: "layout-grid-line" },
+        { value: 1, name: "刷新列表", icon: "refresh-line" },
+        // { value: 2, name: "夜晚模式" },
+      ],
+      pagesConfigList: [],
     };
   },
-  async mounted() {
-    // this.init();
-    // try {
-    //   let menu = uni.getMenuButtonBoundingClientRect();
-    //   let navRight = menu.width + 5 || 0;
-    //   this.navStyle = "padding-right:" + (navRight || 0) + "px";
-    // } catch (error) {
-    //   console.error("getMenuButtonBoundingClientRect error", error);
-    // }
-    try {
-      let config = await queryStorage("home:config");
-      console.log("config", config);
-      this.rightIcon = config.toggleBtnConfig;
-    } catch (e) {
-      this.rightIcon = "grid";
-      //TODO handle the exception
-    }
+  async onShow() {
+    let that = this;
+    uni.getStorage({
+      key: "itools-config-pagesList",
+      success: function ({ data }) {
+        that.pagesConfigList = data.content;
+      },
+      fail: (err) => {
+        console.log("get itools-config-pagesList error", err);
+        that.pagesConfigList = [];
+      },
+    });
+    uni.getStorage({
+      key: "itools-config-pagesList-custom",
+      success: function ({ data }) {
+        that.pagesConfigList = that.pagesConfigList.concat(data.content || []);
+      },
+      fail: (err) => {
+        console.log("get itools-config-pagesList-custom error", err);
+      },
+    });
+    console.log("that.pagesConfigList", that.pagesConfigList);
   },
   methods: {
-    init() {
-      console.log("requeset init");
-      uni.request({
-        url: "https://gitee.com/KevinJZheng/itools-oss/raw/master/index.json",
-        success: (res) => {
-          console.log("request", res);
-        },
-        fail: (err) => {
-          console.log("request err", err);
-        },
-      });
+    selectBusiness(key) {
+      this.show_business_change = false;
+      if (key == 0) {
+        this.layoutChange();
+      } else if (key == 1) {
+        initConfiguration(true);
+      }
     },
     layoutChange() {
       this.rightIcon == "grid" ? (this.rightIcon = "list") : (this.rightIcon = "grid");
@@ -109,6 +124,9 @@ export default {
     text-align: right;
     display: flex;
     justify-content: flex-end;
+  }
+  .dropdown-wrap {
+    margin-left: 10px;
   }
 }
 .move-bg {

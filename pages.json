@@ -9,12 +9,13 @@
   // },
   "pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
     {
-      "path": "pages/home/home",
+      "path": "pages/home/index",
       "style": {
-        "navigationBarTitleText": "主页",
-        "enablePullDownRefresh": false,
-        "backgroundColor": "#ECECEC"
-        // "navigationStyle": "custom"
+        // "navigationBarTitleText": "主页",
+        // "navigationBarBackgroundColor": "#F8F8F8",
+        "navigationStyle": "custom", // 隐藏系统导航栏
+        "navigationBarTextStyle": "white", // 状态栏字体为白色，只能为 white-白色，black-黑色 二选一
+        "enablePullDownRefresh": false
       }
     },
     {
@@ -49,15 +50,6 @@
       "path": "pages/photoCreater/index",
       "style": {
         "navigationBarTitleText": "生成系统",
-        "enablePullDownRefresh": false
-      }
-    },
-    {
-      "path": "pages/photoCreater/list",
-      "style": {
-        // "navigationBarBackgroundColor": "#F8F8F8",
-        "navigationStyle": "custom", // 隐藏系统导航栏
-        "navigationBarTextStyle": "white", // 状态栏字体为白色，只能为 white-白色，black-黑色 二选一
         "enablePullDownRefresh": false
       }
     }

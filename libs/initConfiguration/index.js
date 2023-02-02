@@ -49,6 +49,11 @@ function getRequestListConfig(list = []) {
  * @param {*} callback
  */
 function getRequestMainConfig(callback) {
+  uni.showLoading({
+    title: "初始化...",
+    duration: 60000,
+    mask: true,
+  });
   uni.request({
     url: "https://gitee.com/KevinJZheng/itools-oss/raw/master/index.json",
     success: (res) => {
@@ -75,31 +80,30 @@ function getRequestMainConfig(callback) {
 
 /**
  * 初始化配置信息
- * @param {*} callback
+ * @param {*} refresh 是否强制刷新
+ * @param {*} callback 完成后回调
  */
-export const initConfiguration = function (callback) {
+export const initConfiguration = function (refresh = false, callback) {
   console.log("initConfiguration");
-  uni.showLoading({
-    title: "初始化...",
-    duration: 60000,
-    mask: true,
-  });
-  uni.getStorage({
-    key: "itools-config",
-    success: function ({ data }) {
-      let time = new Date().getTime();
-      if (data.expirationTime && time < data.expirationTime) {
-        if (callback && typeof callback == "function") {
-          callback();
-          uni.hideLoading();
+  if (refresh) {
+    getRequestMainConfig(callback);
+  } else {
+    uni.getStorage({
+      key: "itools-config",
+      success: function ({ data }) {
+        let time = new Date().getTime();
+        if (data.expirationTime && time < data.expirationTime) {
+          if (callback && typeof callback == "function") {
+            callback();
+          }
+        } else {
+          getRequestMainConfig(callback);
         }
-      } else {
+      },
+      fail: (err) => {
+        console.log("initConfiguration error", err);
         getRequestMainConfig(callback);
-      }
-    },
-    fail: (err) => {
-      console.log("initConfiguration error", err);
-      getRequestMainConfig(callback);
-    },
-  });
+      },
+    });
+  }
 };
