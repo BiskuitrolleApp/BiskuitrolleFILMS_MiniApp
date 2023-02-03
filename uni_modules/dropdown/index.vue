@@ -3,7 +3,7 @@
     <view class="dropdown-mask" @click="handlerMask"></view>
     <view class="ul">
       <view class="li" v-for="item in list" :key="item.value" @click="handlerItem(item.value)">
-        <i-icon size="20px" color="#0067F5" :name="item.icon"></i-icon>
+        <i-icon size="20px" color="#000" :name="item.icon"></i-icon>
         <view class="li-name">{{ item.name }}</view>
       </view>
     </view>

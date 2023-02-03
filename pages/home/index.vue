@@ -5,25 +5,29 @@
         <u-icon :name="rightIcon" size="20" @click="layoutChange"></u-icon>
       </view>
     </u-navbar> -->
-    <u-navbar title="主页" :autoBack="false" :leftIcon="rightIcon" @leftClick="show_business_change = true" placeholder="true"> </u-navbar>
+    <u-navbar title="主页" :autoBack="false" placeholder="true">
+      <view class="u-nav-slot" slot="left">
+        <i-icon size="20px" color="#000" name="menu-line" @click="showDropdownList = true"></i-icon>
+      </view>
+    </u-navbar>
     <view class="dropdown-wrap">
-      <dropdown v-show="show_business_change" :list="business_list" @select="selectBusiness" @close="show_business_change = false"></dropdown>
+      <dropdown v-show="showDropdownList" :list="dropdownList" @select="selectDropdownItem" @close="showDropdownList = false"></dropdown>
     </view>
-    <view class="list-wrap" v-if="rightIcon == 'grid'">
+    <view class="list-wrap" v-if="dropdownList[0].icon == 'layout-row-line'">
       <cardItem class="cardList-item" :value="item" v-for="(item, index) in pagesConfigList"> </cardItem>
     </view>
-    <view class="list-wrap" v-if="rightIcon == 'list'">
+    <view class="list-wrap" v-if="dropdownList[0].icon == 'file-list-line'">
       <listItem class="cellList-item" :value="item" v-for="(item, index) in pagesConfigList"> </listItem>
     </view>
   </view>
 </template>
 
 <script>
-import config from "./config.js";
 import cardItem from "./components/cardItem.vue";
 import listItem from "./components/listItem.vue";
-import { saveStorage, queryStorage } from "@/util/storage/index.js";
 import dropdown from "@/uni_modules/dropdown";
+
+import config from "./config.js";
 import { initConfiguration } from "@/libs/initConfiguration/index.js";
 export default {
   components: {
@@ -34,54 +38,76 @@ export default {
   data() {
     return {
       navStyle: 0,
-      rightIcon: "grid",
-      list: config.pageEntrance,
-
-      show_business_change: false,
-      business_list: [
-        { value: 0, name: "切换排列", icon: "layout-grid-line" },
+      showDropdownList: false,
+      dropdownList: [
+        { value: 0, name: "切换排列", icon: "layout-row-line" },
         { value: 1, name: "刷新列表", icon: "refresh-line" },
+        { value: 2, name: "导入配置", icon: "add-box-line" },
         // { value: 2, name: "夜晚模式" },
       ],
       pagesConfigList: [],
     };
   },
-  async onShow() {
-    let that = this;
-    uni.getStorage({
-      key: "itools-config-pagesList",
-      success: function ({ data }) {
-        that.pagesConfigList = data.content;
-      },
-      fail: (err) => {
-        console.log("get itools-config-pagesList error", err);
-        that.pagesConfigList = [];
-      },
-    });
-    uni.getStorage({
-      key: "itools-config-pagesList-custom",
-      success: function ({ data }) {
-        that.pagesConfigList = that.pagesConfigList.concat(data.content || []);
-      },
-      fail: (err) => {
-        console.log("get itools-config-pagesList-custom error", err);
-      },
-    });
-    console.log("that.pagesConfigList", that.pagesConfigList);
+  async onLoad() {
+    this.init();
   },
   methods: {
-    selectBusiness(key) {
-      this.show_business_change = false;
-      if (key == 0) {
-        this.layoutChange();
-      } else if (key == 1) {
-        initConfiguration(true);
+    // 初始化存储的页面数据
+    init() {
+      let that = this;
+      uni.getStorage({
+        key: "itools-config-pagesList",
+        success: function ({ data }) {
+          that.pagesConfigList = data.content;
+        },
+        fail: (err) => {
+          console.log("get itools-config-pagesList error", err);
+          that.pagesConfigList = [];
+        },
+      });
+      uni.getStorage({
+        key: "itools-config-pagesList-custom",
+        success: function ({ data }) {
+          that.pagesConfigList = that.pagesConfigList.concat(data.content || []);
+        },
+        fail: (err) => {
+          console.log("get itools-config-pagesList-custom error", err);
+        },
+      });
+      if (that.pagesConfigList.length == 0) {
+        that.pagesConfigList = config.pageEntrance;
+      }
+      console.log("that.pagesConfigList", that.pagesConfigList);
+    },
+    // 选择下拉
+    selectDropdownItem(key) {
+      this.showDropdownList = false;
+      switch (key) {
+        case 0:
+          this.layoutChange();
+          break;
+        case 1:
+          initConfiguration(true);
+          break;
+        case 2:
+          this.addNewConfig();
+          break;
+        default:
+          break;
       }
     },
+    // 布局更新
     layoutChange() {
-      this.rightIcon == "grid" ? (this.rightIcon = "list") : (this.rightIcon = "grid");
-      saveStorage("home:config", {
-        toggleBtnConfig: this.rightIcon,
+      let icon = this.dropdownList[0].icon;
+      icon == "layout-row-line" ? (this.dropdownList[0].icon = "file-list-line") : (this.dropdownList[0].icon = "layout-row-line");
+    },
+    // 添加本地新配置逻辑
+    addNewConfig() {
+      // TODO 对 setStorage itools-config-pagesList-custom 进行设置结构和 itools-config-pagesList一致版本 无需判断
+      uni.showToast({
+        icon: "error",
+        duration: 1000,
+        title: "稍后上线",
       });
     },
   },
