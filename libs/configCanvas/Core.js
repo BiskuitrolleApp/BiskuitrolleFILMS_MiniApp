@@ -78,7 +78,7 @@ const initTypeImageObject = function (ctx, value = {}, parentNode = {}) {
   let id = initUUID(value, parentNode);
   // setting id type and conntent
   let exifObj = new imgEXIFINFO(id, value, parentNode);
-  console.log("exifObj", exifObj);
+  // console.log("exifObj", exifObj);
   return exifObj;
 };
 
@@ -159,9 +159,15 @@ const initEXIFSize = async function (ctx, domcomentVue, nodeList = []) {
 
 // 计算各个信息的size大小
 const initSize = async function (ctx, domcomentVue, canvasConfig) {
+  let config = canvasConfig;
   // 校对宽高度 逆level进行
   initLooptCount = 0; // 嵌套初始化宽高次数
-  let config = await initEXIFSize(ctx, domcomentVue, canvasConfig);
+  try {
+    config = await initEXIFSize(ctx, domcomentVue, canvasConfig);
+  } catch (error) {
+    console.log("initEXIFSize error", error);
+  }
+  // let config = await initEXIFSize(ctx, domcomentVue, canvasConfig);
   // 校对组件处于的位置信息 position 顺level进行 ，对元素占位和居中等定位进行计算
   initLooptCount = 0; // 嵌套初始化次数
   return config;

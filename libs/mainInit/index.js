@@ -1,3 +1,43 @@
+import photoLogo from "@/static/common/json/database_photoLogo.json";
+import _ from "lodash";
+
+// 获得配置信息，从数据库中请求
+function getPhotoConfigListByDB() {
+  let tempPhotoLogo = photoLogo;
+  tempPhotoLogo = _.sortBy(tempPhotoLogo, function (o) {
+    return o.sort_key;
+  });
+  uni.setStorageSync("itools-config-logoList", {
+    version: "-1",
+    content: tempPhotoLogo,
+  });
+  return tempPhotoLogo;
+}
+
+// 获得配置信息
+export const getPhotoConfigList = function () {
+  let photoConfigData = [];
+  return new Promise((resolve, reject) => {
+    uni.getStorage({
+      key: "itools-config-logoList",
+      success: function ({ data }) {
+        if (data.content && data.content.length > 0) {
+          photoConfigData = _.sortBy(data.content, function (o) {
+            return o.sort_key;
+          });
+        } else {
+          photoConfigData = getPhotoConfigListByDB();
+        }
+        resolve(photoConfigData);
+      },
+      fail: () => {
+        photoConfigData = getPhotoConfigListByDB();
+        reject(photoConfigData);
+      },
+    });
+  });
+};
+
 function getRequestListConfigItem(item = {}) {
   uni.request({
     url: item.url,
@@ -83,8 +123,8 @@ function getRequestMainConfig(callback) {
  * @param {*} refresh 是否强制刷新
  * @param {*} callback 完成后回调
  */
-export const initConfiguration = function (refresh = false, callback) {
-  console.log("initConfiguration");
+export const initMainConfig = function (refresh = false, callback) {
+  console.log("initMainConfig");
   if (refresh) {
     getRequestMainConfig(callback);
   } else {
@@ -101,7 +141,7 @@ export const initConfiguration = function (refresh = false, callback) {
         }
       },
       fail: (err) => {
-        console.log("initConfiguration error", err);
+        console.log("initMainConfig error", err);
         getRequestMainConfig(callback);
       },
     });

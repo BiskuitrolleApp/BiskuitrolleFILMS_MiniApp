@@ -1,8 +1,8 @@
 <script>
-import { initConfiguration } from "@/libs/initConfiguration/index.js";
+import { initMainConfig } from "@/libs/mainInit/index.js";
 export default {
   onLaunch: function () {
-    initConfiguration();
+    initMainConfig();
   },
   onShow: function () {},
   onHide: function () {},

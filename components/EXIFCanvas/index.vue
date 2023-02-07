@@ -1,7 +1,8 @@
 <template>
   <view class="exifCanvas" @click="clickCanvas">
+    <!-- <view>{{tempViewImage}}</view> -->
     <view class="viewer">
-      <view v-if="tempViewImage" class="showImgageWrapper">
+      <view v-show="tempViewImage" class="showImgageWrapper">
         <u--image showMenuByLongpress="true" :showLoading="true" :src="tempViewImage" :width="canvasStyle.width" :height="canvasStyle.height" mode="aspectFit"></u--image>
         <!-- <image class="showImgageWrapper" show-menu-by-longpress="true" :src="tempViewImage" mode="aspectFit" :style="[canvasStyle]" /> -->
       </view>
@@ -84,7 +85,6 @@ export default {
           photoDrawInfo = item;
         }
       }
-
       let width = tools.times(photoDrawInfo.width, scaling, 1);
       let height = tools.times(photoDrawInfo.height, scaling, 1);
       uni.showLoading({
@@ -122,6 +122,7 @@ export default {
     },
 
     setCanvasConfigList(configList = []) {
+      console.log('setCanvasConfigList')
       let list = _.cloneDeep(configList);
       this.EXIFConfigList = list;
       this.$emit("EXIFConfigUpdata", list);
@@ -218,6 +219,7 @@ export default {
     // 绘制逻辑
     draw() {
       this.tempViewImage = "";
+      console.log("EXIFDrawJSON draw start");
       EXIFDrawJSON(this.canvas, this, this.value, {}, () => {
         console.log("EXIFDrawJSON end cb 1");
         this.showCanvasImage();

@@ -1,4 +1,4 @@
-import Big from '../bigNumber/big.js';
+import Big from './bigNumber/big.js';
 
 export default {
 

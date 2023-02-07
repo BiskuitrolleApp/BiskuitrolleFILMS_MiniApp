@@ -29,7 +29,7 @@
             <view v-else-if="item.fieldData.type === 'nickname'" class="fieldItem fieldItemPadding">
               <u-form-item :label="item.fieldData.cnName || `内容-${index + 1}`" labelWidth="80" :prop="item.key">
                 <u--input
-                  type='nickname'
+                  type="nickname"
                   :value="item.fieldData.content"
                   :placeholder="'请输入' + item.fieldData.cnName"
                   inputAlign="right"
@@ -361,7 +361,7 @@
 <script>
 import tColorPicker from "@/components/t-color-picker/t-color-picker.vue";
 import tools from "@/libs/tools/index.js";
-import setContentByInputType from "../js/inputConfigSetter.js";
+import { setContentByInputType } from "../js/inputConfigSetter.js";
 import multiSelect from "@/components/multiSelect/index.vue";
 import logoSelect from "@/components/logoSelect/index.vue";
 import logoItem from "@/components/logoSelect/components/logoItem.vue";
@@ -643,15 +643,9 @@ export default {
       if (!logoImg.photo_keyword) {
         logoImg = listImgDefault;
       } else if (!logoImg.photo_keyword && !listImgDefault.photo_keyword) {
-        logoImg = {
-          _id: { $oid: "6304807cb4a67e4013cd2b10" },
-          photo_name: "默认",
-          photo_name_en: "default",
-          photo_keyword: "default",
-          photo_url: "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-915d01a8-6118-4e1e-840f-697d960cbba2/47e9cb99-42e4-4b8b-8447-c8597ea8b5b2.png",
-          photo_original_name: "卷蛋糕.png",
-        };
+        logoImg = { _id: "6304807cb4a67e4013cd2b10", photo_keyword: "default", photo_name: "默认", photo_name_en: "default", photo_original_name: "default.png", photo_url: "https://i.imgtg.com/2023/02/03/0vDSD.png", sort_key: 1000001 };
       }
+      console.log("componentData", val, logoImg, markLogoList);
       return logoImg;
     },
     // 时间戳转换可视日期结构 YYYY-MM-DD hh:mm:ss
@@ -845,6 +839,7 @@ export default {
       let that = this;
       let logoData = logoList[0];
       console.log("logoData", logoData);
+
       let newItem = this.formList[this.logoPicker.index];
       newItem.componentData = logoData;
       let newValue = logoData.photo_keyword;
@@ -852,6 +847,7 @@ export default {
       that.formList[this.logoPicker.index] = newItem;
       console.log("setting logo:", that.formList[this.logoPicker.index]);
 
+      this.isFormChange = true;
       this.logoPickerCancel();
     },
     timePickerConfirm(date = {}) {
@@ -954,7 +950,9 @@ export default {
     resetForm() {
       this.init(this.value);
     },
-    submit() {
+    async submit() {
+      if (!this.isFormChange) {
+      }
       let value = _.cloneDeep(this.value);
       let formList = _.cloneDeep(this.formList);
       let settingBox = {};
@@ -968,7 +966,8 @@ export default {
         // 设置input属性
         item.baseData.input = item.fieldData;
         // 设置content内容
-        item.baseData.content = setContentByInputType(item.fieldData) || item.baseData.content;
+        let newSetData = await setContentByInputType(item.fieldData);
+        item.baseData.content = newSetData || item.baseData.content;
         // _.set(settingBox, item.key, item.baseData);
         settingBox.value[item.key] = item.baseData;
       }

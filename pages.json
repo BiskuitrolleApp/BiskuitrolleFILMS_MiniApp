@@ -19,10 +19,10 @@
       }
     },
     {
-      "path": "pages/borderList/photoBorder/index",
+      "path": "pages/photoCreater/index",
       "style": {
-        "navigationBarTitleText": "通用边框",
-        "backgroundColor": "#ECECEC"
+        "navigationBarTitleText": "生成系统",
+        "enablePullDownRefresh": false
       }
     },
     {
@@ -43,13 +43,6 @@
       "path": "pages/demo/logoPicker",
       "style": {
         "navigationBarTitleText": "demo",
-        "enablePullDownRefresh": false
-      }
-    },
-    {
-      "path": "pages/photoCreater/index",
-      "style": {
-        "navigationBarTitleText": "生成系统",
         "enablePullDownRefresh": false
       }
     }

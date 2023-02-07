@@ -43,7 +43,8 @@ import editForm from "./components/editForm.vue";
 import { generateConfiguration } from "@/libs/configCanvas";
 import { ImageInfo } from "./js/readImageInfo.js";
 import dataMap from "./config/dataMap.js";
-import { setContentByInputType, getPhotoConfigList } from "./js/inputConfigSetter.js";
+import { setContentByInputType } from "./js/inputConfigSetter.js";
+import { getPhotoConfigList } from "@/libs/mainInit/index.js";
 // import demo from "./components/demo.js";
 
 export default {
@@ -53,6 +54,7 @@ export default {
   },
   data() {
     return {
+      configId: "",
       emptyCanvas: true, // 是否是空canvas 页面
       showForm: false, // 现在输入表单
       inputUserInfoModal: false, // 输入用户信息Popop
@@ -61,9 +63,7 @@ export default {
       imageInfo: {}, // 上传的图片
       // 用于reLoadConfigData的数据赋值 end
       markLogoList: [], // 加载的logo对应的码值列表
-
       EXIFConfigList: [], // 生成返回EXIFConfig 列表 ，可直接提供用于渲染
-
       // 渲染数据的页面结构的配置项
       configListInfo: [
         {
@@ -215,8 +215,27 @@ export default {
       ],
     };
   },
+  async onLoad(options) {
+    //此处接收传递过来的参数wx.navigateTo跳转时传递的参数
+    console.log(options.id);
+    //如果要在页面中使用
+    this.configId = options.id;
+    // this.getConfigListInfo(options.id);
+    // console.log("this.configId ", this.configId, this.configListInfo);
+    // this.markLogoList = await getPhotoConfigList();
+    // setTimeout(() => {
+    //   uni.downloadFile({
+    //     // url: "http://127.0.0.1/image/test.JPG",
+    //     url: "http://127.0.0.1/image/xk.jpeg",
+    //     success: (res) => {
+    //       this.drawUrl(res.tempFilePath);
+    //     },
+    //   });
+    //   // this.openSetiingPopup();
+    // }, 250);
+  },
   async mounted() {
-    let markLogoList = await getPhotoConfigList();
+    this.markLogoList = await getPhotoConfigList();
     setTimeout(() => {
       uni.downloadFile({
         // url: "http://127.0.0.1/image/test.JPG",
@@ -242,7 +261,7 @@ export default {
           title: "提示",
           content: "需要先上传图片",
           success: function (res) {
-            if (res.confirm) { 
+            if (res.confirm) {
               that.onUpdatedFile();
             }
           },
@@ -256,6 +275,40 @@ export default {
     // 保存当前配置
     saveConfig() {
       console.log("保存config");
+    },
+    // 配置id获取配置信息
+    getConfigListInfo(id = "") {
+      let that = this;
+      if (id == "") {
+        uni.showToast({
+          title: "获取配置信息失败",
+          icon: "none",
+        });
+      }
+      uni.showLoading({
+        title: "获取配置信息",
+        duration: 15000,
+        mask: true,
+      });
+      uni.getStorage({
+        key: "itools-config-pagesList",
+        success: function ({ data }) {
+          let pagesList = data.content;
+          for (let index = 0; index < pagesList.length; index++) {
+            const item = pagesList[index];
+            if (item.id == id) {
+              that.configListInfo = item.config;
+              console.log("that.configListInfo", that.configListInfo);
+              break;
+            }
+          }
+          uni.hideLoading();
+        },
+        fail: () => {
+          // 获取失败
+          uni.hideLoading();
+        },
+      });
     },
 
     // TODO
@@ -449,12 +502,13 @@ export default {
       }
 
       let imageObject = new ImageInfo(src);
-      imageObject.computerImageInfo().then((res) => {
+      imageObject.computerImageInfo().then(async (res) => {
         that.imageInfo = imageObject.getImageInfo();
         that.imageInfo.url = src;
         let infoMap = dataMap;
         // 更新配置信息
-        this.configListInfo = this.reLoadConfigData(this.configListInfo, infoMap);
+        this.configListInfo = await this.reLoadConfigData(this.configListInfo, infoMap);
+        console.log("new configListInfo", that.configListInfo);
         // 绘制
         this.emptyCanvas = false;
         setTimeout(() => {
@@ -465,7 +519,7 @@ export default {
     // 重新配置config信息
     // 将dataMap对应的信息input里面的content数据填入外部的content中
     // 外部content数据可以用于最终渲染页面
-    reLoadConfigData(configList, map) {
+    async reLoadConfigData(configList, map) {
       let that = this;
       for (let index = 0; index < configList.length; index++) {
         const item = configList[index];
@@ -477,16 +531,15 @@ export default {
           let key = map[item.input.id].queryKey || defaultContent || map.Default.queryKey;
           if (map[item.input.id].queryKey) {
             // console.log("key", _.get(that, key, defaultContent), "<<1>>", key, "<<2>>", defaultContent);
-
             configList[index].input.content = _.get(that, key, defaultContent) || defaultContent;
           }
-          let content = setContentByInputType(configList[index].input, map[item.input.id].additional);
+          let content = await setContentByInputType(configList[index].input, map[item.input.id].additional);
           // console.log("content", content);
           configList[index].content = content || defaultContent;
           console.log("<<1>>key:", key, "，<<2>>content", content || defaultContent);
         }
         if (item.child && item.child.length > 0) {
-          configList[index].child = this.reLoadConfigData(item.child, map);
+          configList[index].child = await this.reLoadConfigData(item.child, map);
         }
       }
       return configList;

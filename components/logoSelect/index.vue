@@ -163,7 +163,7 @@ export default {
     },
     cancal() {
       this.resetCheckedList();
-      this.show = false;
+      // this.show = false;
       this.$emit("cancel");
     },
     submit() {

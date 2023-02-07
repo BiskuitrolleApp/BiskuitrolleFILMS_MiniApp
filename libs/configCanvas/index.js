@@ -54,6 +54,7 @@ export const EXIFRedraw = function (ctx, domcomentVue, canvasConfig = [], option
  * @param {*} callback callback function
  */
 export const EXIFDrawJSON = async function (ctx, domcomentVue, nodeList = [], option = {}, callback) {
+  console.log('=============初始化配置信息=============')
   core.setOptions(option);
   // 初始化等级
   let configData = core.initNodeListLevel(nodeList, 0);
@@ -62,6 +63,7 @@ export const EXIFDrawJSON = async function (ctx, domcomentVue, nodeList = [], op
   // 计算间隔该元素的数据的间隔和位置
   canvasConfig = await EXIFReload(ctx, domcomentVue, canvasConfig);
   domcomentVue.setCanvasConfigList(canvasConfig)
+  console.log('=============开始绘制=============')
   // 渲染列表操作
   EXIFRedraw(ctx, domcomentVue, canvasConfig, option = {}, callback);
 };

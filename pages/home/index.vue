@@ -14,10 +14,10 @@
       <dropdown v-show="showDropdownList" :list="dropdownList" @select="selectDropdownItem" @close="showDropdownList = false"></dropdown>
     </view>
     <view class="list-wrap" v-if="dropdownList[0].icon == 'layout-row-line'">
-      <cardItem class="cardList-item" :value="item" v-for="(item, index) in pagesConfigList"> </cardItem>
+      <cardItem @click="clickItem" class="cardList-item" :value="item" v-for="(item, index) in pagesConfigList"> </cardItem>
     </view>
     <view class="list-wrap" v-if="dropdownList[0].icon == 'file-list-line'">
-      <listItem class="cellList-item" :value="item" v-for="(item, index) in pagesConfigList"> </listItem>
+      <listItem @click="clickItem" class="cellList-item" :value="item" v-for="(item, index) in pagesConfigList"> </listItem>
     </view>
   </view>
 </template>
@@ -28,7 +28,7 @@ import listItem from "./components/listItem.vue";
 import dropdown from "@/uni_modules/dropdown";
 
 import config from "./config.js";
-import { initConfiguration } from "@/libs/initConfiguration/index.js";
+import { initMainConfig } from "@/libs/mainInit/index.js";
 export default {
   components: {
     cardItem,
@@ -87,7 +87,7 @@ export default {
           this.layoutChange();
           break;
         case 1:
-          initConfiguration(true);
+          initMainConfig(true);
           break;
         case 2:
           this.addNewConfig();
@@ -108,6 +108,13 @@ export default {
         icon: "error",
         duration: 1000,
         title: "稍后上线",
+      });
+    },
+    // 点击选项
+    clickItem(item) {
+      console.log("item", item);
+      uni.navigateTo({
+        url: `${item.page}?id=${item.id}`,
       });
     },
   },

@@ -1,5 +1,5 @@
 <template>
-  <view class="cardItem" @click="pushPages(value.page)">
+  <view class="cardItem" @click="clickItem(value)">
     <view class="image_wrapper"><image :src="value.thumbnail" mode="widthFix"></image></view>
     <view class="info_wrapper">
       <view class="title">{{ value.title }}</view>
@@ -34,13 +34,14 @@ export default {
   created() {},
   //生命周期 - 挂载完成（可以访问DOM元素）
   mounted() {},
-  //方法集合
+  //方法集合˝
   methods: {
-    pushPages(path) {
-      console.log("path", path);
-      uni.navigateTo({
-        url: path,
-      });
+    clickItem(item) {
+      // console.log("path", path);
+      // uni.navigateTo({
+      //   url: path,
+      // });
+      this.$emit("click", item);
     },
   },
 };
