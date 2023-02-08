@@ -746,6 +746,13 @@ export default {
     },
     // tabs切换事件
     tabsChange(item) {
+      if (item.key === "complex") {
+        uni.showToast({
+          title: "高级功能提供部分用户",
+          icon: "none",
+        });
+        return;
+      }
       this.currentTabs = item.index;
       // console.log("tabsChange", item);
     },

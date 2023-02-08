@@ -25,11 +25,14 @@
     </view>
     <view class="userInfoModal">
       <u-modal :show="inputUserInfoModal" title="用户昵称" @confirm="setNicknameConfirm">
-        <u-cell icon="account-fill" title="昵称" :border="false">
-          <view class="slot-content" slot="value">
-            <input type="nickname" class="nicknameInput" placeholder="请输入昵称" v-model="userInfo.nickName" />
-          </view>
-        </u-cell>
+        <view>
+          <u-cell icon="account-fill" title="昵称" :border="false" titleStyle="width:50px">
+            <view class="slot-content" slot="value">
+              <input type="nickname" class="nicknameInput" placeholder="请输入昵称" v-model="userInfo.nickName" />
+            </view>
+          </u-cell>
+          <view class="userInfoModal_tipsWrapper"> 有效期{{ customNameValidTime }}小时 </view>
+        </view>
       </u-modal>
     </view>
   </view>
@@ -66,6 +69,8 @@ export default {
       EXIFConfigList: [], // 生成返回EXIFConfig 列表 ，可直接提供用于渲染
       // 渲染数据的页面结构的配置项
       configListInfo: [],
+
+      customNameValidTime: 24, // 自定义名称有效时间 小时
     };
   },
   async onLoad(options) {
@@ -307,7 +312,7 @@ export default {
       console.log("userInfo.author", this.userInfo);
       uni.setStorageSync("userInfo", {
         userInfo: that.userInfo,
-        expirationTime: new Date().getTime() + 12 * 60 * 60 * 1000, // 过期时间为12小时
+        expirationTime: new Date().getTime() + that.customNameValidTime * 60 * 60 * 1000, // 过期时间为12小时
       });
       // this.chooseImage();
     },
@@ -489,6 +494,15 @@ export default {
       .nicknameInput {
         text-align: right;
       }
+    }
+    &_tipsWrapper {
+      // margin-top: 5px;
+      text-align: right;
+      margin: -10px 15px 0px 15px;
+
+      font-size: 12px;
+      color: #909193;
+      line-height: 18px;
     }
   }
 }
