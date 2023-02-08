@@ -12,9 +12,13 @@
      	},
      	"mp-weixin" : 
      	{
-     		"launchtype" : "remote"
+     		"launchtype" : "local"
      	},
-     	"type" : "uniCloud"
+     	"type" : "uniCloud",
+     	"uniapp" : 
+     	{
+     		"launchtype" : "local"
+     	}
      }
     ]
 }

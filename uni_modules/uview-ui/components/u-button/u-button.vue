@@ -28,7 +28,7 @@
         <template v-if="loading">
             <u-loading-icon
                 :mode="loadingMode"
-                :size="textSize * 1.15"
+                :size="loadingSize * 1.15"
                 :color="loadingColor"
             ></u-loading-icon>
             <text
@@ -75,7 +75,7 @@
         <template v-if="loading">
             <u-loading-icon
                 :mode="loadingMode"
-                :size="textSize * 1.15"
+                :size="loadingSize * 1.15"
                 :color="loadingColor"
             ></u-loading-icon>
             <text
@@ -190,7 +190,7 @@ export default {
                 // 如果有设置color值，则用color值，否则使用type主题颜色
                 return this.color
                     ? this.color
-                    : this.$u.config.color[`u-${this.type}`];
+                    : uni.$u.config.color[`u-${this.type}`];
             }
             if (this.type === "info") {
                 return "#c9c9c9";

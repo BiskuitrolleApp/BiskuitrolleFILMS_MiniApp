@@ -5,7 +5,8 @@
 	},
 	"dependencies": {
 		"exif-js": "^2.3.0",
-		"lodash": "^4.17.21"
+		"lodash": "^4.17.21",
+		"uview-ui": "^2.0.33"
 	},
 	"devDependencies": {
 		"eslint": "^8.2.0",
