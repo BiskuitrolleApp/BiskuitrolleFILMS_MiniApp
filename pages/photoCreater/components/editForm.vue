@@ -567,6 +567,9 @@ export default {
     //   this.computedLogoImage(val);
     // }
   },
+  created() {
+    this.init(this.value);
+  },
   methods: {
     // props透传导致EXIFList 的结构错误
 

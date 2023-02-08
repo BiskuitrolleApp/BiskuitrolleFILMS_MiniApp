@@ -11,7 +11,7 @@
       </view>
     </view>
     <!-- <view class="downloader" v-show="showGenerator"> -->
-    <view class="downloader">
+    <view class="downloader" v-show="showGenerator">
       <canvas class="downloaderCanvas" id="downloaderCanvas" canvas-id="downloaderCanvas" :style="[downloaderCanvasStyle]"></canvas>
     </view>
   </view>
@@ -40,7 +40,7 @@ export default {
       canvasStyle: {},
       test: "",
       downloaderCanvasStyle: {},
-      showGenerator: true,
+      showGenerator: false,
 
       tempViewImage: "",
       tempDownloadImage: "",
@@ -108,12 +108,12 @@ export default {
             success: (res) => {
               // that.tempDownloadImage = res.tempFilePath;
               that.tempViewImage = res.tempFilePath;
+              uni.hideLoading();
             },
             fail: (err) => {
               console.log(err);
               that.loading = false;
               uni.hideLoading();
-              that.showGenerator = false;
             },
           },
           that
@@ -122,7 +122,7 @@ export default {
     },
 
     setCanvasConfigList(configList = []) {
-      console.log('setCanvasConfigList')
+      console.log("setCanvasConfigList");
       let list = _.cloneDeep(configList);
       this.EXIFConfigList = list;
       this.$emit("EXIFConfigUpdata", list);
@@ -148,7 +148,7 @@ export default {
         } else {
           this.downloaderCanvasStyle = style;
         }
-        console.log("style", style);
+        console.log("style", style, isDownloader, scaling);
       }
     },
     //点击保存到相册
@@ -174,6 +174,12 @@ export default {
       //     mask: true,
       //   });
       // }
+      uni.hideLoading();
+      uni.showLoading({
+        title: "下载中...",
+        duration: 15000,
+        mask: true,
+      });
       uni.saveImageToPhotosAlbum({
         filePath: that.tempDownloadImage,
         success() {
@@ -181,7 +187,6 @@ export default {
           uni.showToast({
             title: "图片已保存图片到相册",
             icon: "none",
-            duration: 2000,
           });
         },
         fail(error) {
@@ -211,44 +216,66 @@ export default {
       this.EXIFConfigList = newEXIFConfigList;
       this.tempViewImage = "";
       // 渲染列表操作
-      EXIFRedraw(this.canvas, this, newEXIFConfigList, {}, () => {
-        console.log("reset");
-        this.showCanvasImage();
-      });
+      EXIFRedraw(
+        this.canvas,
+        this,
+        newEXIFConfigList,
+        {
+          downloader: false,
+        },
+        () => {
+          console.log("reset");
+          this.showCanvasImage();
+        }
+      );
     },
     // 绘制逻辑
     draw() {
       this.tempViewImage = "";
       console.log("EXIFDrawJSON draw start");
-      EXIFDrawJSON(this.canvas, this, this.value, {}, () => {
-        console.log("EXIFDrawJSON end cb 1");
-        this.showCanvasImage();
-      });
+      EXIFDrawJSON(
+        this.canvas,
+        this,
+        this.value,
+        {
+          downloader: false,
+        },
+        () => {
+          console.log("EXIFDrawJSON end cb 1");
+          this.showCanvasImage();
+        }
+      );
     },
     // 下载器
     downLoader() {
       let that = this;
+      uni.showLoading({
+        title: "生成中..",
+        icon: "none",
+        duration: 60000,
+      });
       console.log("down");
       this.showGenerator = true;
-      setTimeout(() => {
-        let tempCanvas = uni.createCanvasContext("downloaderCanvas", this);
-        EXIFDrawJSON(
-          tempCanvas,
-          that,
-          that.value,
-          {
-            downloader: true,
-          },
-          function () {
-            console.log("EXIFDrawJSON end cb");
-            let scaling = getScaling();
-            let photoDrawInfo = {};
-            for (let index = 0; index < that.EXIFConfigList.length; index++) {
-              const item = that.EXIFConfigList[index];
-              if (item.root) {
-                photoDrawInfo = item;
-              }
+
+      let tempCanvas = uni.createCanvasContext("downloaderCanvas", this);
+      EXIFRedraw(
+        tempCanvas,
+        that,
+        this.EXIFConfigList,
+        {
+          downloader: true,
+        },
+        function () {
+          console.log("EXIFDrawJSON end cb");
+          let scaling = getScaling();
+          let photoDrawInfo = {};
+          for (let index = 0; index < that.EXIFConfigList.length; index++) {
+            const item = that.EXIFConfigList[index];
+            if (item.root) {
+              photoDrawInfo = item;
             }
+          }
+          setTimeout(() => {
             uni.canvasToTempFilePath(
               {
                 //将canvas生成图片
@@ -261,6 +288,7 @@ export default {
                 fileType: "jpg",
                 success: (res) => {
                   that.tempDownloadImage = res.tempFilePath;
+                  console.log("res.tempFilePath", res.tempFilePath);
                   try {
                     uni.getFileSystemManager().readFile({
                       filePath: res.tempFilePath,
@@ -286,10 +314,75 @@ export default {
               },
               that
             );
-          }
-        );
-      }, 500);
+          }, 2000);
+        }
+      );
     },
+
+    // downLoader() {
+    //   let that = this;
+    //   console.log("down");
+    //   this.showGenerator = true;
+    //   setTimeout(() => {
+    //     let tempCanvas = uni.createCanvasContext("downloaderCanvas", this);
+    //     EXIFDrawJSON(
+    //       tempCanvas,
+    //       that,
+    //       that.value,
+    //       {
+    //         downloader: true,
+    //       },
+    //       function () {
+    //         console.log("EXIFDrawJSON end cb");
+    //         let scaling = getScaling();
+    //         let photoDrawInfo = {};
+    //         for (let index = 0; index < that.EXIFConfigList.length; index++) {
+    //           const item = that.EXIFConfigList[index];
+    //           if (item.root) {
+    //             photoDrawInfo = item;
+    //           }
+    //         }
+    //         uni.canvasToTempFilePath(
+    //           {
+    //             //将canvas生成图片
+    //             x: 0,
+    //             y: 0,
+    //             width: photoDrawInfo.width * scaling,
+    //             height: photoDrawInfo.height * scaling,
+    //             canvasId: "downloaderCanvas",
+    //             // canvas: that.canvas,
+    //             fileType: "jpg",
+    //             success: (res) => {
+    //               that.tempDownloadImage = res.tempFilePath;
+    //               try {
+    //                 uni.getFileSystemManager().readFile({
+    //                   filePath: res.tempFilePath,
+    //                   encoding: "base64",
+    //                   success: (res2) => {
+    //                     let base64 = "data:image/jpeg;base64," + res2.data; //不加上这串字符，在页面无法显示
+    //                     that.tempImageBase64 = base64;
+    //                     that.showGenerator = false;
+    //                     that.downloadImage();
+    //                   },
+    //                 });
+    //               } catch (e) {
+    //                 console.log("urlTobase64", e);
+    //                 that.showGenerator = false;
+    //               }
+    //             },
+    //             fail: (err) => {
+    //               console.log(err);
+    //               that.loading = false;
+    //               uni.hideLoading();
+    //               that.showGenerator = false;
+    //             },
+    //           },
+    //           that
+    //         );
+    //       }
+    //     );
+    //   }, 500);
+    // },
 
     /**
      * 重绘方法，ref 可以直接调用

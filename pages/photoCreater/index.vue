@@ -65,162 +65,15 @@ export default {
       markLogoList: [], // 加载的logo对应的码值列表
       EXIFConfigList: [], // 生成返回EXIFConfig 列表 ，可直接提供用于渲染
       // 渲染数据的页面结构的配置项
-      configListInfo: [
-        {
-          id: "canvas",
-          child: [
-            {
-              type: "image",
-              maxWidth: 320, // 只能设置宽度
-              // content: "http://127.0.0.1/image/xk.jpeg",
-              content: "",
-              // content: "http://127.0.0.1/image/test2.JPG",
-              // border: "20 solid #ccc",
-              // margin:'20',
-              // padding:'20',
-              // round: 10,
-              input: {
-                cnName: "主要图片",
-                type: "ImageMain",
-                id: "ImageMain",
-              },
-            },
-            {
-              content: "",
-              display: "flex",
-              // horizontal: "space-between",
-              horizontal: "space-between",
-              vertical: "center",
-              // maxWidth: 320,
-              width: 320,
-              // round: 10,
-              background: "#ffffff00",
-              child: [
-                {
-                  content: "",
-                  maxWidth: 120,
-                  // border: "1 solid #ff0000ff",
-                  padding: "10",
-                  child: [
-                    {
-                      type: "text",
-                      content: "",
-                      // padding: "5 10 1 10",
-                      // border: "1 solid #0000ffff",
-                      font: {
-                        fontSize: 10,
-                        bold: true,
-                      },
-                      input: {
-                        cnName: "型号",
-                        content: "The Starry Night",
-                        type: "input",
-                        id: "Model",
-                      },
-                    },
-                    {
-                      type: "text",
-                      content: "",
-                      padding: "1 0 0 0",
-                      font: {
-                        fontSize: 8,
-                      },
-                      input: {
-                        cnName: "作者",
-                        content: "van Gogh",
-                        // type: "input",
-                        type: "nickname",
-                        id: "Author",
-                      },
-                    },
-                  ],
-                },
-                {
-                  maxWidth: 200,
-                  // width: 200,
-                  horizontal: "right",
-                  vertical: "center",
-                  display: "flex",
-                  // border: "1 solid #000",
-                  content: "",
-                  // padding: "0 10 20 0",
-                  padding: "10",
-                  // border: "1 solid #0000ffff",
-                  child: [
-                    {
-                      type: "image",
-                      // height: 20, // 只能设置宽度
-                      maxHeight: 20,
-                      maxWidth: 60,
-                      // content: "",
-                      content: "",
-                      // marign: "0 5 0 0",
-                      margin: "0 5 0 0",
-                      // border: "1 solid #0000ffff",
-                      input: {
-                        cnName: "品牌",
-                        content: "fujifilm",
-                        type: "icon",
-                        id: "Make",
-                      },
-                    },
-                    {
-                      type: "block",
-                      border: "0 0 0 0.3 solid #000",
-                      padding: "0 0 0 5",
-                      // border: "1 solid #000",
-                      // border: "1 solid #0000ffff",
-                      child: [
-                        {
-                          type: "text",
-                          content: "",
-                          // padding: "0 0 1 5",
-                          // border: "1 solid #0000ffff",
-                          font: {
-                            fontSize: 10,
-                            textAlign: "right",
-                            bold: true,
-                          },
-                          input: {
-                            cnName: "拍摄信息",
-                            content: "The Starry Night",
-                            type: "input",
-                            id: "ShotInfo",
-                          },
-                        },
-                        {
-                          type: "text",
-                          content: "",
-                          // padding: "1 0 0 5",
-                          // border: "1 solid #000",
-                          font: {
-                            fontSize: 8,
-                            textAlign: "right",
-                          },
-                          input: {
-                            cnName: "时间",
-                            content: 1640966400000,
-                            type: "timepicker",
-                            id: "DateTime",
-                          },
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-      ],
+      configListInfo: [],
     };
   },
   async onLoad(options) {
     //此处接收传递过来的参数wx.navigateTo跳转时传递的参数
-    console.log(options.id);
+    console.log("onLoad options:", options.id);
     //如果要在页面中使用
     this.configId = options.id;
-    // this.getConfigListInfo(options.id);
+
     // console.log("this.configId ", this.configId, this.configListInfo);
     // this.markLogoList = await getPhotoConfigList();
     // setTimeout(() => {
@@ -235,17 +88,18 @@ export default {
     // }, 250);
   },
   async mounted() {
+    this.getConfigListInfo(this.configId);
     this.markLogoList = await getPhotoConfigList();
-    setTimeout(() => {
-      uni.downloadFile({
-        // url: "http://127.0.0.1/image/test.JPG",
-        url: "http://127.0.0.1/image/xk.jpeg",
-        success: (res) => {
-          this.drawUrl(res.tempFilePath);
-        },
-      });
-      // this.openSetiingPopup();
-    }, 250);
+    // setTimeout(() => {
+    //   uni.downloadFile({
+    //     // url: "http://127.0.0.1/image/test.JPG",
+    //     url: "http://127.0.0.1/image/xk.jpeg",
+    //     success: (res) => {
+    //       this.drawUrl(res.tempFilePath);
+    //     },
+    //   });
+    //   // this.openSetiingPopup();
+    // }, 250);
   },
   //方法集合
   methods: {
@@ -303,6 +157,13 @@ export default {
             }
           }
           uni.hideLoading();
+          if (!that.configListInfo || that.configListInfo.length == 0) {
+            uni.showToast({
+              title: "获取配置信息失败，加载默认配置",
+              icon: "none",
+            });
+            that.configListInfo = pagesList[0].config;
+          }
         },
         fail: () => {
           // 获取失败
@@ -559,11 +420,11 @@ export default {
   // align-items: center;
   // justify-content: center;
   background-color: #f8f8f8;
-  min-height: calc(100vh - 10px - constant(safe-area-inset-bottom) - 12px);
-  min-height: calc(100vh - 10px - env(safe-area-inset-bottom) - 12px);
+  min-height: calc(100vh - 10px - constant(safe-area-inset-bottom) - 50px);
+  min-height: calc(100vh - 10px - env(safe-area-inset-bottom) - 50px);
   padding-top: 10px;
-  padding-bottom: calc(constant(safe-area-inset-bottom) + 12px); /* 兼容 iOS<11.2 */
-  padding-bottom: calc(env(safe-area-inset-bottom) + 12px); /* 兼容iOS>= 11.2 */
+  padding-bottom: calc(constant(safe-area-inset-bottom) + 50px); /* 兼容 iOS<11.2 */
+  padding-bottom: calc(env(safe-area-inset-bottom) + 50px); /* 兼容iOS>= 11.2 */
   .select-box {
     background: #fff;
     margin: 0 auto;

@@ -427,9 +427,7 @@ const initPosition = function (nodeList = []) {
 
 // 初始化页面需要设置的option
 const setOptions = function (options = {}) {
-  if (options.downloader) {
-    setCoreValue("downloader", true); // 设置当前渲染是下载器渲染
-  }
+  setCoreValue("downloader", options.downloader); // 设置当前渲染是下载器渲染
 };
 
 // 渲染canvas时候需要设置的option
