@@ -96,6 +96,7 @@
     },
     "quickapp" : {},
     "mp-weixin" : {
+        "darkmode" : true,
         "appid" : "wxf5104d5231bdfd63",
         "setting" : {
             "urlCheck" : false,

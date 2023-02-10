@@ -1,5 +1,5 @@
 <template>
-  <view class="cardItem" @click="clickItem(value)">
+  <view class="cardItem" :class="{ cardItem_isDark: isDarkTheme }" @click="clickItem(value)" :style="{ color: fontColor, 'background-color': bgColor }">
     <view class="image_wrapper"><image :src="value.thumbnail" mode="widthFix"></image></view>
     <view class="info_wrapper">
       <view class="title">{{ value.title }}</view>
@@ -18,6 +18,18 @@ export default {
     value: {
       default: {},
       type: Object,
+    },
+    bgColor: {
+      type: String,
+      default: "#ffffff",
+    },
+    fontColor: {
+      type: String,
+      default: "#000000",
+    },
+    isDarkTheme: {
+      type: Boolean,
+      default: false,
     },
   },
   //import引入的组件需要注入到对象中才能使用
@@ -50,7 +62,7 @@ export default {
 .cardItem {
   width: calc(100% - 10px);
   // height: 160px;
-  background-color: #f7f7f7;
+  // background-color: #f7f7f7;
   padding: 5px;
   box-shadow: 0 2px 16px #d9d9d9, 0 0 1px #d9d9d9, 0 0 1px #d9d9d9;
   border-radius: 5px;
@@ -118,6 +130,9 @@ export default {
       border: 1px solid #1890ff;
     }
   }
+}
+.cardItem_isDark {
+  box-shadow: 0 2px 16px #151515, 0 0 1px #151515, 0 0 1px #151515;
 }
 //@import url(); 引入公共css类
 </style>
