@@ -20,6 +20,7 @@ export default {
         lightColor: "#c0c4cc",
         borderColr: "#e4e7ed",
         bgColor: "#ffffff",
+        activeContentBgColor: "#f0f0f0",
       };
       let darkColor = {
         primary: "#3c9cff",
@@ -34,6 +35,7 @@ export default {
         lightColor: "#c0c4cc",
         borderColor: "#e4e7ed",
         bgColor: "#242424",
+        activeContentBgColor: "#2c2d31",
       };
       return {
         color: this.isDark ? darkColor : dayColor,
@@ -98,7 +100,7 @@ export default {
       //夜间模式结束
     },
   },
-  onShow() {
+  onLoad() {
     var that = this;
     // 加载暗夜模式 开始
     uni.getStorage({

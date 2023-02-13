@@ -1,5 +1,11 @@
 <template>
-  <view class="page-content">
+  <view
+    class="page-content"
+    :style="{
+      color: fontColor,
+      'background-color': bgColor,
+    }"
+  >
     <view class="cu-form-group justify-between">
       <view :style="{ color: cancelColor }" @tap="cancal()">取消</view>
       <view class="text-title">{{ title }}</view>
@@ -8,7 +14,13 @@
     <scroll-view scroll-y style="max-height: 600rpx">
       <template v-if="checkedList.length">
         <block v-for="(item, index) in checkedList" :key="index">
-          <view class="cu-form-group justify-between" @tap="changeCheck(item)">
+          <view
+            class="cu-form-group justify-between"
+            @tap="changeCheck(item)"
+            :style="{
+              color: fontColor,
+            }"
+          >
             <logo-item :value="item"></logo-item>
             <template v-if="item.isCheck">
               <u-icon name="checkmark" :color="themeColor" size="20"></u-icon>
@@ -110,6 +122,14 @@ export default {
       type: String,
       default: uni.$u.props.modal.cancelColor,
     },
+    bgColor: {
+      type: String,
+      default: "#ffffff",
+    },
+    fontColor: {
+      type: String,
+      default: "#000000",
+    },
   },
   watch: {
     show(value) {
@@ -193,7 +213,7 @@ export default {
 
 <style lang="scss" scoped>
 .page-content {
-  background: #ffffff;
+  // background: #ffffff;
   padding: 0;
   .text-title {
     color: $uni-text-color;
@@ -207,7 +227,7 @@ export default {
   .cu-form-group {
     font-size: 30rpx;
     color: $uni-text-color;
-    background-color: #ffffff;
+    // background-color: #ffffff;
     padding: 1rpx 30rpx;
     display: flex;
     -webkit-box-align: center;

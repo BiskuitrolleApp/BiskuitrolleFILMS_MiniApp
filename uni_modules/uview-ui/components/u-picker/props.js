@@ -70,10 +70,18 @@ export default {
             type: Array,
             default: uni.$u.props.picker.defaultIndex
         },
-		// 是否在手指松开时立即触发 change 事件。若不开启则会在滚动动画结束后触发 change 事件，只在微信2.21.1及以上有效
-		immediateChange: {
-			type: Boolean,
-			default: uni.$u.props.picker.immediateChange
-		}
+        maskStyle: {
+          type: [String, Object],
+          default: uni.$u.props.picker.maskStyle
+        },
+        indicatorStyle: {
+            type: [String, Object],
+            default: uni.$u.props.picker.indicatorStyle
+        },
+        // 是否在手指松开时立即触发 change 事件。若不开启则会在滚动动画结束后触发 change 事件，只在微信2.21.1及以上有效
+        immediateChange: {
+          type: Boolean,
+          default: uni.$u.props.picker.immediateChange
+        }
     }
 }

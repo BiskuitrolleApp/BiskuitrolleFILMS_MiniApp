@@ -32,6 +32,9 @@
   --u-info-dark: #767a82;
   --u-info-disabled: #c4c6c9;
   --u-info-light: #f4f4f5;
+  --u-popup-content-background-color: #ffffff;
+  --active-content-background-color: #f0f0f0;
+  // $u-popup-content-background-color;
 }
 
 /* 夜间主题 */
@@ -68,6 +71,8 @@
   --u-info-dark: #767a82;
   --u-info-disabled: #c4c6c9;
   --u-info-light: #f4f4f5;
+  --u-popup-content-background-color: #242424;
+  --active-content-background-color: #2c2d31;
 }
 
 $u-main-color: var(--u-main-color);
@@ -102,6 +107,9 @@ $u-info: var(--u-info);
 $u-info-dark: var(--u-info-dark);
 $u-info-disabled: var(--u-info-disabled);
 $u-info-light: var(--u-info-light);
+
+$u-popup-content-background-color: var(--u-popup-content-background-color);
+$active-content-background-color: var(--active-content-background-color);
 
 // $u-main-color: #303133;
 // $u-content-color: #606266;

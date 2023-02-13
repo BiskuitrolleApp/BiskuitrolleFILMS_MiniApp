@@ -31,6 +31,8 @@ export default {
         confirmColor: '#3c9cff',
         visibleItemCount: 5,
         closeOnClickOverlay: false,
-        defaultIndex: () => []
+        defaultIndex: () => [],
+        maskStyle: '',
+        indicatorStyle: ''
     }
 }

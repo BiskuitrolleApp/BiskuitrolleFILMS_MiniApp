@@ -1,12 +1,18 @@
 <template>
-  <view class="editForm">
+  <view
+    class="editForm"
+    :style="{
+      color: fontColor,
+      'background-color': bgColor,
+    }"
+  >
     <u-form labelPosition="left" ref="editForm">
       <view class="tabWrapper">
-        <u-tabs :list="tabsList" lineWidth="50" itemStyle="width:100px;height:50px" lineColor="#D7C2F3" @change="tabsChange" :current="currentTabs"></u-tabs>
+        <u-tabs :list="tabsList" lineWidth="50" itemStyle="width:100px;height:50px" lineColor="#D7C2F3" :inactiveStyle="{ color: fontColor }" :activeStyle="{ color: '#D7C2F3' }" @change="tabsChange" :current="currentTabs"></u-tabs>
       </view>
       <u-line :length="tabsList[currentTabs].showLine ? '100%' : '0%'"></u-line>
       <scroll-view scroll-y="true" class="formWrapper" @scroll="viewScroll" @scrolltoupper="viewScrollToTop">
-        <view class="form-simple" v-show="currentTabs === 0">
+        <view class="form-simple" v-if="showTabsWrapper === 'simple'">
           <view v-for="(item, index) in formList" class="formItem">
             <!-- 内容start -->
             <view v-if="item.fieldData.type === 'input'" class="fieldItem fieldItemPadding">
@@ -17,6 +23,7 @@
                   inputAlign="right"
                   border="bottom"
                   clearable="true"
+                  :color="fontColor"
                   @change="
                     (value) => {
                       defaultChange(value, index, 'fieldData.content');
@@ -35,6 +42,7 @@
                   inputAlign="right"
                   border="bottom"
                   clearable="true"
+                  :color="fontColor"
                   @change="
                     (value) => {
                       defaultChange(value, index, 'fieldData.content');
@@ -48,7 +56,7 @@
               <u-form-item :label="item.fieldData.cnName || `内容-${index + 1}`" labelWidth="80" :prop="item.key">
                 <view class="pickShowerDefaultWrapper">
                   <view class="timePicker" @click="openTimePicker(index)">{{ timestamp2Str(item.fieldData.content) }} </view>
-                  <u-icon name="arrow-right" color="#000000" width="18"></u-icon>
+                  <u-icon name="arrow-right" :color="fontColor" width="18"></u-icon>
                 </view>
                 <!-- <u-icon name="arrow-right"></u-icon> -->
               </u-form-item>
@@ -70,7 +78,7 @@
             <!-- 内容end -->
           </view>
         </view>
-        <view class="form-complex" v-show="currentTabs === 1">
+        <view class="form-complex" v-else="showTabsWrapper === 'complex'">
           <view v-for="(item, index) in formList" :key="index" class="formItem">
             <view class="form-title">{{ item.fieldData.cnName || `内容-${index + 1}` }}</view>
             <!-- 内容start -->
@@ -82,6 +90,7 @@
                   :placeholder="'请输入' + item.fieldData.cnName"
                   inputAlign="right"
                   clearable="true"
+                  :color="fontColor"
                   @change="
                     (value) => {
                       defaultChange(value, index, 'fieldData.content');
@@ -95,7 +104,7 @@
               <u-form-item label="内容" labelWidth="80" :prop="item.key" customStyle="padding:0px">
                 <view class="pickShowerDefaultWrapper">
                   <view class="timePicker" @click="openTimePicker(index)">{{ timestamp2Str(item.fieldData.content) }} </view>
-                  <u-icon name="arrow-right" color="#000000" width="18"></u-icon>
+                  <u-icon name="arrow-right" :color="fontColor" width="18"></u-icon>
                 </view>
               </u-form-item>
             </view>
@@ -205,7 +214,7 @@
                             <!-- {{ fontFamily2Str(item.baseData.font.fontFamily) }}  -->
                             {{ defaultPikerItem2Str(borderTypePickerColumns, item.computedData.border.style) }}
                           </view>
-                          <u-icon name="arrow-right" color="#000000" width="18"></u-icon>
+                          <u-icon name="arrow-right" :color="fontColor" width="18"></u-icon>
                         </view>
                       </u-form-item>
                     </view>
@@ -250,7 +259,7 @@
                           <view @click="openDefaultPicker(index, fontPickerColumns, 'baseData.font.fontFamily')">
                             {{ defaultPikerItem2Str(fontPickerColumns, item.baseData.font.fontFamily) }}
                           </view>
-                          <u-icon name="arrow-right" color="#000000" width="18"></u-icon>
+                          <u-icon name="arrow-right" :color="fontColor" width="18"></u-icon>
                         </view>
                       </u-form-item>
                     </view>
@@ -291,7 +300,7 @@
                       <u-form-item label="样式" labelWidth="80" :prop="item.key" customStyle="padding:0px">
                         <view class="pickShowerDefaultWrapper">
                           <view @click="openCanvasFontPicker(index, item.baseData.font.style, 'baseData.font.style')">{{ item.baseData.font.style ? item.baseData.font.style : "请选择" }} </view>
-                          <u-icon name="arrow-right" color="#000000" width="18"></u-icon>
+                          <u-icon name="arrow-right" :color="fontColor" width="18"></u-icon>
                         </view>
                       </u-form-item>
                     </view>
@@ -341,8 +350,8 @@
     </u-form>
     <!-- picker组件start -->
     <t-color-picker ref="colorPicker" @confirm="confirmColorPicker"></t-color-picker>
-    <u-datetime-picker :show="timePicker.visible" v-model="timePicker.value" mode="datetime" closeOnClickOverlay @confirm="timePickerConfirm" @cancel="timePickerCancel"></u-datetime-picker>
-    <u-picker :show="defaultPicker.visible" ref="defaultPicker" :columns="defaultPicker.columns" @confirm="confirmDefaultPicker" keyName="label" @cancel="defaultPickerCancel"></u-picker>
+    <u-datetime-picker :show="timePicker.visible" v-model="timePicker.value" mode="datetime" closeOnClickOverlay @confirm="timePickerConfirm" @cancel="timePickerCancel" :indicatorStyle="`background: ${activeContentBgColor};z-index:0;`" :maskStyle="`background: ${bgColor};z-index:0;'`"></u-datetime-picker>
+    <u-picker :show="defaultPicker.visible" ref="defaultPicker" :columns="defaultPicker.columns" @confirm="confirmDefaultPicker" keyName="label" @cancel="defaultPickerCancel" :indicatorStyle="`background: ${activeContentBgColor};z-index:0;`" :maskStyle="`background: ${bgColor};z-index:0;'`"></u-picker>
     <!-- picker组件 - 字体样式popup start -->
     <u-popup ref="popup" mode="bottom" :show="canvasFontPicker.visible" :safeAreaInsetBottom="true">
       <multi-select color="#D7C2F3" :list="canvasFontColumns" :defaultValue="canvasFontPicker.value" keyLabel="label" keyValue="key" @cancel="canvasFontPickerCancel" @change="canvasFontPickerConfirm"></multi-select>
@@ -350,11 +359,12 @@
     <!-- picker组件 - 字体样式popup end -->
     <!-- picker组件 - logopopup start -->
     <u-popup ref="popup" mode="bottom" :show="logoPicker.visible" :safeAreaInsetBottom="true">
-      <logo-select color="#D7C2F3" :show="logoPicker.visible" :isMultiple="false" :list="markLogo" :defaultValue="logoPicker.value" keyLabel="photo_name" keyValue="photo_keyword" @cancel="logoPickerCancel" @change="logoPickerConfirm"> </logo-select>
+      <logo-select color="#D7C2F3" :show="logoPicker.visible" :isMultiple="false" :list="markLogo" :defaultValue="logoPicker.value" keyLabel="photo_name" keyValue="photo_keyword" @cancel="logoPickerCancel" @change="logoPickerConfirm" :bgColor="bgColor" :fontColor="fontColor"> </logo-select>
     </u-popup>
     <!-- picker组件 - logopopup end -->
     <!-- picker组件end -->
     <u-toast ref="uToast"></u-toast>
+    <administrator-box :show="administratorBoxShow" @confirm="administratorBoxComfirm" @close="administratorBoxClose"></administrator-box>
   </view>
 </template>
 
@@ -364,7 +374,9 @@ import tools from "@/libs/tools/index.js";
 import { setContentByInputType } from "../js/inputConfigSetter.js";
 import multiSelect from "@/components/multiSelect/index.vue";
 import logoSelect from "@/components/logoSelect/index.vue";
+import administratorBox from "@/components/administratorBox/index.vue";
 import logoItem from "@/components/logoSelect/components/logoItem.vue";
+import { mapGetters, mapMutations } from "vuex";
 
 export default {
   components: {
@@ -372,6 +384,7 @@ export default {
     multiSelect,
     logoSelect,
     logoItem,
+    administratorBox,
   },
   props: {
     visible: {
@@ -387,10 +400,40 @@ export default {
       default: [],
       type: Array,
     },
+    //:bgColor="darkStyle.color.bgColor" :fontColor="darkStyle.color.mainColor"
+    // customDarkStyle: {
+    //   default: {},
+    //   type: Object,
+    // },
+    bgColor: {
+      type: String,
+      default: "#ffffff",
+    },
+    fontColor: {
+      type: String,
+      default: "#000000",
+    },
+    activeContentBgColor: {
+      type: String,
+      default: "#f0f0f0",
+    },
+  },
+  computed: {
+    ...mapGetters(["userInfo"]),
+    // bgColor() {
+    //   return this.customDarkStyle.color.bgColor || "#ffffff";
+    // },
+    // fontColor() {
+    //   return this.customDarkStyle.color.fontColor || "#000000";
+    // },
+    // activeContentBgColor() {
+    //   return this.customDarkStyle.color.activeContentBgColor || "#f0f0f0";
+    // },
   },
   data() {
     return {
       // ui start
+      administratorBoxShow: false,
       cellCustomStyle: "margin: 0px -15px",
       currentTabs: 0, // 切换开启高级选项
       canvasFontColumns: [
@@ -423,6 +466,7 @@ export default {
           key: "lighter",
         },
       ],
+      showTabsWrapper: "simple",
       tabsList: [
         {
           name: "简易",
@@ -571,8 +615,8 @@ export default {
     this.init(this.value);
   },
   methods: {
+    ...mapMutations(["updataUserInfo"]),
     // props透传导致EXIFList 的结构错误
-
     setValue(list = []) {
       let newValue = _.cloneDeep(list);
       this.value = newValue;
@@ -746,15 +790,47 @@ export default {
     },
     // tabs切换事件
     tabsChange(item) {
+      this.currentTabs = item.index;
       if (item.key === "complex") {
+        if (!this.userInfo || !this.userInfo.isAdmin) {
+          this.administratorBoxShow = true;
+        } else {
+          this.showTabsWrapper = "complex";
+        }
+      } else {
+        this.showTabsWrapper = "simple";
+      }
+      // this.administratorBoxShow = true;
+      // if (item.key === "complex") {
+      //   uni.showToast({
+      //     title: "高级功能提供部分用户",
+      //     icon: "none",
+      //   });
+      //   return;
+      // }
+
+      // console.log("tabsChange", item);
+    },
+    administratorBoxClose({ type }) {
+      if (type && type == "in") {
+        this.currentTabs = 0;
+      }
+      this.administratorBoxShow = false;
+    },
+    administratorBoxComfirm(value) {
+      // this.resize();
+      this.administratorBoxClose({ type: "out" });
+      if (value) {
+        this.currentTabs = 1;
+        this.showTabsWrapper = "complex";
+        this.updataUserInfo({ isAdmin: true });
+      } else {
+        this.currentTabs = 0;
         uni.showToast({
           title: "高级功能提供部分用户",
           icon: "none",
         });
-        return;
       }
-      this.currentTabs = item.index;
-      // console.log("tabsChange", item);
     },
     // 默认输入器设置 - 输入的是数字
     inputNumberDefaultChange(value, item, index, key) {
@@ -1001,7 +1077,7 @@ export default {
 
 <style lang="scss" scoped>
 .editForm {
-  background-color: #fff;
+  // background-color: #fff;
   .tabWrapper {
     margin-top: -40px;
   }
@@ -1035,9 +1111,9 @@ export default {
       text-align: right;
       padding: 6px 0px 6px 9px;
     }
-    .u-collapse-item-wrapper {
-      background-color: rgb(247, 247, 249);
-    }
+    // .u-collapse-item-wrapper {
+    // background-color: rgb(247, 247, 249);
+    // }
   }
   /deep/.u-input {
     padding-right: 0px;

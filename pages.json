@@ -22,7 +22,8 @@
       "path": "pages/photoCreater/index",
       "style": {
         "navigationBarTitleText": "生成系统",
-        "enablePullDownRefresh": false
+        "enablePullDownRefresh": false,
+        "navigationStyle": "custom"
       }
     },
     {
