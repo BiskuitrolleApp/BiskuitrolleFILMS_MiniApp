@@ -1,26 +1,42 @@
 <template>
-  <view class="photoCreater">
-    <view class="select-box" @click="onUpdatedFile" v-show="emptyCanvas">
+  <view class="photoCreater" :data-theme="themeType" :class="{ darkMode: isDark }">
+    <u-navbar title="生成系统" :autoBack="true" placeholder="true" :bgColor="darkStyle.color.bgColor"> </u-navbar>
+    <view
+      class="select-box"
+      @click="onUpdatedFile"
+      v-show="emptyCanvas"
+      :style="{
+        color: darkStyle.color.mainColor,
+        'background-color': darkStyle.color.bgColor,
+      }"
+    >
       <view class="iconTipBox_wrapper">
-        <view class="icon_wrapper"><u-icon name="photo"></u-icon></view>
+        <view class="icon_wrapper">
+          <u-icon name="photo" :color="darkStyle.color.mainColor"></u-icon>
+        </view>
         <view class="tip">点击上传图片</view>
       </view>
     </view>
     <view class="canvas-box" v-show="!emptyCanvas">
       <exif-canvas :value="configListInfo" ref="exifCanvas" @EXIFConfigUpdata="EXIFConfigUpdata" @click="onUpdatedFile"></exif-canvas>
     </view>
-    <view class="downLoadBtn">
-      <!-- <u-button text="编辑" size="normal" type="info" @click="openSetiingPopup"></u-button> -->
+    <view
+      class="downLoadBtn"
+      :style="{
+        color: darkStyle.color.mainColor,
+        'background-color': darkStyle.color.bgColor,
+      }"
+    >
       <view class="toolWrapper">
         <u-icon name="setting" label="设置" labelSize="10" labelPos="bottom" color="#D7C2F3" size="28" @click="openSetiingPopup" customStyle="margin:0px 10px"></u-icon>
-        <!-- <u-icon name="share-square" label="分享" labelSize="10" labelPos="bottom" color="#D7C2F3" size="28" @click="openShare" customStyle="margin:0px 10px"></u-icon>
-        <u-icon name="plus-circle" label="保存" labelSize="10" labelPos="bottom" color="#D7C2F3" size="28" @click="saveConfig" customStyle="margin:0px 10px"></u-icon> -->
+        <!-- <u-icon name="share-square" label="分享" labelSize="10" labelPos="bottom" color="#D7C2F3" size="28" @click="openShare" customStyle="margin:0px 10px"></u-icon> -->
+        <!-- <u-icon name="plus-circle" label="保存" labelSize="10" labelPos="bottom" color="#D7C2F3" size="28" @click="saveConfig" customStyle="margin:0px 10px"></u-icon> -->
       </view>
       <u-button text="下载" size="normal" color="#D7C2F3" @click="saveImage"></u-button>
     </view>
     <view class="popup-wrapper">
       <u-popup mode="bottom" :closeable="true" :round="10" :show="showForm" @close="closeSetiingPopup" :safeAreaInsetTop="true" :safeAreaInsetBottom="true">
-        <edit-form ref="editForm" :visible="showForm" :markLogo="markLogoList" @close="closeSetiingPopup" @change="resetPhotoInfo"></edit-form>
+        <edit-form ref="editForm" :visible="showForm" :markLogo="markLogoList" @close="closeSetiingPopup" @change="resetPhotoInfo" :bgColor="darkStyle.color.bgColor" :fontColor="darkStyle.color.mainColor" :activeContentBgColor="darkStyle.color.activeContentBgColor"></edit-form>
       </u-popup>
     </view>
     <view class="userInfoModal">
@@ -50,10 +66,15 @@ import { setContentByInputType } from "./js/inputConfigSetter.js";
 import { getPhotoConfigList } from "@/libs/mainInit/index.js";
 // import demo from "./components/demo.js";
 
+import { mapGetters, mapActions, mapMutations } from "vuex";
+
 export default {
   components: {
     exifCanvas,
     editForm,
+  },
+  computed: {
+    ...mapGetters(["userInfo"]),
   },
   data() {
     return {
@@ -62,7 +83,7 @@ export default {
       showForm: false, // 现在输入表单
       inputUserInfoModal: false, // 输入用户信息Popop
       // 用于reLoadConfigData的数据赋值 start
-      userInfo: {}, // 获取用户信息
+      // userInfo: {}, // 获取用户信息
       imageInfo: {}, // 上传的图片
       // 用于reLoadConfigData的数据赋值 end
       markLogoList: [], // 加载的logo对应的码值列表
@@ -95,19 +116,22 @@ export default {
   async mounted() {
     this.getConfigListInfo(this.configId);
     this.markLogoList = await getPhotoConfigList();
-    // setTimeout(() => {
-    //   uni.downloadFile({
-    //     // url: "http://127.0.0.1/image/test.JPG",
-    //     url: "http://127.0.0.1/image/xk.jpeg",
-    //     success: (res) => {
-    //       this.drawUrl(res.tempFilePath);
-    //     },
-    //   });
-    //   // this.openSetiingPopup();
-    // }, 250);
+
+    // uni.downloadFile({
+    //   // url: "http://127.0.0.1/image/test.JPG",
+    //   url: "http://127.0.0.1/image/xk.jpeg",
+    //   success: (res) => {
+    //     this.drawUrl(res.tempFilePath);
+    //     setTimeout(() => {
+    //       this.openSetiingPopup();
+    //     }, 2000);
+    //   },
+    // });
   },
   //方法集合
   methods: {
+    ...mapMutations(["setUserInfo", "updataUserInfo"]),
+    ...mapActions(["initUserInfo"]),
     // 关闭setting弹出窗口
     closeSetiingPopup() {
       this.showForm = false;
@@ -133,7 +157,13 @@ export default {
     // TODO 保存当前配置
     // 保存当前配置
     saveConfig() {
+      console.log("userInfo", this.userInfo);
       console.log("保存config");
+      uni.showToast({
+        icon: "error",
+        duration: 1500,
+        title: "稍后上线",
+      });
     },
     // 配置id获取配置信息
     getConfigListInfo(id = "") {
@@ -227,30 +257,45 @@ export default {
         duration: 15000,
         mask: true,
       });
-      uni.getStorage({
-        key: "userInfo",
-        success: function ({ data }) {
-          let time = new Date().getTime();
-          if (data.expirationTime && time < data.expirationTime) {
-            // 未过期
-            that.userInfo = data.userInfo;
-            that.userInfo.author = that.userInfo.nickName || "User";
-            if (callback && typeof callback == "function") {
-              // 选择图片方法
-              callback();
-            }
+      this.initUserInfo({
+        callback: (userInfo) => {
+          uni.showLoading({
+            title: "获取用户信息",
+            duration: 15000,
+            mask: true,
+          });
+          if (userInfo.author) {
+            callback();
           } else {
-            // 过期
             that.getUserProfile(callback);
           }
           uni.hideLoading();
         },
-        fail: () => {
-          // 获取失败
-          that.getUserProfile(callback);
-          uni.hideLoading();
-        },
       });
+      // uni.getStorage({
+      //   key: "userInfo",
+      //   success: function ({ data }) {
+      //     let time = new Date().getTime();
+      //     if (data.expirationTime && time < data.expirationTime) {
+      //       // 未过期
+      //       that.userInfo = data.userInfo;
+      //       that.userInfo.author = that.userInfo.nickName || "User";
+      //       if (callback && typeof callback == "function") {
+      //         // 选择图片方法
+      //         callback();
+      //       }
+      //     } else {
+      //       // 过期
+      //       that.getUserProfile(callback);
+      //     }
+      //     uni.hideLoading();
+      //   },
+      //   fail: () => {
+      //     // 获取失败
+      //     that.getUserProfile(callback);
+      //     uni.hideLoading();
+      //   },
+      // });
     },
     // 重新请求获取用户信息
     getUserProfile(callback) {
@@ -270,16 +315,20 @@ export default {
               success: (resData) => {
                 that.userInfo = resData.userInfo;
                 that.userInfo.author = that.userInfo.nickName || "User";
-                uni.setStorageSync("userInfo", {
-                  userInfo: resData.userInfo,
-                  expirationTime: new Date().getTime() + 12 * 60 * 60 * 1000, // 过期时间为12小时
-                });
+                // uni.setStorageSync("userInfo", {
+                //   userInfo: resData.userInfo,
+                //   isAdmin: false,
+                //   expirationTime: new Date().getTime() + 12 * 60 * 60 * 1000, // 过期时间为12小时
+                // });
+                // this.setUserInfo({ ...resData.userInfo, isAdmin: false });
+                this.updataUserInfo({ ...resData.userInfo, isAdmin: false });
                 if (callback && typeof callback == "function") {
                   callback();
                 }
               },
               fail: () => {
                 uni.setStorageSync("userInfo", {});
+                this.setUserInfo({});
                 uni.showModal({
                   title: "提示",
                   title: "获取用户失败，是否开启用户权限？",
@@ -309,11 +358,13 @@ export default {
       let that = this;
       that.inputUserInfoModal = false;
       that.userInfo.author = that.userInfo.nickName || "User";
+      that.userInfo.isAdmin = false;
       console.log("userInfo.author", this.userInfo);
-      uni.setStorageSync("userInfo", {
-        userInfo: that.userInfo,
-        expirationTime: new Date().getTime() + that.customNameValidTime * 60 * 60 * 1000, // 过期时间为12小时
-      });
+      this.setUserInfo({ ...that.userInfo, isAdmin: false });
+      // uni.setStorageSync("userInfo", {
+      //   userInfo: that.userInfo,
+      //   expirationTime: new Date().getTime() + that.customNameValidTime * 60 * 60 * 1000, // 过期时间为12小时
+      // });
       // this.chooseImage();
     },
     // 选择图片
@@ -424,14 +475,14 @@ export default {
   // display: flex;
   // align-items: center;
   // justify-content: center;
-  background-color: #f8f8f8;
+  background-color: #f0f0f0;
   min-height: calc(100vh - 10px - constant(safe-area-inset-bottom) - 50px);
   min-height: calc(100vh - 10px - env(safe-area-inset-bottom) - 50px);
   padding-top: 10px;
   padding-bottom: calc(constant(safe-area-inset-bottom) + 50px); /* 兼容 iOS<11.2 */
   padding-bottom: calc(env(safe-area-inset-bottom) + 50px); /* 兼容iOS>= 11.2 */
   .select-box {
-    background: #fff;
+    // background: #fff;
     margin: 0 auto;
     border: 1px dashed #ccc;
     width: 320px;
@@ -473,8 +524,8 @@ export default {
     bottom: 0px;
     width: calc(100vw - 24px);
     padding: 12px;
-    background-color: #fff;
-    border-top: 1px #ebedf0 solid;
+    // background-color: #fff;
+    // border-top: 1px #ebedf0 solid;
     display: grid;
     grid-template-columns: auto 1fr;
     grid-column-gap: 10px;
@@ -505,5 +556,8 @@ export default {
       line-height: 18px;
     }
   }
+}
+.darkMode {
+  background-color: #2c2d31;
 }
 </style>

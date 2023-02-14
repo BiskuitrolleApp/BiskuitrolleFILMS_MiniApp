@@ -1,5 +1,5 @@
 <template>
-  <view class="listItem" @click="clickItem(value)">
+  <view class="listItem" @click="clickItem(value)" :style="{ color: fontColor, 'background-color': bgColor }">
     <u-cell size="large" :label="value.subtitle">
       <view slot="title" class="u-slot-title">
         <text class="u-cell-text">{{ value.title }}</text>
@@ -20,6 +20,14 @@ export default {
     value: {
       default: {},
       type: Object,
+    },
+    bgColor: {
+      type: String,
+      default: "#ffffff",
+    },
+    fontColor: {
+      type: String,
+      default: "#000000",
     },
   },
   //import引入的组件需要注入到对象中才能使用
@@ -59,7 +67,7 @@ export default {
     }
   }
   .avatar_wrapper {
-    background-color: #ccc;
+    // background-color: #ccc;
   }
 }
 //@import url(); 引入公共css类

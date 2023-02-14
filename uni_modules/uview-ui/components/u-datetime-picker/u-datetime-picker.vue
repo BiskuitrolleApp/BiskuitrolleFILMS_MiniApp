@@ -17,6 +17,8 @@
 		@cancel="cancel"
 		@confirm="confirm"
 		@change="change"
+    :maskStyle='maskStyle'
+    :indicatorStyle='indicatorStyle'
 	>
 	</u-picker>
 </template>

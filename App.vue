@@ -13,4 +13,5 @@ export default {
 /*每个页面公共css */
 @import "@/uni_modules/uview-ui/index.scss";
 @import "common/demo.scss";
+// @import "common/darkMode.scss";
 </style>

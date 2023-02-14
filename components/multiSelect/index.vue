@@ -183,7 +183,7 @@ export default {
 
 <style lang="scss" scoped>
 .page-content {
-  background: #ffffff;
+  // background: #ffffff;
   padding: 0;
   .text-title {
     color: $uni-text-color;
@@ -196,8 +196,8 @@ export default {
 
   .cu-form-group {
     font-size: 30rpx;
-    color: $uni-text-color;
-    background-color: #ffffff;
+    color: $u-main-color;
+    // background-color: #ffffff;
     padding: 1rpx 30rpx;
     display: flex;
     -webkit-box-align: center;

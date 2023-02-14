@@ -14,11 +14,24 @@
 				@cancel="cancel"
 				@confirm="confirm"
 			></u-toolbar>
-			<picker-view
+      <!-- <picker-view
 				class="u-picker__view"
-				:indicatorStyle="`height: ${$u.addUnit(itemHeight)}`"
+				indicatorStyle="height: 44px;background: #2c2d31;z-index:0;"
 				:value="innerIndex"
 				:immediateChange="immediateChange"
+        mask-style='background: #242424;z-index:0;'
+				:style="{
+					height: `${$u.addUnit(visibleItemCount * itemHeight)}`
+				}"
+				@change="changeHandler"
+			> -->
+			<picker-view
+				class="u-picker__view"
+				:indicatorStyle="`height: ${$u.addUnit(itemHeight)};${indicatorStyle}`"
+				:value="innerIndex"
+				:immediateChange="immediateChange"
+        :mask-style='maskStyle'
+        
 				:style="{
 					height: `${$u.addUnit(visibleItemCount * itemHeight)}`
 				}"
@@ -240,7 +253,6 @@ export default {
 		position: relative;
 
 		&__view {
-
 			&__column {
 				@include flex;
 				flex: 1;

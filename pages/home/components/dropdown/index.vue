@@ -1,9 +1,9 @@
 <template>
   <view class="dropdown">
     <view class="dropdown-mask" @click="handlerMask"></view>
-    <view class="ul">
+    <view class="ul" :style="{ color: fontColor, 'background-color': bgColor }">
       <view class="li" v-for="item in list" :key="item.value" @click="handlerItem(item.value)">
-        <i-icon size="20px" color="#000" :name="item.icon"></i-icon>
+        <i-icon size="20px" :color="fontColor" :name="item.icon"></i-icon>
         <view class="li-name">{{ item.name }}</view>
       </view>
     </view>
@@ -17,6 +17,14 @@ export default {
     list: {
       type: Array,
       default: () => [],
+    },
+    bgColor: {
+      type: String,
+      default: "#ffffff",
+    },
+    fontColor: {
+      type: String,
+      default: "#000000",
     },
   },
   methods: {
@@ -38,7 +46,7 @@ export default {
     position: relative;
     z-index: 101;
     list-style: none;
-    background-color: #fff;
+    // background-color: #fff;
     border-radius: 4rpx;
     padding-left: 0;
     box-shadow: 10rpx 10rpx 20rpx rgba(224, 32, 32, 0.2);
@@ -46,13 +54,13 @@ export default {
       display: flex;
       align-items: center;
       min-width: 100px;
-      color: #000;
+      // color: #000;
       padding: 20rpx;
       border-bottom: 1px solid #e6eaeb;
       font-size: 24rpx;
       height: 20px;
       line-height: 20px;
-      .li-name{
+      .li-name {
         margin-left: 5px;
       }
     }

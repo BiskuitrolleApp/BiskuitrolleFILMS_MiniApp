@@ -111,6 +111,14 @@ export default {
         defaultIndex: {
             type: Array,
             default: uni.$u.props.datetimePicker.defaultIndex
-        }
+        },
+        maskStyle: {
+          type: [String, Object],
+          default: uni.$u.props.picker.maskStyle
+        },
+        indicatorStyle: {
+            type: [String, Object],
+            default: uni.$u.props.picker.indicatorStyle
+        },
     }
 }
