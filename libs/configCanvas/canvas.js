@@ -31,7 +31,6 @@ const getAlpha = function (color = "#000000ff") {
 };
 
 const roundRect = function (ctx, border, xAxis, yxAxis, width, height, round, background) {
-  let scaling = getScaling();
   let r = Number(round) || 0;
   let w = Number(width) || 0;
   let h = Number(height) || 0;
@@ -214,16 +213,16 @@ const roundRect = function (ctx, border, xAxis, yxAxis, width, height, round, ba
       if (item.lineWidth && item.lineWidth > 0) {
         if (item.type === "line") {
           ctx.beginPath();
-          ctx.moveTo(item.moveX * scaling, item.moveY * scaling);
-          ctx.lineWidth = item.lineWidth * scaling;
-          ctx.lineTo(item.endX * scaling, item.endY * scaling); // 线
+          ctx.moveTo(item.moveX, item.moveY);
+          ctx.lineWidth = item.lineWidth;
+          ctx.lineTo(item.endX, item.endY); // 线
           ctx.stroke();
           // ctx.fill();
         } else if (item.type === "angle") {
           ctx.beginPath();
-          ctx.moveTo(item.moveX * scaling, item.moveY * scaling);
-          ctx.lineWidth = item.lineWidth * scaling;
-          ctx.arcTo(item.angleX * scaling, item.angleY * scaling, item.endX * scaling, item.endY * scaling, item.r * scaling); // 角
+          ctx.moveTo(item.moveX, item.moveY);
+          ctx.lineWidth = item.lineWidth;
+          ctx.arcTo(item.angleX, item.angleY, item.endX, item.endY, item.r); // 角
           ctx.stroke();
           // ctx.fill();
         }
@@ -360,18 +359,21 @@ const drawText = function (ctx, text, font, x, y, maxWidth = 999) {
  * @param {*} border
  */
 const drawBorder = function (ctx, EXIFINFO) {
+  let scaling = getScaling();
   let border = EXIFINFO.getBorder();
   let padding = [EXIFINFO.computedData.padding.top * 1 || 0, EXIFINFO.computedData.padding.right * 1 || 0, EXIFINFO.computedData.padding.bottom * 1 || 0, EXIFINFO.computedData.padding.left * 1 || 0];
   let margin = [EXIFINFO.computedData.margin.top * 1 || 0, EXIFINFO.computedData.margin.right * 1 || 0, EXIFINFO.computedData.margin.bottom * 1 || 0, EXIFINFO.computedData.margin.left * 1 || 0];
   let borderDate = [border.width.top * 1 || 0, border.width.right * 1 || 0, border.width.bottom * 1 || 0, border.width.left * 1 || 0];
-  let x = EXIFINFO.axisInfo.x * 1 - padding[3] - borderDate[3] / 2;
-  let y = EXIFINFO.axisInfo.y * 1 - padding[0] - borderDate[0] / 2;
-  let w = EXIFINFO.width * 1 - margin[1] - margin[3] - borderDate[3] / 2 - borderDate[1] / 2;
-  let h = EXIFINFO.height * 1 - margin[0] - margin[2] - borderDate[2] / 2 - borderDate[2] / 2;
+  let x = (EXIFINFO.axisInfo.x * 1 - padding[3] - borderDate[3] / 2) * scaling;
+  let y = (EXIFINFO.axisInfo.y * 1 - padding[0] - borderDate[0] / 2) * scaling;
+  let w = (EXIFINFO.width * 1 - margin[1] - margin[3] - borderDate[3] / 2 - borderDate[1] / 2) * scaling;
+  let h = (EXIFINFO.height * 1 - margin[0] - margin[2] - borderDate[2] / 2 - borderDate[2] / 2) * scaling;
+  let round = EXIFINFO.round * scaling;
   // let w = EXIFINFO.width * 1 - margin[1] - margin[3];
   // let h = EXIFINFO.height * 1 - margin[0] - margin[2];
-  roundRect(ctx, border, x, y, w, h, EXIFINFO.round, EXIFINFO.background);
-  fillRoundRect(ctx, x, y, w, h, EXIFINFO.round, EXIFINFO.background);
+  // console.log("drawBorder", border, x, y, w, h, round, EXIFINFO.background, scaling);
+  roundRect(ctx, border, x, y, w, h, round, EXIFINFO.background);
+  fillRoundRect(ctx, x, y, w, h, round, EXIFINFO.background);
 };
 
 // canvas image draw方法

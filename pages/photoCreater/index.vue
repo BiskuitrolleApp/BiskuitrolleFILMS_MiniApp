@@ -64,7 +64,7 @@ import { ImageInfo } from "./js/readImageInfo.js";
 import dataMap from "./config/dataMap.js";
 import { setContentByInputType } from "./js/inputConfigSetter.js";
 import { getPhotoConfigList } from "@/libs/mainInit/index.js";
-// import demo from "./components/demo.js";
+import demoConfig from "./js/demoConfig.js";
 
 import { mapGetters, mapActions, mapMutations } from "vuex";
 
@@ -78,6 +78,8 @@ export default {
   },
   data() {
     return {
+      // testMode: true,
+      testMode: false, // 是否开启调试样式模式
       configId: "",
       emptyCanvas: true, // 是否是空canvas 页面
       showForm: false, // 现在输入表单
@@ -99,32 +101,18 @@ export default {
     console.log("onLoad options:", options.id);
     //如果要在页面中使用
     this.configId = options.id;
-
-    // console.log("this.configId ", this.configId, this.configListInfo);
-    // this.markLogoList = await getPhotoConfigList();
-    // setTimeout(() => {
-    //   uni.downloadFile({
-    //     // url: "http://127.0.0.1/image/test.JPG",
-    //     url: "http://127.0.0.1/image/xk.jpeg",
-    //     success: (res) => {
-    //       this.drawUrl(res.tempFilePath);
-    //     },
-    //   });
-    //   // this.openSetiingPopup();
-    // }, 250);
   },
   async mounted() {
     this.getConfigListInfo(this.configId);
     this.markLogoList = await getPhotoConfigList();
-
     // uni.downloadFile({
     //   // url: "http://127.0.0.1/image/test.JPG",
     //   url: "http://127.0.0.1/image/xk.jpeg",
     //   success: (res) => {
     //     this.drawUrl(res.tempFilePath);
-    //     setTimeout(() => {
-    //       this.openSetiingPopup();
-    //     }, 2000);
+    //     // setTimeout(() => {
+    //     //   this.openSetiingPopup();
+    //     // }, 2000);
     //   },
     // });
   },
@@ -168,6 +156,17 @@ export default {
     // 配置id获取配置信息
     getConfigListInfo(id = "") {
       let that = this;
+      console.log("调试模式", this.testMode);
+      if (this.testMode) {
+        uni.showToast({
+          icon: "success",
+          duration: 2000,
+          title: "调试模式",
+        });
+        console.log("demoConfig", demoConfig);
+        that.configListInfo = demoConfig;
+        return;
+      }
       if (id == "") {
         uni.showToast({
           title: "获取配置信息失败",
